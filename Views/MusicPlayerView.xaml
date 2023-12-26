@@ -2,9 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:helpers="clr-namespace:Months18.Helpers"
-             xmlns:vms="clr-namespace:Months18.ViewModels"
              xmlns:converters="clr-namespace:Months18.Converters"
              x:Class="Months18.Views.MusicPlayerView"
+             x:Name="this"
+             BindingContext="{x:Reference this}"
              BackgroundColor="{AppThemeBinding Light={StaticResource LightGray}, Dark={StaticResource Background_Mid}}">
 
     <ContentView.Resources>
@@ -13,7 +14,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="220" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="50" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -41,30 +42,58 @@
             DragStarted="OnSliderDragStarted"
             DragCompleted="OnSliderDragCompleted"/>
 
-        <HorizontalStackLayout Grid.Row="4">
-            <Label HorizontalOptions="Center">
-                <Label.Text>
-                    <MultiBinding StringFormat="{}Position: {0}/{1} - Current State: {2}">
-                        <Binding Path="Position" Source="{x:Reference MediaElement}" Converter="{StaticResource ConvertSecondsToString}" />
-                        <Binding Path="Duration" Source="{x:Reference MediaElement}" Converter="{StaticResource ConvertSecondsToString}" />
-                        <Binding Path="CurrentState" Source="{x:Reference MediaElement}" />
-                    </MultiBinding>
-                </Label.Text>
-            </Label>
-        </HorizontalStackLayout>
+        <Grid Grid.Row="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Text="{Binding 
+                Source={x:Reference MediaElement},
+                Converter={StaticResource ConvertSecondsToString},
+                Path=Position}"/>
+
+            <Label Grid.Column="1" HorizontalOptions="End" HorizontalTextAlignment="End" Text="{Binding 
+                Source={x:Reference MediaElement},
+                Converter={StaticResource ConvertSecondsToString},
+                Path=Duration}"/>
+        </Grid>
 
         <Grid Grid.Row="5" VerticalOptions="End" Margin="5">
             <VerticalStackLayout>
-                <ImageButton Command="{Binding PlayCommand}">
+                <ImageButton Clicked="OnPlayClicked">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialIcons"
                          Glyph="{x:Static helpers:IconFont.Play_arrow}"
                          Color="{StaticResource Accent}"/>
                     </ImageButton.Source>
                 </ImageButton>
+                <ImageButton 
+                    HeightRequest="60"
+                    WidthRequest="60"
+                    CornerRadius="30"
+                    HorizontalOptions="Center"
+                    Clicked="OnStopClicked">
+                    <ImageButton.Source>
+                        <FontImageSource 
+                            FontFamily="MaterialIcons"
+                            Glyph="{x:Static helpers:IconFont.Pause}"
+                            Color="{StaticResource Accent}"/>
+                    </ImageButton.Source>
+                </ImageButton>
 
-                <Button Command="{Binding StopCommand}" Text="Stop" />
+                <Button 
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    CornerRadius="20"
+                    HorizontalOptions="Center"
+                    Clicked="OnStopClicked" 
+                    Text="Stop" 
+                    Background="{StaticResource Accent}" />
             </VerticalStackLayout>
+
             <!--<Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left">
                 <materialDesign:PackIcon Kind="RotateRight" VerticalAlignment="Center" Width="30" Height="30">
                     <materialDesign:PackIcon.Foreground>

@@ -1,7 +1,6 @@
 using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Views;
 using Months18.Services;
-using Months18.ViewModels;
 using System.ComponentModel;
 using System.Diagnostics;
 
@@ -12,29 +11,87 @@ public partial class MusicPlayerView
     public MusicPlayerView()
     {
         InitializeComponent();
+
         MediaElement.PropertyChanged += OnMediaElementPropertyChanged;
-        
-        Loaded += OnLoaded;
         Unloaded += OnUnLoaded;
+
+        InitializeService();
     }
 
-    private MusicPlayerService musicPlayerService;
+    private MusicPlayerService? musicPlayerService;
+    private List<string> _currentPlayList = [];
 
-    // MediaElement.Source = MediaSource.FromUri(CustomSourceEntry.Text);
-    // MediaSource.FromResource() and MediaSource.FromFile()
+    public static readonly BindableProperty CurrentPositionProperty =
+        BindableProperty.Create(nameof(CurrentPositionLabel),
+            typeof(string),
+            typeof(MusicPlayerView),
+            string.Empty,
+            BindingMode.TwoWay,
+            propertyChanged: OnStringChanged);
 
-    private void OnMediaElementPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private static void OnStringChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (e.PropertyName == MediaElement.DurationProperty.PropertyName)
+        var a = bindable as MusicPlayerView;
+        //a.currentPosLabel.Text = newValue.ToString();
+    }
+
+    public string CurrentPositionLabel
+    {
+        get => (string)GetValue(CurrentPositionProperty);
+        set => SetValue(CurrentPositionProperty, value);
+    }
+
+    #region MusicPlayerService Implementation
+    void InitializeService()
+    {
+        musicPlayerService = MauiProgram.GetService<MusicPlayerService>();
+
+        if (musicPlayerService != null)
         {
-            PositionSlider.Maximum = MediaElement.Duration.TotalSeconds;
+            musicPlayerService.SubscribeToAudioPlayerAction(OnAudioPlayerAction);
+            musicPlayerService.SubscribeToPlayListChanged(OnPlayListChanged);
         }
     }
 
+    private void OnAudioPlayerAction(object sender, ActionEventArgs e)
+    {
+        switch (e.Action)
+        {
+            case AudioPlayerAction.Play:
+                MediaElement.Play();
+                break;
+            case AudioPlayerAction.Pause:
+                MediaElement.Pause();
+                break;
+            case AudioPlayerAction.Stop:
+                MediaElement.Stop();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OnPlayListChanged(object sender, TrackEventArgs e)
+    {
+        // just get the whole playlist
+        var list = musicPlayerService?.GetPlaylist();
+
+        if (list != null)
+        {
+            _currentPlayList = list;
+            if (!e.IsRemoveAction && list.Count == 1)
+                PlayTrack(e.Track, e.Source);
+        }
+    }
+    #endregion
+
+    #region MediaElement Events
     void OnMediaOpened(object? sender, EventArgs e) => Debug.WriteLine("Media opened.");
 
-    void OnStateChanged(object? sender, MediaStateChangedEventArgs e) =>
-        Debug.WriteLine("Media State Changed. Old State: {PreviousState}, New State: {NewState}", e.PreviousState, e.NewState);
+    void OnStateChanged(object? sender, MediaStateChangedEventArgs e)
+    {
+        //Debug.WriteLine("Media State Changed. New State: {NewState}", e.NewState);
+    } // iets doen met previousstate?
 
     void OnMediaFailed(object? sender, MediaFailedEventArgs e) => Debug.WriteLine("Media failed. Error: {ErrorMessage}", e.ErrorMessage);
 
@@ -46,27 +103,28 @@ public partial class MusicPlayerView
         PositionSlider.Value = e.Position.TotalSeconds;
     }
 
+
     void OnSeekCompleted(object? sender, EventArgs e) => Debug.WriteLine("Seek completed.");
 
-    void OnPlayClicked(object? sender, EventArgs e)
+    #endregion
+
+    private void OnPlayClicked(object sender, EventArgs e)
     {
         MediaElement.Play();
     }
-
-    void OnPauseClicked(object? sender, EventArgs e)
-    {
-        MediaElement.Pause();
-    }
-
-    void OnStopClicked(object? sender, EventArgs e)
+    private void OnStopClicked(object sender, EventArgs e)
     {
         MediaElement.Stop();
     }
 
-    void OnMuteClicked(object? sender, EventArgs e)
+    private void OnMediaElementPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        MediaElement.ShouldMute = !MediaElement.ShouldMute;
+        if (e.PropertyName == MediaElement.DurationProperty.PropertyName)
+        {
+            PositionSlider.Maximum = MediaElement.Duration.TotalSeconds;
+        }
     }
+
 
     async void OnSliderDragCompleted(object? sender, EventArgs e)
     {
@@ -83,20 +141,28 @@ public partial class MusicPlayerView
         MediaElement.Pause();
     }
 
-    private void OnLoaded(object? sender, EventArgs e)
+
+    private void PlayTrack(string uri, AudioPlayerSource source)
     {
-        var viewModel = MauiProgram.GetService<MusicPlayerViewModel>();
-      
-        if (viewModel != null)
+        MediaElement.Source = source switch
         {
-            var musicPlayerService = MauiProgram.GetService<MusicPlayerService>();
-            viewModel.MediaElement = MediaElement;
-        }
-        Loaded -= OnLoaded;
+            AudioPlayerSource.Embed => MediaSource.FromResource(uri),
+            AudioPlayerSource.FileSystem => MediaSource.FromFile(uri),
+            AudioPlayerSource.Url => MediaSource.FromUri(uri),
+            _ => ""
+        };
+
+        MediaElement.Play();
     }
+
     private void OnUnLoaded(object? sender, EventArgs e)
     {
         // Stop and cleanup MediaElement when we navigate away
         MediaElement.Handler?.DisconnectHandler();
+    }
+
+    private void ImageButton_Clicked(object sender, EventArgs e)
+    {
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Months18.Pages;
 using Months18.Services;
 using Months18.ViewModels;
 
@@ -35,7 +36,7 @@ namespace Months18
             var services = builder.Services;
 
             services.AddSingleton<MusicPlayerService>();
-            services.AddSingleton<MusicPlayerViewModel>();
+            services.AddSingleton<MusicPage>();
 
             var app= builder.Build();
             serviceProvider = app.Services; // store service provider reference

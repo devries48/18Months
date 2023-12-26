@@ -3,41 +3,49 @@
     public class MusicPlayerService
     {
         private event PlayListChangedEventHandler? PlayListChanged;
-        private event MediaPlayerActionEventHandler? MediaPlayerAction;
+        private event AudioPlayerActionEventHandler? AudioPlayerAction;
 
+        private readonly List<string> playList = [];
         public void SubscribeToPlayListChanged(PlayListChangedEventHandler handler) => PlayListChanged += handler;
         public void UnsubscribeFromPlayListChanged(PlayListChangedEventHandler handler) => PlayListChanged -= handler;
-        public void SubscribeToMediaPlayerAction(MediaPlayerActionEventHandler handler) => MediaPlayerAction += handler;
-        public void UnsubscribeFromMediaPlayerAction(MediaPlayerActionEventHandler handler) => MediaPlayerAction -= handler;
+        public void SubscribeToAudioPlayerAction(AudioPlayerActionEventHandler handler) => AudioPlayerAction += handler;
+        public void UnsubscribeFromAudioPlayerAction(AudioPlayerActionEventHandler handler) => AudioPlayerAction -= handler;
 
-        public void AddToPlaylist(string track) => OnPlayListChanged(track);
-        public void Play() => OnMediaPlayerAction(Services.MediaPlayerAction.Play);
-        public void Pause() => OnMediaPlayerAction(Services.MediaPlayerAction.Pause);
-        public void Stop() => OnMediaPlayerAction(Services.MediaPlayerAction.Stop);
+        public List<string> GetPlaylist() => playList;
+        public void AddToPlaylist(string track, AudioPlayerSource source) => OnPlayListChanged(track, source);
+        public void Play() => OnAudioPlayerAction(Services.AudioPlayerAction.Play);
+        public void Pause() => OnAudioPlayerAction(Services.AudioPlayerAction.Pause);
+        public void Stop() => OnAudioPlayerAction(Services.AudioPlayerAction.Stop);
 
-        protected virtual void OnPlayListChanged(string track, bool remove = false) 
-            => PlayListChanged?.Invoke(this, new TrackEventArgs(track, remove));
+        protected virtual void OnPlayListChanged(string track, AudioPlayerSource source, bool remove = false)
+        {
+            if (remove)
+                playList.Remove(track);
+            else
+                playList.Add(track);
 
-        protected virtual void OnMediaPlayerAction(MediaPlayerAction action) 
-            => MediaPlayerAction?.Invoke(this, new ActionEventArgs(action));
+            PlayListChanged?.Invoke(this, new TrackEventArgs(track, source, remove));
+        }
+
+        protected virtual void OnAudioPlayerAction(AudioPlayerAction action)
+            => AudioPlayerAction?.Invoke(this, new ActionEventArgs(action));
     }
 
-    public enum MediaPlayerAction
-    {
-        Play, Pause, Stop
-    }
+    public enum AudioPlayerAction { Play, Pause, Stop }
+    public enum AudioPlayerSource { Embed, FileSystem, Url }
 
     public delegate void PlayListChangedEventHandler(Object sender, TrackEventArgs e);
-    public delegate void MediaPlayerActionEventHandler(Object sender, ActionEventArgs e);
+    public delegate void AudioPlayerActionEventHandler(Object sender, ActionEventArgs e);
 
-    public class TrackEventArgs(string track, bool isRemove) : EventArgs
+    public class TrackEventArgs(string track, AudioPlayerSource source, bool isRemove) : EventArgs
     {
-        public string? Track { get; } = track;
-        public bool IsRemoveAction {  get; } = isRemove;
+        public string Track { get; } = track;
+        public AudioPlayerSource Source { get; } = source;
+        public bool IsRemoveAction { get; } = isRemove;
     }
 
-    public class ActionEventArgs(MediaPlayerAction action) : EventArgs
+    public class ActionEventArgs(AudioPlayerAction action) : EventArgs
     {
-        public MediaPlayerAction Action { get; } = action;
+        public AudioPlayerAction Action { get; } = action;
     }
 }

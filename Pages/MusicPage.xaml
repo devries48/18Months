@@ -7,8 +7,7 @@
 
     <Grid
         ColumnDefinitions="{OnIdiom Phone='*', Default='*,500'}"
-        RowDefinitions="*"
-        >
+        RowDefinitions="*">
 
         <!-- Main content -->
         <ScrollView Grid.Column="0">

@@ -1,11 +1,17 @@
-﻿namespace Months18.Pages
+﻿using Months18.Services;
+
+namespace Months18.Pages
 {
     public partial class MusicPage : ContentPage
     {
-        public MusicPage()
+        public MusicPage(MusicPlayerService service)
         {
             InitializeComponent();
+
+            _musicPlayerService = service;
         }
+
+        private MusicPlayerService _musicPlayerService;
 
         void OnAddTrackClicked(object? sender, EventArgs e)
         {
@@ -17,6 +23,7 @@
 
                 return;
             }
+            _musicPlayerService.AddToPlaylist("Music/01. Naked Death.mp3", AudioPlayerSource.Embed);
         }
 
     }

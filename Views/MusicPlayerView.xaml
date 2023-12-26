@@ -1,0 +1,173 @@
+﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:helpers="clr-namespace:Months18.Helpers"
+             xmlns:vms="clr-namespace:Months18.ViewModels"
+             xmlns:converters="clr-namespace:Months18.Converters"
+             x:Class="Months18.Views.MusicPlayerView"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightGray}, Dark={StaticResource Background_Mid}}">
+
+    <ContentView.Resources>
+        <converters:SecondsToStringConverter x:Key="ConvertSecondsToString" />
+    </ContentView.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="220" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <toolkit:MediaElement 
+            x:Name="MediaElement" 
+            ShouldAutoPlay="False"
+            ShouldShowPlaybackControls="False"
+            MediaEnded="OnMediaEnded"
+            MediaFailed="OnMediaFailed"
+            MediaOpened="OnMediaOpened"
+            PositionChanged="OnPositionChanged"
+            StateChanged="OnStateChanged"
+            SeekCompleted="OnSeekCompleted"/>
+
+        <Slider
+            x:Name="PositionSlider"
+            Grid.Row="3"
+            MinimumTrackColor="{StaticResource Accent}"
+            DragStarted="OnSliderDragStarted"
+            DragCompleted="OnSliderDragCompleted"/>
+
+        <HorizontalStackLayout Grid.Row="4">
+            <Label HorizontalOptions="Center">
+                <Label.Text>
+                    <MultiBinding StringFormat="{}Position: {0}/{1} - Current State: {2}">
+                        <Binding Path="Position" Source="{x:Reference MediaElement}" Converter="{StaticResource ConvertSecondsToString}" />
+                        <Binding Path="Duration" Source="{x:Reference MediaElement}" Converter="{StaticResource ConvertSecondsToString}" />
+                        <Binding Path="CurrentState" Source="{x:Reference MediaElement}" />
+                    </MultiBinding>
+                </Label.Text>
+            </Label>
+        </HorizontalStackLayout>
+
+        <Grid Grid.Row="5" VerticalOptions="End" Margin="5">
+            <VerticalStackLayout>
+                <ImageButton Command="{Binding PlayCommand}">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialIcons"
+                         Glyph="{x:Static helpers:IconFont.Play_arrow}"
+                         Color="{StaticResource Accent}"/>
+                    </ImageButton.Source>
+                </ImageButton>
+
+                <Button Command="{Binding StopCommand}" Text="Stop" />
+            </VerticalStackLayout>
+            <!--<Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left">
+                <materialDesign:PackIcon Kind="RotateRight" VerticalAlignment="Center" Width="30" Height="30">
+                    <materialDesign:PackIcon.Foreground>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                            <GradientStop Color="#FFD69016"/>
+                            <GradientStop Color="#FFD6511E" Offset="0.747"/>
+                            <GradientStop Color="#FF9B330D" Offset="0.807"/>
+                        </LinearGradientBrush>
+                    </materialDesign:PackIcon.Foreground>
+                </materialDesign:PackIcon>
+            </Button>
+
+            <Button x:Name="Anterior" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}"  HorizontalAlignment="Left" Margin="50,0" Click="Anterior_Click">
+                <materialDesign:PackIcon Kind="ChevronLeft" VerticalAlignment="Center" Width="30" Height="30">
+                    <materialDesign:PackIcon.Foreground>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                            <GradientStop Color="#FFD69016"/>
+                            <GradientStop Color="#FFD6511E" Offset="0.747"/>
+                            <GradientStop Color="#FF9B330D" Offset="0.807"/>
+                        </LinearGradientBrush>
+                    </materialDesign:PackIcon.Foreground>
+                </materialDesign:PackIcon>
+            </Button>
+
+            <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="#00000000" BorderBrush="#70702222" HorizontalAlignment="Center">
+                <Button.Effect>
+                    <DropShadowEffect Color="#FFD67619" RenderingBias="Quality" BlurRadius="40" Direction="0"/>
+                </Button.Effect>
+                <materialDesign:PackIcon Kind="Pause" VerticalAlignment="Center" Width="30" Height="30">
+                    <materialDesign:PackIcon.Foreground>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                            <GradientStop Color="#FFD69016"/>
+                            <GradientStop Color="#FFD6511E" Offset="0.747"/>
+                            <GradientStop Color="#FF9B330D" Offset="0.807"/>
+                        </LinearGradientBrush>
+                    </materialDesign:PackIcon.Foreground>
+                </materialDesign:PackIcon>
+            </Button>
+
+            <Button x:Name="Proxima" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}"  HorizontalAlignment="Right" Margin="50,0" Click="Proxima_Click">
+                <materialDesign:PackIcon Kind="ChevronRight" VerticalAlignment="Center" Width="30" Height="30">
+                    <materialDesign:PackIcon.Foreground>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                            <GradientStop Color="#FFD69016"/>
+                            <GradientStop Color="#FFD6511E" Offset="0.747"/>
+                            <GradientStop Color="#FF9B330D" Offset="0.807"/>
+                        </LinearGradientBrush>
+                    </materialDesign:PackIcon.Foreground>
+                </materialDesign:PackIcon>
+            </Button>
+
+            <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right">
+                <materialDesign:PackIcon Kind="ShuffleVariant" VerticalAlignment="Center" Width="30" Height="30">
+                    <materialDesign:PackIcon.Foreground>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                            <GradientStop Color="#FFD69016"/>
+                            <GradientStop Color="#FFD6511E" Offset="0.747"/>
+                            <GradientStop Color="#FF9B330D" Offset="0.807"/>
+                        </LinearGradientBrush>
+                    </materialDesign:PackIcon.Foreground>
+                </materialDesign:PackIcon>
+            </Button>-->
+        </Grid>
+    </Grid>
+    <!--<StackLayout>
+        <Slider Maximum="1.0"
+            Minimum="0.0"
+            Value="{Binding Volume}"
+            Rotation="270"
+            WidthRequest="100" />
+    </StackLayout>-->
+</ContentView>
+
+<!--<Grid xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:Months18.Models"
+            x:Class="Months18.Views.MediaPlayerPanel"
+                      BackgroundColor="{AppThemeBinding Light={StaticResource LightGray}, Dark={StaticResource Background_Mid}}"
+    ColumnDefinitions="1,*">
+    <Grid.Resources>
+        <DataTemplate x:Key="MetricTemplate">
+            <Border
+                HeightRequest="154"
+                Stroke="Transparent"
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightGray}, Dark={StaticResource Background_Mid}}">
+                <Border.StrokeShape>
+                    <RoundRectangle         
+                        CornerRadius="8" />
+                </Border.StrokeShape>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MetricBorderTemplate">
+            <Border
+                HeightRequest="154"
+                WidthRequest="150"
+                Stroke="Transparent"
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightGray}, Dark={StaticResource Background_Mid}}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="40"/>
+                </Border.StrokeShape>
+            </Border>
+        </DataTemplate>
+    </Grid.Resources>
+    <Label Text="Help" FontSize="32" FontFamily="OpenSansRegular"/>
+</Grid>-->

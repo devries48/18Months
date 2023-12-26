@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Months18.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Months18.Controls"
+    xmlns:helpers="clr-namespace:Months18.Helpers"
+    xmlns:local="clr-namespace:Months18"
+    xmlns:page="clr-namespace:Months18.Pages"
+    FlyoutBackgroundColor="{StaticResource Background_Mid}"
+    FlyoutBehavior="{OnIdiom Phone=Disabled, Default=Locked}"
+    FlyoutWidth="68"
+    Title="18 Months of Therapy">
+
+    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Music_note}" Title="Music">
+        <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MusicPage" />
+    </controls:FlyoutItemIconFont>
+    
+    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Videocam}" Title="Video">
+        <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MainPage" />
+    </controls:FlyoutItemIconFont>
+    
+    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Psychology}" Title="Therapy">
+        <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MainPage" />
+    </controls:FlyoutItemIconFont>
+
+    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Settings}" Title="Settings">
+        <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MainPage" />
+    </controls:FlyoutItemIconFont>
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid WidthRequest="44" HeightRequest="68">
+                <!--ColumnDefinitions="44"
+                HeightRequest="68"
+                RowDefinitions="68"
+                WidthRequest="44">-->
+                
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter TargetName="FlyoutItemIcon" Property="Label.TextColor" Value="{StaticResource TabOff}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter TargetName="FlyoutItemIcon" Property="Label.TextColor" Value="{StaticResource Accent}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+
+                <Label
+                    x:Name="FlyoutItemIcon"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource IconLabelStyle}"
+                    Text="{Binding IconGlyph}"
+                    VerticalOptions="Center"
+                     />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+</Shell>

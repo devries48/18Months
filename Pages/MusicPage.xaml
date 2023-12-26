@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:Months18.Helpers"
+             xmlns:views="clr-namespace:Months18.Views"
+             x:Class="Months18.Pages.MusicPage">
+
+    <Grid
+        ColumnDefinitions="{OnIdiom Phone='*', Default='*,500'}"
+        RowDefinitions="*"
+        >
+
+        <!-- Main content -->
+        <ScrollView Grid.Column="0">
+            <VerticalStackLayout
+                Padding="{OnIdiom Phone='0,50',Default='0,50'}"
+                Spacing="{OnIdiom Phone=25,Default=50}">
+
+                <Grid ColumnDefinitions="*, 100" ColumnSpacing="5">
+                    <Entry x:Name="CustomSourceEntry" Placeholder="Enter URL" HorizontalOptions="FillAndExpand" />
+                    <Button Grid.Column="1" Clicked="OnAddTrackClicked" Text="Load" />
+                </Grid>
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+        <!-- Player panel -->
+        <views:MusicPlayerView Grid.Column="{OnIdiom Phone=0, Default=1}"
+                        IsVisible="{OnIdiom Phone=False, Default=True}"/>
+
+    </Grid>
+
+</ContentPage>

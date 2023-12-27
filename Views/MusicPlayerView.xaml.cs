@@ -108,7 +108,7 @@ public partial class MusicPlayerView
 
     #endregion
 
-    private void OnPlayClicked(object sender, EventArgs e)
+    private void OnPlayOrPauseClicked(object sender, EventArgs e)
     {
         MediaElement.Play();
     }
@@ -120,11 +120,8 @@ public partial class MusicPlayerView
     private void OnMediaElementPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == MediaElement.DurationProperty.PropertyName)
-        {
             PositionSlider.Maximum = MediaElement.Duration.TotalSeconds;
-        }
     }
-
 
     async void OnSliderDragCompleted(object? sender, EventArgs e)
     {

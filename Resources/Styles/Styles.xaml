@@ -10,7 +10,7 @@
         <Setter Property="FontFamily" Value="MaterialIcons" />
         <Setter Property="FontSize" Value="40" />
     </Style>
-
+      
     <!-- SHELL -->
     <Style x:Key="BaseStyle" TargetType="Element">
         <Setter Property="Shell.FlyoutBackgroundColor" Value="{StaticResource Background_Mid}" />

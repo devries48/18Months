@@ -67,6 +67,7 @@ public partial class MusicPlayerView
                 MediaElement.Stop();
                 break;
             default:
+                // All cases are handled
                 break;
         }
     }

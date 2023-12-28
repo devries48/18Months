@@ -4,44 +4,43 @@ using Months18.Pages;
 using Months18.Services;
 using Months18.ViewModels;
 
-namespace Months18
+namespace Months18;
+
+public static class MauiProgram
 {
-    public static class MauiProgram
+    static IServiceProvider? serviceProvider;
+    public static TService? GetService<TService>()
     {
-        static IServiceProvider? serviceProvider;
-        public static TService? GetService<TService>()
-        {
-            if ( serviceProvider !=null)
+        if (serviceProvider != null)
             return serviceProvider.GetService<TService>();
-            else 
-                return default;
-        }
 
-        public static MauiApp CreateMauiApp()
-        {
-            var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                .UseMauiCommunityToolkitMediaElement()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
-           
+        return default;
+    }
+
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkitMediaElement()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
-            var services = builder.Services;
+        var services = builder.Services;
 
-            services.AddSingleton<MusicPlayerService>();
-            services.AddSingleton<MusicPage>();
+        services.AddSingleton<MusicPlayerService>();
+        services.AddSingleton<MusicPage>();
 
-            var app= builder.Build();
-            serviceProvider = app.Services; // store service provider reference
-            
-            return app;
-        }
+        var app = builder.Build();
+        serviceProvider = app.Services; // store service provider reference
+
+        return app;
     }
 }

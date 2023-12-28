@@ -6,7 +6,7 @@
              x:Class="Months18.Pages.MusicPage">
 
     <Grid
-        ColumnDefinitions="{OnIdiom Phone='*', Default='*,500'}"
+        ColumnDefinitions="{OnIdiom Phone='*', Default='*,350'}"
         RowDefinitions="*">
 
         <!-- Main content -->

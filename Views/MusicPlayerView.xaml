@@ -1,94 +1,252 @@
-﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:helpers="clr-namespace:Months18.Helpers"
-             xmlns:converters="clr-namespace:Months18.Converters"
-             x:Class="Months18.Views.MusicPlayerView"
-             x:Name="this"
-             BindingContext="{x:Reference this}"
-             BackgroundColor="{AppThemeBinding Light={StaticResource LightGray}, Dark={StaticResource Background_Mid}}">
+﻿<ContentView
+    x:Class="Months18.Views.MusicPlayerView"
+    x:Name="this"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Months18.Converters"
+    xmlns:helpers="clr-namespace:Months18.Helpers"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightGray}, Dark={StaticResource Background_Mid}}"
+    BindingContext="{x:Reference this}">
 
     <ContentView.Resources>
         <converters:SecondsToStringConverter x:Key="ConvertSecondsToString" />
         <converters:CurrentStateToGlyphConverter x:Key="ConvertStateToGlyph" />
         <converters:CurrentStateToEnabledConverter x:Key="ConvertStateToEnabled" />
         <converters:AccentColorToDisabledConverter x:Key="ConvertAccentColorToDisabled" />
-
     </ContentView.Resources>
 
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="50" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <toolkit:MediaElement 
-            x:Name="MediaElement" 
-            ShouldAutoPlay="False"
-            ShouldShowPlaybackControls="False"
+        <toolkit:MediaElement
+            x:Name="MediaElement"
             MediaEnded="OnMediaEnded"
             MediaFailed="OnMediaFailed"
             MediaOpened="OnMediaOpened"
             PositionChanged="OnPositionChanged"
-            StateChanged="OnStateChanged"
-            SeekCompleted="OnSeekCompleted"/>
+            SeekCompleted="OnSeekCompleted"
+            ShouldAutoPlay="False"
+            ShouldShowPlaybackControls="False"
+            StateChanged="OnStateChanged" />
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="55" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="55" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ImageButton
+                Grid.Row="1"
+                IsEnabled="False"
+                Margin="5"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                WidthRequest="40">
+                <ImageButton.Source>
+                    <FontImageSource
+                        Color="{StaticResource Dark_Primary}"
+                        FontFamily="MaterialIcons"
+                        Glyph="{x:Static helpers:IconFont.Cast}" />
+                </ImageButton.Source>
+            </ImageButton>
+
+            <Image
+                x:Name="ReleaseImage"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Margin="5"
+                BackgroundColor="{StaticResource Dark_Disabled}"
+                Opacity=".2"
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                WidthRequest="200" />
+
+            <AbsoluteLayout
+                Grid.Column="2"
+                HeightRequest="120"
+                HorizontalOptions="End"
+                WidthRequest="40">
+                <StackLayout AbsoluteLayout.LayoutBounds="-5,0,45,200" HeightRequest="120">
+                    <Slider
+                        x:Name="VolumeSlider"
+                        HeightRequest="40"
+                        Rotation="-90"
+                        WidthRequest="140" />
+                </StackLayout>
+            </AbsoluteLayout>
+
+            <ImageButton
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="5"
+                HeightRequest="30"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                WidthRequest="30">
+                <ImageButton.Source>
+                    <FontImageSource
+                        Color="{StaticResource Dark_Primary}"
+                        FontFamily="MaterialIcons"
+                        Glyph="{x:Static helpers:IconFont.Volume_up}" />
+                </ImageButton.Source>
+            </ImageButton>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label
+                FontSize="14"
+                HeightRequest="18"
+                Text="Artist" />
+            <Label
+                Grid.Row="1"
+                FontSize="18"
+                HeightRequest="20"
+                Text="Track Title" />
+
+        </Grid>
 
         <Slider
             x:Name="PositionSlider"
-            Grid.Row="3"
-            MinimumTrackColor="{StaticResource Accent}"
+            Grid.Row="5"
+            DragCompleted="OnSliderDragCompleted"
             DragStarted="OnSliderDragStarted"
-            DragCompleted="OnSliderDragCompleted"/>
+            IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}" />
 
-        <Grid Grid.Row="4">
+        <Grid Grid.Row="6">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label Text="{Binding 
-                Source={x:Reference MediaElement},
-                Converter={StaticResource ConvertSecondsToString},
-                Path=Position}"/>
+            <Label IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}" Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Position}" />
 
-            <Label Grid.Column="1" HorizontalOptions="End" HorizontalTextAlignment="End" Text="{Binding 
-                Source={x:Reference MediaElement},
-                Converter={StaticResource ConvertSecondsToString},
-                Path=Duration}"/>
+            <Label
+                Grid.Column="1"
+                HorizontalOptions="End"
+                HorizontalTextAlignment="End"
+                IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
+                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Duration}" />
         </Grid>
 
-        <Grid Grid.Row="5" VerticalOptions="End" Margin="5">
-            <VerticalStackLayout>
-                <ImageButton 
-                    x:Name="PlayButton"
-                    HeightRequest="60"
-                    WidthRequest="60"
-                    CornerRadius="30"
-                    HorizontalOptions="Center"
-                    IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
-                    Clicked="OnPlayOrPauseClicked">
-                    <ImageButton.Source>
-                        <FontImageSource
-                            FontFamily="MaterialIcons"
-                            Glyph="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToGlyph}}"
-                            Size="40">
-                            <FontImageSource.Color>
-                                <Binding Source="{x:Reference PlayButton}" Path="IsEnabled" Converter="{StaticResource ConvertAccentColorToDisabled}" />
-                            </FontImageSource.Color>
-                        </FontImageSource>
-                    </ImageButton.Source>
-                </ImageButton>
-            </VerticalStackLayout>
+        <Grid Grid.Row="7">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <ImageButton
+                Grid.Column="0"
+                IsEnabled="False"
+                Margin="5"
+                HeightRequest="30"
+                WidthRequest="30">
+                <ImageButton.Source>
+                    <FontImageSource
+                        Color="{StaticResource Dark_Primary}"
+                        FontFamily="MaterialIcons"
+                        Glyph="{x:Static helpers:IconFont.Shuffle}" />
+                </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+                Grid.Column="1"
+                IsEnabled="False"
+                Margin="5"
+                HeightRequest="30"
+                WidthRequest="30">
+                <ImageButton.Source>
+                    <FontImageSource
+                        Color="{StaticResource Dark_Primary}"
+                        FontFamily="MaterialIcons"
+                        Glyph="{x:Static helpers:IconFont.Skip_previous}" />
+                </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+                x:Name="PlayButton"
+                Grid.Column="2"
+                Margin="5"
+                Clicked="OnPlayOrPauseClicked"
+                CornerRadius="30"
+                HeightRequest="60"
+                HorizontalOptions="Center"
+                IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
+                WidthRequest="60">
+                <ImageButton.Source>
+                    <FontImageSource
+                        FontFamily="MaterialIcons"
+                        Glyph="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToGlyph}}"
+                        Size="40">
+                        <FontImageSource.Color>
+                            <Binding
+                                Converter="{StaticResource ConvertAccentColorToDisabled}"
+                                Path="IsEnabled"
+                                Source="{x:Reference PlayButton}" />
+                        </FontImageSource.Color>
+                    </FontImageSource>
+                </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+                Grid.Column="3"
+                IsEnabled="False"
+                Margin="5"
+                HeightRequest="30"
+                WidthRequest="30">
+                <ImageButton.Source>
+                    <FontImageSource
+                        Color="{StaticResource Dark_Primary}"
+                        FontFamily="MaterialIcons"
+                        Glyph="{x:Static helpers:IconFont.Skip_next}" />
+                </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+                Grid.Column="4"
+                IsEnabled="False"
+                Margin="5"
+                HeightRequest="30"
+                WidthRequest="30">
+                <ImageButton.Source>
+                    <FontImageSource
+                        Color="{StaticResource Dark_Primary}"
+                        FontFamily="MaterialIcons"
+                        Glyph="{x:Static helpers:IconFont.Repeat}" />
+                </ImageButton.Source>
+            </ImageButton>
         </Grid>
+
     </Grid>
 </ContentView>
 

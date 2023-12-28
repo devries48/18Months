@@ -15,11 +15,11 @@
     <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Music_note}" Title="Music">
         <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MusicPage" />
     </controls:FlyoutItemIconFont>
-    
+
     <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Videocam}" Title="Video">
         <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MainPage" />
     </controls:FlyoutItemIconFont>
-    
+
     <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Psychology}" Title="Therapy">
         <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MainPage" />
     </controls:FlyoutItemIconFont>
@@ -30,12 +30,7 @@
 
     <Shell.ItemTemplate>
         <DataTemplate>
-            <Grid WidthRequest="44" HeightRequest="68">
-                <!--ColumnDefinitions="44"
-                HeightRequest="68"
-                RowDefinitions="68"
-                WidthRequest="44">-->
-                
+            <Grid HeightRequest="68" WidthRequest="44">
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
@@ -46,7 +41,7 @@
                             </VisualState>
                             <VisualState x:Name="Selected">
                                 <VisualState.Setters>
-                                    <Setter TargetName="FlyoutItemIcon" Property="Label.TextColor" Value="{StaticResource Accent}" />
+                                    <Setter TargetName="FlyoutItemIcon" Property="Label.TextColor" Value="{StaticResource Dark_Accent}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -58,8 +53,7 @@
                     HorizontalOptions="Center"
                     Style="{StaticResource IconLabelStyle}"
                     Text="{Binding IconGlyph}"
-                    VerticalOptions="Center"
-                     />
+                    VerticalOptions="Center" />
             </Grid>
         </DataTemplate>
     </Shell.ItemTemplate>

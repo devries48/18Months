@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <Shell
     x:Class="Months18.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -17,15 +16,15 @@
     </controls:FlyoutItemIconFont>
 
     <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Videocam}" Title="Video">
-        <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MainPage" />
+        <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MusicPage" />
     </controls:FlyoutItemIconFont>
 
     <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Psychology}" Title="Therapy">
-        <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MainPage" />
+        <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MusicPage" />
     </controls:FlyoutItemIconFont>
 
-    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Settings}" Title="Settings">
-        <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MainPage" />
+    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Settings}" Title="Settings" >
+        <ShellContent ContentTemplate="{DataTemplate page:SettingsPage}" Route="SettingsPage" />
     </controls:FlyoutItemIconFont>
 
     <Shell.ItemTemplate>
@@ -50,8 +49,8 @@
 
                 <Label
                     x:Name="FlyoutItemIcon"
+                    class="Shell"
                     HorizontalOptions="Center"
-                    Style="{StaticResource IconLabelStyle}"
                     Text="{Binding IconGlyph}"
                     VerticalOptions="Center" />
             </Grid>

@@ -21,25 +21,6 @@ public partial class MusicPlayerView
     private MusicPlayerService? musicPlayerService;
     private List<string> _currentPlayList = [];
 
-    public static readonly BindableProperty CurrentPositionProperty =
-        BindableProperty.Create(nameof(CurrentPositionLabel),
-            typeof(string),
-            typeof(MusicPlayerView),
-            string.Empty,
-            BindingMode.TwoWay,
-            propertyChanged: OnStringChanged);
-
-    private static void OnStringChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        var a = bindable as MusicPlayerView;
-        //a.currentPosLabel.Text = newValue.ToString();
-    }
-
-    public string CurrentPositionLabel
-    {
-        get => (string)GetValue(CurrentPositionProperty);
-        set => SetValue(CurrentPositionProperty, value);
-    }
 
     #region MusicPlayerService Implementation
     void InitializeService()
@@ -94,7 +75,9 @@ public partial class MusicPlayerView
         //Debug.WriteLine("Media State Changed. New State: {NewState}", e.NewState);
     } // iets doen met previousstate?
 
-    void OnMediaFailed(object? sender, MediaFailedEventArgs e) => Debug.WriteLine("Media failed. Error: {ErrorMessage}", e.ErrorMessage);
+    void OnMediaFailed(object? sender, MediaFailedEventArgs e) => Debug.WriteLine(
+        "Media failed. Error: {ErrorMessage}",
+        e.ErrorMessage);
 
     void OnMediaEnded(object? sender, EventArgs e) => Debug.WriteLine("Media ended.");
 
@@ -106,17 +89,21 @@ public partial class MusicPlayerView
 
 
     void OnSeekCompleted(object? sender, EventArgs e) => Debug.WriteLine("Seek completed.");
-
     #endregion
 
     private void OnPlayOrPauseClicked(object sender, EventArgs e)
     {
-        MediaElement.Play();
+        if (MediaElement.CurrentState == MediaElementState.Paused)
+            MediaElement.Play();
+        else if (MediaElement.CurrentState == MediaElementState.Playing)
+            MediaElement.Pause();
     }
-    private void OnStopClicked(object sender, EventArgs e)
+
+    private void OnMuteClicked(object? sender, EventArgs e)
     {
-        MediaElement.Stop();
+        MediaElement.ShouldMute = !MediaElement.ShouldMute;
     }
+    private void OnStopClicked(object sender, EventArgs e) { MediaElement.Stop(); }
 
     private void OnMediaElementPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -134,10 +121,7 @@ public partial class MusicPlayerView
         MediaElement.Play();
     }
 
-    void OnSliderDragStarted(object sender, EventArgs e)
-    {
-        MediaElement.Pause();
-    }
+    void OnSliderDragStarted(object sender, EventArgs e) { MediaElement.Pause(); }
 
 
     private void PlayTrack(string uri, AudioPlayerSource source)
@@ -156,11 +140,6 @@ public partial class MusicPlayerView
     private void OnUnLoaded(object? sender, EventArgs e)
     {
         // Stop and cleanup MediaElement when we navigate away
-        MediaElement.Handler?.DisconnectHandler();
-    }
-
-    private void ImageButton_Clicked(object sender, EventArgs e)
-    {
-
+        // MediaElement.Handler?.DisconnectHandler();
     }
 }

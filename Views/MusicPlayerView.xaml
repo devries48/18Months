@@ -14,6 +14,8 @@
         <converters:CurrentStateToGlyphConverter x:Key="ConvertStateToGlyph" />
         <converters:CurrentStateToEnabledConverter x:Key="ConvertStateToEnabled" />
         <converters:AccentColorToDisabledConverter x:Key="ConvertAccentColorToDisabled" />
+        <converters:BoolToVolumeGlyphConverter x:Key="ConvertBoolToVolumeGlyph" />
+        <converters:InverseBooleanConverter x:Key="ConvertBoolInverse" />
     </ContentView.Resources>
 
     <Grid Margin="10">
@@ -52,15 +54,15 @@
 
             <ImageButton
                 Grid.Row="1"
-                IsEnabled="False"
                 Margin="5"
                 HeightRequest="40"
                 HorizontalOptions="End"
+                IsEnabled="False"
                 VerticalOptions="Start"
                 WidthRequest="40">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Primary}"
+                        Color="{StaticResource Dark_Secondary}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Cast}" />
                 </ImageButton.Source>
@@ -72,9 +74,9 @@
                 Grid.Column="1"
                 Margin="5"
                 BackgroundColor="{StaticResource Dark_Disabled}"
-                Opacity=".2"
                 HeightRequest="200"
                 HorizontalOptions="Center"
+                Opacity=".2"
                 WidthRequest="200" />
 
             <AbsoluteLayout
@@ -85,7 +87,11 @@
                 <StackLayout AbsoluteLayout.LayoutBounds="-5,0,45,200" HeightRequest="120">
                     <Slider
                         x:Name="VolumeSlider"
+                        Value="{Binding Path=Volume,Source={x:Reference MediaElement}}"
                         HeightRequest="40"
+                        IsEnabled="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertBoolInverse}}"
+                        Maximum="1.0"
+                        Minimum="0.0"
                         Rotation="-90"
                         WidthRequest="140" />
                 </StackLayout>
@@ -95,15 +101,16 @@
                 Grid.Row="1"
                 Grid.Column="2"
                 Margin="5"
+                Clicked="OnMuteClicked"
                 HeightRequest="30"
                 HorizontalOptions="End"
                 VerticalOptions="Start"
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Primary}"
+                        Color="{StaticResource Dark_Secondary}"
                         FontFamily="MaterialIcons"
-                        Glyph="{x:Static helpers:IconFont.Volume_up}" />
+                        Glyph="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertBoolToVolumeGlyph}}" />
                 </ImageButton.Source>
             </ImageButton>
         </Grid>
@@ -118,11 +125,13 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label
+                class="Secondary"
                 FontSize="14"
                 HeightRequest="18"
                 Text="Artist" />
             <Label
                 Grid.Row="1"
+                class="Secondary"
                 FontSize="18"
                 HeightRequest="20"
                 Text="Track Title" />
@@ -145,10 +154,14 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}" Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Position}" />
+            <Label
+                class="Secondary"
+                IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
+                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Position}" />
 
             <Label
                 Grid.Column="1"
+                class="Secondary"
                 HorizontalOptions="End"
                 HorizontalTextAlignment="End"
                 IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
@@ -167,13 +180,13 @@
 
             <ImageButton
                 Grid.Column="0"
-                IsEnabled="False"
                 Margin="5"
                 HeightRequest="30"
+                IsEnabled="False"
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Primary}"
+                        Color="{StaticResource Dark_Secondary}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Shuffle}" />
                 </ImageButton.Source>
@@ -181,13 +194,13 @@
 
             <ImageButton
                 Grid.Column="1"
-                IsEnabled="False"
                 Margin="5"
                 HeightRequest="30"
+                IsEnabled="False"
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Primary}"
+                        Color="{StaticResource Dark_Secondary}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Skip_previous}" />
                 </ImageButton.Source>
@@ -220,13 +233,13 @@
 
             <ImageButton
                 Grid.Column="3"
-                IsEnabled="False"
                 Margin="5"
                 HeightRequest="30"
+                IsEnabled="False"
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Primary}"
+                        Color="{StaticResource Dark_Secondary}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Skip_next}" />
                 </ImageButton.Source>
@@ -234,13 +247,13 @@
 
             <ImageButton
                 Grid.Column="4"
-                IsEnabled="False"
                 Margin="5"
                 HeightRequest="30"
+                IsEnabled="False"
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Primary}"
+                        Color="{StaticResource Dark_Secondary}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Repeat}" />
                 </ImageButton.Source>

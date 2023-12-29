@@ -43,7 +43,9 @@
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
 
-    <Color x:Key="Dark_Primary">#ACACAC</Color>
+    <Color x:Key="Dark_Primary">#c0e7f2</Color>
+    <Color x:Key="Dark_Secondary">#ACACAC</Color>
+    <Color x:Key="Dark_Header">#1f7b93</Color>
     <Color x:Key="Dark_Accent">#F7B548</Color>
     <Color x:Key="Dark_Disabled">#415563</Color>
     

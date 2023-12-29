@@ -24,8 +24,7 @@
         </ScrollView>
 
         <!-- Player panel -->
-        <views:MusicPlayerView Grid.Column="{OnIdiom Phone=0, Default=1}"
-                        IsVisible="{OnIdiom Phone=False, Default=True}"/>
+        <views:MusicPlayerView Grid.Column="{OnIdiom Phone=0, Default=1}" IsVisible="{OnIdiom Phone=False, Default=True}"/>
 
     </Grid>
 

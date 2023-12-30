@@ -8,10 +8,11 @@ public partial class SettingsPage : ContentPage
     {
         InitializeComponent();
 
-        BindingContext = new AnimalViewModel
-        {
-            GroupName = "Connecion",
-            Selection = "Local"
-        };
+        BindingContext = MauiProgram.GetService<SettingsPageViewModel>();
     }
+
+    public SettingsPageViewModel ViewModel => (SettingsPageViewModel)BindingContext;
+
+    //EventToCommand cannot be used on ContentPage
+    private async void ContentPage_Appearing(object sender, EventArgs e) => await ViewModel.LoadSettings();
 }

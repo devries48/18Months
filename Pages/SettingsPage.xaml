@@ -2,59 +2,72 @@
     x:Class="Months18.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:helpers="clr-namespace:Months18.Helpers">
-    <Grid>
-        <Grid RadioButtonGroup.GroupName="{Binding GroupName}" RadioButtonGroup.SelectedValue="{Binding Selection}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="10" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="50" />
-            </Grid.RowDefinitions>
+    xmlns:helpers="clr-namespace:Months18.Helpers"
+    Appearing="ContentPage_Appearing">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid RadioButtonGroup.GroupName="Connection" RadioButtonGroup.SelectedValue="{Binding Connection}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
 
-            <Label
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label 
                 Grid.ColumnSpan="2"
                 class="SectionHeader"
                 Text="Connection" />
-            <RadioButton
+                <RadioButton x:Name="localRadioButton"
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
-                Value="Local">
-                <RadioButton.Content>
-                    <Label class="Primary" Text="LOCAL, select path to data folder" />
-                </RadioButton.Content>
-            </RadioButton>
-            <Entry
-                x:Name="LocalDataPath"
+                Value="LOCAL">
+                    <RadioButton.Content>
+                        <Label class="Primary" Text="LOCAL, select path to MusicMateData.json file"/>
+                    </RadioButton.Content>
+                </RadioButton>
+                <Entry
+                x:Name="LocalDataPath" 
+                    IsEnabled="{Binding Path=IsChecked, Source={x:Reference localRadioButton}}"
+                    Text="{Binding MusicMateFile}"
+                    
                 Grid.Row="2"
                 Grid.Column="1"
                 Placeholder="Enter path"
                 HorizontalOptions="FillAndExpand" />
 
-            <RadioButton
+                <RadioButton x:Name="remoteRadioButton"
                 Grid.Row="4"
                 Grid.ColumnSpan="2"
-                Value="Remote"
+                Value="REMOTE"
                 HeightRequest="20">
-                <RadioButton.Content>
-                    <Label class="Primary" Text="REMOTE, select URL to MusicMate Server" />
-                </RadioButton.Content>
-            </RadioButton>
-            <Entry
+                    <RadioButton.Content>
+                        <Label class="Primary" Text="REMOTE, select URL to MusicMate Server" />
+                    </RadioButton.Content>
+                </RadioButton>
+                <Entry
                x:Name="RemoteUrlPath"
-               Grid.Row="5"
+                        IsEnabled="{Binding Path=IsChecked, Source={x:Reference remoteRadioButton}}"
+                    Text="{Binding MusicMateUrl}"
+                Grid.Row="5"
                Grid.Column="1"
                Placeholder="Enter URL"
                HorizontalOptions="FillAndExpand" />
 
-        </Grid>
-    </Grid>
+            </Grid>
+            <Grid Margin="0,15" ColumnDefinitions="*, 150">
+                <Button Grid.Column="1" Command="{Binding SaveSettingsCommand}" Text="Save Settings"
+                        BackgroundColor="{StaticResource Dark_Accent}"/>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>

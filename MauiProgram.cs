@@ -22,6 +22,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .UseMauiCommunityToolkitMediaElement()
             .ConfigureFonts(fonts =>
             {
@@ -36,7 +37,10 @@ public static class MauiProgram
         var services = builder.Services;
 
         services.AddSingleton<MusicPlayerService>();
-        services.AddSingleton<MusicPage>();
+        services.AddSingleton<ISettingsService, SettingsService>();
+        services.AddTransient<MusicPage>();
+        services.AddTransient<SettingsPage>();
+        services.AddTransient<SettingsPageViewModel>();
 
         var app = builder.Build();
         serviceProvider = app.Services; // store service provider reference

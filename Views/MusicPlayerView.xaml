@@ -15,7 +15,7 @@
         <converters:CurrentStateToEnabledConverter x:Key="ConvertStateToEnabled" />
         <converters:AccentColorToDisabledConverter x:Key="ConvertAccentColorToDisabled" />
         <converters:BoolToVolumeGlyphConverter x:Key="ConvertBoolToVolumeGlyph" />
-        <converters:InverseBooleanConverter x:Key="ConvertBoolInverse" />
+        <toolkit:InvertedBoolConverter x:Key="InvertBool" />
     </ContentView.Resources>
 
     <Grid Margin="10">
@@ -62,7 +62,7 @@
                 WidthRequest="40">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Secondary}"
+                        Color="{StaticResource Dark_SecondaryText}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Cast}" />
                 </ImageButton.Source>
@@ -89,7 +89,7 @@
                         x:Name="VolumeSlider"
                         Value="{Binding Path=Volume,Source={x:Reference MediaElement}}"
                         HeightRequest="40"
-                        IsEnabled="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertBoolInverse}}"
+                        IsEnabled="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource InvertBool}}"
                         Maximum="1.0"
                         Minimum="0.0"
                         Rotation="-90"
@@ -108,7 +108,7 @@
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Secondary}"
+                        Color="{StaticResource Dark_SecondaryText}"
                         FontFamily="MaterialIcons"
                         Glyph="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertBoolToVolumeGlyph}}" />
                 </ImageButton.Source>
@@ -186,7 +186,7 @@
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Secondary}"
+                        Color="{StaticResource Dark_SecondaryText}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Shuffle}" />
                 </ImageButton.Source>
@@ -200,7 +200,7 @@
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Secondary}"
+                        Color="{StaticResource Dark_SecondaryText}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Skip_previous}" />
                 </ImageButton.Source>
@@ -239,7 +239,7 @@
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Secondary}"
+                        Color="{StaticResource Dark_SecondaryText}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Skip_next}" />
                 </ImageButton.Source>
@@ -253,7 +253,7 @@
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_Secondary}"
+                        Color="{StaticResource Dark_SecondaryText}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Repeat}" />
                 </ImageButton.Source>

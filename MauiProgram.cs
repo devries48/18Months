@@ -1,8 +1,18 @@
-﻿using CommunityToolkit.Maui;
+﻿global using CommunityToolkit.Maui;
+global using CommunityToolkit.Maui.Core.Primitives;
+global using CommunityToolkit.Maui.Views;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
+
+global using Months18.Models;
+global using Months18.Pages;
+global using Months18.Services;
+global using Months18.ViewModels;
+
+global using System.Collections.ObjectModel;
+global using System.ComponentModel;
+
 using Microsoft.Extensions.Logging;
-using Months18.Pages;
-using Months18.Services;
-using Months18.ViewModels;
 
 namespace Months18;
 
@@ -38,9 +48,10 @@ public static class MauiProgram
 
         services.AddSingleton<MusicPlayerService>();
         services.AddSingleton<ISettingsService, SettingsService>();
-        services.AddTransient<MusicPage>();
-        services.AddTransient<SettingsPage>();
         services.AddTransient<SettingsPageViewModel>();
+        services.AddTransient<SettingsPage>();
+        services.AddTransient<MusicPageViewModel>();
+        services.AddTransient<MusicPage>();
 
         var app = builder.Build();
         serviceProvider = app.Services; // store service provider reference

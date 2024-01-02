@@ -1,6 +1,4 @@
-﻿using Months18.ViewModels;
-
-namespace Months18.Pages;
+﻿namespace Months18.Pages;
 
 public partial class SettingsPage : ContentPage
 {
@@ -14,5 +12,9 @@ public partial class SettingsPage : ContentPage
     public SettingsPageViewModel ViewModel => (SettingsPageViewModel)BindingContext;
 
     //EventToCommand cannot be used on ContentPage
-    private async void ContentPage_Appearing(object sender, EventArgs e) => await ViewModel.LoadSettings();
+    private async void ContentPage_Appearing(object sender, EventArgs e)
+    {
+        base.OnAppearing();
+        await ViewModel.LoadSettings();
+    }
 }

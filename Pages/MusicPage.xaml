@@ -1,31 +1,101 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:helpers="clr-namespace:Months18.Helpers"
-             xmlns:views="clr-namespace:Months18.Views"
-             x:Class="Months18.Pages.MusicPage">
+<ContentPage
+    x:Class="Months18.Pages.MusicPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:helpers="clr-namespace:Months18.Helpers"
+    xmlns:models="clr-namespace:Months18.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:Months18.Views"
+    xmlns:vms="clr-namespace:Months18.ViewModels"
+    Appearing="ContentPage_Appearing"
+    x:DataType="vms:MusicPageViewModel">
 
-    <Grid
-        ColumnDefinitions="{OnIdiom Phone='*', Default='*,350'}"
-        RowDefinitions="*">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-        <!-- Main content -->
-        <ScrollView Grid.Column="0">
-            <VerticalStackLayout
-                Padding="{OnIdiom Phone='0,50',Default='0,50'}"
-                Spacing="{OnIdiom Phone=25,Default=50}">
+    <Grid ColumnDefinitions="{OnIdiom Phone='*', Default='*,350'}" RowDefinitions="*">
+        <CollectionView
+            x:Name="releaseCollectionView"
+            ItemsLayout="VerticalGrid, 5"
+            ItemsSource="{Binding Releases}"
+            SelectedItem="{Binding SelectedRelease}"
+            SelectionMode="Single">
 
-                <Grid ColumnDefinitions="*, 100" ColumnSpacing="5">
-                    <Entry x:Name="CustomSourceEntry" Placeholder="Enter URL" HorizontalOptions="FillAndExpand" />
-                    <Button Grid.Column="1" Clicked="OnAddTrackClicked" Text="Load" />
-                </Grid>
-            </VerticalStackLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="20" x:DataType="models:ReleaseModel">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="177" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image
+                            Grid.ColumnSpan="2"
+                            Aspect="AspectFill"
+                            Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ByteArrayToImageSourceConverter}}" />
+                        <Label
+                            Grid.Row="1"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            Text="{Binding Artist}" />
+                        <Label
+                            Grid.Row="2"
+                            FontAttributes="Italic"
+                            FontSize="12"
+                            HorizontalOptions="Center"
+                            Text="{Binding Title}" />
 
-        </ScrollView>
+                        <BoxView
+                            Grid.Row="1" 
+                            Grid.RowSpan="2"
+                            Color="{StaticResource Overlay}"
+                            IsVisible="{Binding IsSelected}" />
+                        <StackLayout
+                            Grid.Row="1" 
+                            Grid.RowSpan="2"
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding IsSelected}"
+                            VerticalOptions="Center">
+                            <Button Text="Action 1" />
+                        </StackLayout>
+                        <Grid.Behaviors>
+                            <!--<local:ItemTappedBehavior TappedCommand="{Binding Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=BindingContext.ItemTappedCommand}" />-->
+                        </Grid.Behaviors>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.Behaviors>
+                <helpers:CollectionFitContentBehavior />
+            </CollectionView.Behaviors>
+        </CollectionView>
 
-        <!-- Player panel -->
-        <views:MusicPlayerView Grid.Column="{OnIdiom Phone=0, Default=1}" IsVisible="{OnIdiom Phone=False, Default=True}"/>
-
+        <!-- Audio Player panel -->
+        <views:MusicPlayerView Grid.Column="{OnIdiom Phone=0, Default=1}" IsVisible="{OnIdiom Phone=False, Default=True}" />
     </Grid>
-
 </ContentPage>
+
+<!-- Main content -->
+<!--<ScrollView Grid.Column="0">
+           <VerticalStackLayout Padding="{OnIdiom Phone='0,50',Default='0,50'}" Spacing="{OnIdiom Phone=25,Default=50}">
+
+               <Grid ColumnDefinitions="*, 100" ColumnSpacing="5">
+                   <Entry
+                       x:Name="CustomSourceEntry"
+                       HorizontalOptions="FillAndExpand"
+                       Placeholder="Enter URL" />
+                   <Button
+                       Grid.Column="1"
+                       Clicked="OnAddTrackClicked"
+                       Text="Load" />
+               </Grid>
+           </VerticalStackLayout>
+
+       </ScrollView>-->

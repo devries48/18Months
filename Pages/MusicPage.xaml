@@ -9,6 +9,7 @@
     xmlns:views="clr-namespace:Months18.Views"
     xmlns:vms="clr-namespace:Months18.ViewModels"
     Appearing="ContentPage_Appearing"
+    BindingContext="{Binding Source={RelativeSource Self}, Path=ViewModel}"
     x:DataType="vms:MusicPageViewModel">
 
     <ContentPage.Resources>
@@ -19,62 +20,108 @@
 
     <Grid ColumnDefinitions="{OnIdiom Phone='*', Default='*,350'}" RowDefinitions="*">
         <CollectionView
-            x:Name="releaseCollectionView"
             ItemsLayout="VerticalGrid, 5"
             ItemsSource="{Binding Releases}"
-            SelectedItem="{Binding SelectedRelease}"
             SelectionMode="Single">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="20" x:DataType="models:ReleaseModel">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="177" />
+                            <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image
-                            Grid.ColumnSpan="2"
-                            Aspect="AspectFill"
-                            Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ByteArrayToImageSourceConverter}}" />
+                        <Image Aspect="AspectFill" Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ByteArrayToImageSourceConverter}}" />
                         <Label
                             Grid.Row="1"
                             FontAttributes="Bold"
                             FontSize="14"
                             HorizontalOptions="Center"
+                            LineBreakMode="TailTruncation"
                             Text="{Binding Artist}" />
                         <Label
                             Grid.Row="2"
                             FontAttributes="Italic"
                             FontSize="12"
                             HorizontalOptions="Center"
+                            LineBreakMode="TailTruncation"
                             Text="{Binding Title}" />
 
-                        <BoxView
-                            Grid.Row="1" 
+                        <!--<BoxView
+                            Grid.Row="1"
                             Grid.RowSpan="2"
-                            Color="{StaticResource Overlay}"
-                            IsVisible="{Binding IsSelected}" />
-                        <StackLayout
-                            Grid.Row="1" 
+                            BackgroundColor="{StaticResource Background_Mid}"
+                            IsVisible="{Binding IsSelected}" />-->
+                        <Grid
+                            Grid.Row="0"
                             Grid.RowSpan="2"
-                            HorizontalOptions="Center"
                             IsVisible="{Binding IsSelected}"
-                            VerticalOptions="Center">
-                            <Button Text="Action 1" />
-                        </StackLayout>
-                        <Grid.Behaviors>
-                            <!--<local:ItemTappedBehavior TappedCommand="{Binding Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=BindingContext.ItemTappedCommand}" />-->
-                        </Grid.Behaviors>
+                            VerticalOptions="End">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <ImageButton
+                                BackgroundColor="{StaticResource Dark_Primary}"
+                                HeightRequest="20"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                WidthRequest="20">
+                                <ImageButton.Source>
+                                    <FontImageSource
+                                        Color="{StaticResource Dark_PrimaryText}"
+                                        FontFamily="MaterialIcons"
+                                        Glyph="{x:Static helpers:IconFont.Visibility}"
+                                        Size="26" />
+                                </ImageButton.Source>
+                            </ImageButton>
+
+                            <Button
+                                Grid.Column="1"
+                                BackgroundColor="{StaticResource Dark_Accent}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=PlaySelectedReleaseCommand}"
+                                CornerRadius="30"
+                                HeightRequest="30"
+                                WidthRequest="30">
+                                <Button.ImageSource>
+                                    <FontImageSource
+                                        Color="{StaticResource Dark_AccentText}"
+                                        FontFamily="MaterialIcons"
+                                        Glyph="{x:Static helpers:IconFont.Play_arrow}" />
+                                </Button.ImageSource>
+                            </Button>
+
+                            <ImageButton
+                                BackgroundColor="{StaticResource Dark_Primary}"
+                                HeightRequest="20"
+                                HorizontalOptions="End"
+                                VerticalOptions="Center"
+                                WidthRequest="20">
+                                <ImageButton.Source>
+                                    <FontImageSource
+                                        Color="{StaticResource Dark_PrimaryText}"
+                                        FontFamily="MaterialIcons"
+                                        Glyph="{x:Static helpers:IconFont.Playlist_add}"
+                                        Size="26" />
+                                </ImageButton.Source>
+                            </ImageButton>
+
+                        </Grid>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=ItemTapCommand}"
+                                CommandParameter="{Binding}"
+                                NumberOfTapsRequired="1" />
+                        </Grid.GestureRecognizers>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-            <CollectionView.Behaviors>
-                <helpers:CollectionFitContentBehavior />
-            </CollectionView.Behaviors>
         </CollectionView>
 
         <!-- Audio Player panel -->

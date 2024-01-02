@@ -3,13 +3,15 @@
 public partial class MusicPageViewModel : ObservableObject
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "Class instantiated by Dependency Injection.")]
-    public MusicPageViewModel(ISettingsService settingsService)
+    public MusicPageViewModel(ISettingsService settingsService, IMusicPlayerService playerService)
     {
         _settingsService = settingsService;
+        _playerService = playerService;
         _source = [];
     }
 
     private readonly ISettingsService _settingsService;
+    private readonly IMusicPlayerService _playerService;
     private readonly List<ReleaseModel> _source;
 
     [ObservableProperty]
@@ -17,57 +19,53 @@ public partial class MusicPageViewModel : ObservableObject
 
     private ReleaseModel? _selectedRelease;
 
-    public ReleaseModel? SelectedRelease
+    [RelayCommand]
+    private void ItemTap(ReleaseModel tappedItem)
     {
-        get => _selectedRelease;
-        set
+        if (_selectedRelease != null && _selectedRelease != tappedItem)
+            _selectedRelease.IsSelected = false;
+
+        if (tappedItem.IsSelected)
         {
-            if (_selectedRelease != value)
-            {
-                // Reset the IsSelected property for the previously selected release
-                if (_selectedRelease != null)
-                    _selectedRelease.IsSelected = false;
-
-                _selectedRelease = value;
-
-                // Set the IsSelected property for the newly selected release
-                if (_selectedRelease != null)
-                    _selectedRelease.IsSelected = true;
-
-                OnPropertyChanged(nameof(SelectedRelease));
-            }
+            tappedItem.IsSelected = false;
+            _selectedRelease = null;
+        }
+        else
+        {
+            _selectedRelease = tappedItem;
+            tappedItem.IsSelected = true;
         }
     }
 
     [RelayCommand]
-    private void OnItemTapped(ReleaseModel tappedItem)
+    private void PlaySelectedRelease()
     {
-        if (tappedItem == SelectedRelease)
-        {
-            SelectedRelease = null; // Deselect the item
-        }
-     }
+        if (_selectedRelease != null)
+            _playerService.PlayRelease(_selectedRelease);
+    }
 
     public async Task GetLocalReleases()
     {
         if (_source.Count > 0)
             return;
 
-        var release = await ReleaseModel.Create("Charles Mingus", "Blues & Roots", ImagePath("Blues Roots-front.jpg")).ConfigureAwait(false);
-        release.AddTrack(MusicPath("01. Wednesday Night Prayer Meeting.mp3"), "Wednesday Night Prayer Meeting","5:43");
+        var release = await ReleaseModel.Create("Charles Mingus", "Blues & Roots", ImagePath("Blues Roots-front.jpg"), "USA", 1960).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01. Wednesday Night Prayer Meeting.mp3"), "Wednesday Night Prayer Meeting", "5:43");
         release.AddTrack(MusicPath("03. Moanin'.mp3"), "Moanin'", "8:03");
         release.AddTrack(MusicPath("06. E's Flat Ah's Flat Too"), "E's Flat Ah's Flat Too", "6:47");
         _source.Add(release);
 
-        _source.Add(await ReleaseModel.Create("Herbie Hancock", "Head Hunters", ImagePath("Head Hunters-front.jpg")).ConfigureAwait(false));
-        _source.Add(await ReleaseModel.Create("Miles Davis", "Bitches Brew", ImagePath("Bitches Brew-front.jpg")).ConfigureAwait(false));
-        _source.Add(await ReleaseModel.Create("Ozzy Osbourne", "No More Tears", ImagePath("No More Tears-front.jpg")).ConfigureAwait(false));
-        _source.Add(await ReleaseModel.Create("King Crimson", "Red", ImagePath("Red-front.jpg")).ConfigureAwait(false));
-        _source.Add(await ReleaseModel.Create("Can", "Soundtracks", ImagePath("Soundtracks-front.jpg")).ConfigureAwait(false));
-        _source.Add(await ReleaseModel.Create("Amon Düül II", "Yeti", ImagePath("Yeti-front.jpg")).ConfigureAwait(false));
+        _source.Add(await ReleaseModel.Create("Herbie Hancock", "Head Hunters", ImagePath("Head Hunters-front.jpg"), "USA", 1973).ConfigureAwait(false));
+        _source.Add(await ReleaseModel.Create("Miles Davis", "Bitches Brew", ImagePath("Bitches Brew-front.jpg"), "USA", 1970).ConfigureAwait(false));
+        _source.Add(await ReleaseModel.Create("Jameszoo & Metropol Orkest", "Melkweg", ImagePath("Melkweg-front.jpg"), "NL", 2019).ConfigureAwait(false));
+        _source.Add(await ReleaseModel.Create("Ozzy Osbourne", "No More Tears", ImagePath("No More Tears-front.jpg"), "UK", 1991).ConfigureAwait(false));
+        _source.Add(await ReleaseModel.Create("King Crimson", "Red", ImagePath("Red-front.jpg"), "UK", 1974).ConfigureAwait(false));
+        _source.Add(await ReleaseModel.Create("Fifty Foot Hose", "Cauldron", ImagePath("Cauldron-front.jpg"), "USA", 1968).ConfigureAwait(false));
+        _source.Add(await ReleaseModel.Create("Can", "Soundtracks", ImagePath("Soundtracks-front.jpg"), "D", 1973).ConfigureAwait(false));
+        _source.Add(await ReleaseModel.Create("Amon Düül II", "Yeti", ImagePath("Yeti-front.jpg"), "D", 1970).ConfigureAwait(false));
 
-        _source.Add(await ReleaseModel.Create("Catapilla", "Catapilla", ImagePath("Catapilla-front.jpg")).ConfigureAwait(false));
-        _source.Add(await ReleaseModel.Create("Koenjihyakkei", "Angherr Shisspa", ImagePath("Angherr Shisspa-front.jpg")).ConfigureAwait(false));
+        _source.Add(await ReleaseModel.Create("Catapilla", "Catapilla", ImagePath("Catapilla-front.jpg"), "UK", 1971).ConfigureAwait(false));
+        _source.Add(await ReleaseModel.Create("Koenjihyakkei", "Angherr Shisspa", ImagePath("Angherr Shisspa-front.jpg"), "JP", 2005).ConfigureAwait(false));
 
         Releases = new ObservableCollection<ReleaseModel>(_source);
     }

@@ -76,12 +76,12 @@
                     HorizontalOptions="FillAndExpand" />
                 <Button Grid.Row="7" Grid.Column="3" 
                         Text="Sign In"
-                        TextColor="{StaticResource Dark_TertiaryText}"
+                        TextColor="{StaticResource Dark_PrimaryText}"
                         Margin="15,0,0,0"
                         Command="{Binding SignInCommand}">
                     <Button.ImageSource>
                         <FontImageSource
-                       Color="{StaticResource Dark_TertiaryText}"
+                       Color="{StaticResource Dark_PrimaryText}"
                        FontFamily="MaterialIcons"
                        Glyph="{x:Static helpers:IconFont.Login}" />
                     </Button.ImageSource>
@@ -91,6 +91,7 @@
             <Grid Margin="0,15" ColumnDefinitions="*, 150">
                 <Button Grid.Column="1" Command="{Binding SaveSettingsCommand}" Text="Save Settings"
                         BackgroundColor="{StaticResource Dark_Accent}"
+                        TextColor="{StaticResource Dark_AccentText}"
                         HeightRequest="50"/>
             </Grid>
         </VerticalStackLayout>

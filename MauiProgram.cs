@@ -46,7 +46,7 @@ public static class MauiProgram
 #endif
         var services = builder.Services;
 
-        services.AddSingleton<MusicPlayerService>();
+        services.AddSingleton<IMusicPlayerService, MusicPlayerService>();
         services.AddSingleton<ISettingsService, SettingsService>();
         services.AddTransient<SettingsPageViewModel>();
         services.AddTransient<SettingsPage>();

@@ -2,7 +2,7 @@
 
 public partial class MusicPage : ContentPage
 {
-    public MusicPage(MusicPlayerService service, MusicPageViewModel viewModel)
+    public MusicPage(IMusicPlayerService service, MusicPageViewModel viewModel)
     {
         InitializeComponent();
 
@@ -14,7 +14,7 @@ public partial class MusicPage : ContentPage
     public MusicPageViewModel ViewModel;
 
 
-    readonly MusicPlayerService _musicPlayerService;
+    readonly IMusicPlayerService _musicPlayerService;
 
     //void OnAddTrackClicked(object? sender, EventArgs e)
     //{

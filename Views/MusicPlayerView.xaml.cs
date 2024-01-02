@@ -1,7 +1,3 @@
-using CommunityToolkit.Maui.Core.Primitives;
-using CommunityToolkit.Maui.Views;
-using Months18.Services;
-using System.ComponentModel;
 using System.Diagnostics;
 
 namespace Months18.Views;
@@ -19,7 +15,7 @@ public partial class MusicPlayerView
     }
 
     private MusicPlayerService? musicPlayerService;
-    private List<string> _currentPlayList = [];
+    private List<TrackModel> _currentPlayList = [];
 
 
     #region MusicPlayerService Implementation
@@ -87,7 +83,6 @@ public partial class MusicPlayerView
         PositionSlider.Value = e.Position.TotalSeconds;
     }
 
-
     void OnSeekCompleted(object? sender, EventArgs e) => Debug.WriteLine("Seek completed.");
     #endregion
 
@@ -124,13 +119,14 @@ public partial class MusicPlayerView
     void OnSliderDragStarted(object sender, EventArgs e) { MediaElement.Pause(); }
 
 
-    private void PlayTrack(string uri, AudioPlayerSource source)
+    private void PlayTrack(TrackModel track, AudioPlayerSource source)
     {
+
         MediaElement.Source = source switch
         {
-            AudioPlayerSource.Embed => MediaSource.FromResource(uri),
-            AudioPlayerSource.FileSystem => MediaSource.FromFile(uri),
-            AudioPlayerSource.Url => MediaSource.FromUri(uri),
+            AudioPlayerSource.Embed => MediaSource.FromResource(track.FilePath),
+            AudioPlayerSource.FileSystem => MediaSource.FromFile(track.FilePath),
+            AudioPlayerSource.Url => MediaSource.FromUri(track.FilePath),
             _ => ""
         };
 

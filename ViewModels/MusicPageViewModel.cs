@@ -63,8 +63,10 @@ public partial class MusicPageViewModel : ObservableObject
         _source.Add(await ReleaseModel.Create("Fifty Foot Hose", "Cauldron", ImagePath("Cauldron-front.jpg"), "USA", 1968).ConfigureAwait(false));
         _source.Add(await ReleaseModel.Create("Can", "Soundtracks", ImagePath("Soundtracks-front.jpg"), "D", 1973).ConfigureAwait(false));
         _source.Add(await ReleaseModel.Create("Amon Düül II", "Yeti", ImagePath("Yeti-front.jpg"), "D", 1970).ConfigureAwait(false));
-
+        _source.Add(await ReleaseModel.Create("Can", "Ege Bamyasi", ImagePath("Ege Bamyasi-front.jpg"), "D", 1972).ConfigureAwait(false));
+        _source.Add(await ReleaseModel.Create("Magma", "Kobaïa", ImagePath("Kobaia-front.jpg"), "FRA", 1970).ConfigureAwait(false));
         _source.Add(await ReleaseModel.Create("Catapilla", "Catapilla", ImagePath("Catapilla-front.jpg"), "UK", 1971).ConfigureAwait(false));
+
         _source.Add(await ReleaseModel.Create("Koenjihyakkei", "Angherr Shisspa", ImagePath("Angherr Shisspa-front.jpg"), "JP", 2005).ConfigureAwait(false));
 
         Releases = new ObservableCollection<ReleaseModel>(_source);
@@ -72,12 +74,24 @@ public partial class MusicPageViewModel : ObservableObject
 
     private static string ImagePath(string filename) =>
         // TODO: Get from MusicMateData.json
-        Path.Combine("C:/Users/rvrie/source/repos/18Months", "Data/Images", filename);
+        CombinePaths("C:/Users/rvrie/source/repos/18Months", "Data/Images", filename);
     private static string MusicPath(string filename) =>
-    // TODO: Get from MusicMateData.json
-    Path.Combine("C:/Users/rvrie/source/repos/18Months", "Data/Music", filename);
+        // TODO: Get from MusicMateData.json
+        CombinePaths("C:/Users/rvrie/source/repos/18Months", "Data/Music", filename).Replace("/","\\");
 
+    private static string CombinePaths(params string[] paths)
+    {
+        string result = string.Empty;
 
+        foreach (var path in paths)
+        {
+            if (result.Length != 0 && !result.EndsWith('/'))
+                result += "/";
+
+            result += path;
+        }
+        return result;
+    }
 }
 
 //2022

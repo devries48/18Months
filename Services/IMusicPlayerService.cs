@@ -9,6 +9,7 @@ namespace Months18.Services
         void Pause();
         void Play();
         void PlayRelease(ReleaseModel selectedRelease);
+        void PlayFromList(int playListIndex);
         void Stop();
 
         void SubscribeToAudioPlayerAction(AudioPlayerActionEventHandler handler);

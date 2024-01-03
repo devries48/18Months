@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace Months18.Views;
 
-public partial class MusicPlayerView
+public partial class MusicPlayerView : INotifyPropertyChanged
 {
     public MusicPlayerView()
     {
@@ -14,14 +14,35 @@ public partial class MusicPlayerView
         InitializeService();
     }
 
-    private MusicPlayerService? musicPlayerService;
+    private IMusicPlayerService? musicPlayerService;
     private List<TrackModel> _currentPlayList = [];
+    private TrackModel? _currentTrack;
 
+    public TrackModel? CurrentTrack
+    {
+        get
+        {
+            return _currentTrack;
+        }
+        set
+        {
+            _currentTrack = value;
+            OnPropertyChanged(nameof(CurrentImage));
+            OnPropertyChanged(nameof(CurrentArtist));
+            OnPropertyChanged(nameof(CurrentTitle));
+        }
+    }
+
+    public byte[]? CurrentImage => _currentTrack?.ReleaseImage;
+
+    public string? CurrentArtist => _currentTrack?.TrackArtist;
+
+    public string? CurrentTitle => _currentTrack?.Title;
 
     #region MusicPlayerService Implementation
-    void InitializeService()
+    private void InitializeService()
     {
-        musicPlayerService = MauiProgram.GetService<MusicPlayerService>();
+        musicPlayerService = MauiProgram.GetService<IMusicPlayerService>();
 
         if (musicPlayerService != null)
         {
@@ -43,6 +64,9 @@ public partial class MusicPlayerView
             case AudioPlayerAction.Stop:
                 MediaElement.Stop();
                 break;
+            case AudioPlayerAction.PlayFromList:
+                if (e.Track != null) PlayTrack(e.Track);
+                break;
             default:
                 // All cases are handled
                 break;
@@ -55,11 +79,7 @@ public partial class MusicPlayerView
         var list = musicPlayerService?.GetPlaylist();
 
         if (list != null)
-        {
             _currentPlayList = list;
-            if (!e.IsRemoveAction && list.Count == 1)
-                PlayTrack(e.Track, e.Source);
-        }
     }
     #endregion
 
@@ -68,7 +88,10 @@ public partial class MusicPlayerView
 
     void OnStateChanged(object? sender, MediaStateChangedEventArgs e)
     {
-        //Debug.WriteLine("Media State Changed. New State: {NewState}", e.NewState);
+        if (e.NewState == MediaElementState.Playing)
+            FadeCurremtImage(true);
+        else if (e.NewState != MediaElementState.Buffering && e.NewState != MediaElementState.Opening)
+            FadeCurremtImage(false);
     } // iets doen met previousstate?
 
     void OnMediaFailed(object? sender, MediaFailedEventArgs e) => Debug.WriteLine(
@@ -79,12 +102,12 @@ public partial class MusicPlayerView
 
     void OnPositionChanged(object? sender, MediaPositionChangedEventArgs e)
     {
-        Debug.WriteLine("Position changed to {position}", e.Position.ToString());
         PositionSlider.Value = e.Position.TotalSeconds;
     }
 
     void OnSeekCompleted(object? sender, EventArgs e) => Debug.WriteLine("Seek completed.");
     #endregion
+
 
     private void OnPlayOrPauseClicked(object sender, EventArgs e)
     {
@@ -98,6 +121,7 @@ public partial class MusicPlayerView
     {
         MediaElement.ShouldMute = !MediaElement.ShouldMute;
     }
+
     private void OnStopClicked(object sender, EventArgs e) { MediaElement.Stop(); }
 
     private void OnMediaElementPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -118,11 +142,9 @@ public partial class MusicPlayerView
 
     void OnSliderDragStarted(object sender, EventArgs e) { MediaElement.Pause(); }
 
-
-    private void PlayTrack(TrackModel track, AudioPlayerSource source)
+    private void PlayTrack(TrackModel track)
     {
-
-        MediaElement.Source = source switch
+        MediaElement.Source = track.Source switch
         {
             AudioPlayerSource.Embed => MediaSource.FromResource(track.FilePath),
             AudioPlayerSource.FileSystem => MediaSource.FromFile(track.FilePath),
@@ -131,8 +153,17 @@ public partial class MusicPlayerView
         };
 
         MediaElement.Play();
+        CurrentTrack = track;
     }
 
+    private void FadeCurremtImage(bool fadeIn)
+    {
+        var opacity = fadeIn ? 1 : 0.2;
+        if (ReleaseImage.Opacity == opacity)
+            return;
+
+        ReleaseImage.FadeTo(opacity);
+    }
     private void OnUnLoaded(object? sender, EventArgs e)
     {
         // Stop and cleanup MediaElement when we navigate away

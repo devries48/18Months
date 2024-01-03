@@ -16,7 +16,7 @@ public partial class ReleaseModel : ObservableObject
 
     public static async Task<ReleaseModel> Create(string artist, string title, string imagePath, string origin, int year)
     {
-        var release = new ReleaseModel() { Artist = artist, Title = title, Origin= origin, Year=year.ToString() };
+        var release = new ReleaseModel() { Artist = artist, Title = title, Origin = origin, Year = year.ToString() };
         await release.LoadImageBytesAsync(imagePath);
         return release;
     }

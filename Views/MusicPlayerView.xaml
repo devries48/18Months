@@ -15,6 +15,7 @@
         <converters:CurrentStateToEnabledConverter x:Key="ConvertStateToEnabled" />
         <converters:AccentColorToDisabledConverter x:Key="ConvertAccentColorToDisabled" />
         <converters:BoolToVolumeGlyphConverter x:Key="ConvertBoolToVolumeGlyph" />
+        <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
         <toolkit:InvertedBoolConverter x:Key="InvertBool" />
     </ContentView.Resources>
 
@@ -24,7 +25,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="10" />
+            <RowDefinition Height="2" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -74,6 +75,8 @@
                 Grid.Column="1"
                 Margin="5"
                 BackgroundColor="{StaticResource Dark_Disabled}"
+                Aspect="AspectFill" 
+                Source="{Binding CurrentImage, Mode=OneWay, Converter={StaticResource ByteArrayToImageSourceConverter}}"
                 HeightRequest="200"
                 HorizontalOptions="Center"
                 Opacity=".2"
@@ -122,19 +125,19 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label
                 class="Secondary"
                 FontSize="14"
-                HeightRequest="18"
-                Text="Artist" />
+                HeightRequest="20"
+                Opacity=".9"
+                Text="{Binding CurrentArtist}" />
             <Label
                 Grid.Row="1"
                 class="Secondary"
-                FontSize="18"
-                HeightRequest="20"
-                Text="Track Title" />
+                FontSize="16"
+                HeightRequest="22"
+                Text="{Binding CurrentTitle}" />
 
         </Grid>
 
@@ -262,11 +265,3 @@
 
     </Grid>
 </ContentView>
-
-<!--<StackLayout>
-        <Slider Maximum="1.0"
-            Minimum="0.0"
-            Value="{Binding Volume}"
-            Rotation="270"
-            WidthRequest="100" />
-    </StackLayout>-->

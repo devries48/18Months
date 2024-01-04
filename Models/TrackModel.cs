@@ -1,4 +1,4 @@
-﻿namespace Months18.Models;
+namespace Months18.Models;
 
 public class TrackModel(ReleaseModel release)
 {
@@ -9,7 +9,7 @@ public class TrackModel(ReleaseModel release)
     public string Duration { get; set; } = string.Empty;
     public string FilePath { get; set; } = string.Empty;
 
-    public AudioPlayerSource Source { get { return AudioPlayerSource.FileSystem; } }
+    public AudioPlayerSource Source { get => AudioPlayerSource.FileSystem; }
 
     public byte[] GetReleaseImage()
     {

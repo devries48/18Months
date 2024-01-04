@@ -6,6 +6,7 @@
     xmlns:helpers="clr-namespace:Months18.Helpers"
     xmlns:models="clr-namespace:Months18.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:converters="clr-namespace:Months18.Converters"
     xmlns:views="clr-namespace:Months18.Views"
     xmlns:vms="clr-namespace:Months18.ViewModels"
     Appearing="ContentPage_Appearing"
@@ -14,7 +15,8 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+            <converters:BoolToPlayingGlyphConverter x:Key="ConvertBoolToPlayingGlyph" />
+            <toolkit:ByteArrayToImageSourceConverter x:Key="ConvertByteArrayToImageSource" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -35,7 +37,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Aspect="AspectFill" Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ByteArrayToImageSourceConverter}}" />
+                        <Image Aspect="AspectFill" Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ConvertByteArrayToImageSource}}" />
                         <Label
                             Grid.Row="1"
                             FontAttributes="Bold"
@@ -93,7 +95,7 @@
                                     <FontImageSource
                                         Color="{StaticResource Dark_AccentText}"
                                         FontFamily="MaterialIcons"
-                                        Glyph="{x:Static helpers:IconFont.Play_arrow}" />
+                                        Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedReleasePlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
                                 </Button.ImageSource>
                             </Button>
 

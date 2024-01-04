@@ -7,14 +7,13 @@ public partial class MusicPlayerView : INotifyPropertyChanged
     public MusicPlayerView()
     {
         InitializeComponent();
+        InitializeService();
 
         MediaElement.PropertyChanged += OnMediaElementPropertyChanged;
         Unloaded += OnUnLoaded;
-
-        InitializeService();
     }
 
-    private IMusicPlayerService? musicPlayerService;
+    private IMusicPlayerService? _playerService;
     private List<TrackModel> _currentPlayList = [];
     private TrackModel? _currentTrack;
 
@@ -27,6 +26,10 @@ public partial class MusicPlayerView : INotifyPropertyChanged
         set
         {
             _currentTrack = value;
+
+            if (_playerService != null)
+                _playerService.CurrentTrack = value;
+
             OnPropertyChanged(nameof(CurrentImage));
             OnPropertyChanged(nameof(CurrentArtist));
             OnPropertyChanged(nameof(CurrentTitle));
@@ -34,7 +37,7 @@ public partial class MusicPlayerView : INotifyPropertyChanged
     }
 
     public byte[]? CurrentImage => _currentTrack?.ReleaseImage;
-
+   
     public string? CurrentArtist => _currentTrack?.TrackArtist;
 
     public string? CurrentTitle => _currentTrack?.Title;
@@ -42,12 +45,12 @@ public partial class MusicPlayerView : INotifyPropertyChanged
     #region MusicPlayerService Implementation
     private void InitializeService()
     {
-        musicPlayerService = MauiProgram.GetService<IMusicPlayerService>();
+        _playerService = MauiProgram.GetService<IMusicPlayerService>();
 
-        if (musicPlayerService != null)
+        if (_playerService != null)
         {
-            musicPlayerService.SubscribeToAudioPlayerAction(OnAudioPlayerAction);
-            musicPlayerService.SubscribeToPlayListChanged(OnPlayListChanged);
+            _playerService.SubscribeToAudioPlayerAction(OnAudioPlayerAction);
+            _playerService.SubscribeToPlayListChanged(OnPlayListChanged);
         }
     }
 
@@ -76,7 +79,7 @@ public partial class MusicPlayerView : INotifyPropertyChanged
     private void OnPlayListChanged(object sender, TrackEventArgs e)
     {
         // just get the whole playlist
-        var list = musicPlayerService?.GetPlaylist();
+        var list = _playerService?.GetPlaylist();
 
         if (list != null)
             _currentPlayList = list;
@@ -88,6 +91,8 @@ public partial class MusicPlayerView : INotifyPropertyChanged
 
     void OnStateChanged(object? sender, MediaStateChangedEventArgs e)
     {
+        _playerService?.OnMediaStatusChanged(e);
+
         if (e.NewState == MediaElementState.Playing)
             FadeCurremtImage(true);
         else if (e.NewState != MediaElementState.Buffering && e.NewState != MediaElementState.Opening)
@@ -107,7 +112,6 @@ public partial class MusicPlayerView : INotifyPropertyChanged
 
     void OnSeekCompleted(object? sender, EventArgs e) => Debug.WriteLine("Seek completed.");
     #endregion
-
 
     private void OnPlayOrPauseClicked(object sender, EventArgs e)
     {

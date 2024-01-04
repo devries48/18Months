@@ -4,6 +4,7 @@ global using CommunityToolkit.Maui.Views;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
 
+global using Months18.Helpers;
 global using Months18.Models;
 global using Months18.Pages;
 global using Months18.Services;
@@ -11,6 +12,7 @@ global using Months18.ViewModels;
 
 global using System.Collections.ObjectModel;
 global using System.ComponentModel;
+global using System.Globalization;
 
 using Microsoft.Extensions.Logging;
 

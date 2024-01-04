@@ -1,9 +1,5 @@
-﻿using CommunityToolkit.Maui.Core.Primitives;
-using Months18.Helpers;
-using System.Globalization;
-
-namespace Months18.Converters;
-public class CurrentStateToGlyphConverter : IValueConverter
+﻿namespace Months18.Converters;
+public class CurrentStateToPlayingGlyphConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

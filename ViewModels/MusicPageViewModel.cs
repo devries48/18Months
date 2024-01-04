@@ -1,23 +1,28 @@
-﻿namespace Months18.ViewModels;
+﻿
+
+namespace Months18.ViewModels;
 
 public partial class MusicPageViewModel : ObservableObject
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "Class instantiated by Dependency Injection.")]
     public MusicPageViewModel(ISettingsService settingsService, IMusicPlayerService playerService)
     {
         _settingsService = settingsService;
         _playerService = playerService;
         _source = [];
+
+        _playerService.SubscribeToMediaStateChanged(OnMediaStateChanged);
     }
 
     private readonly ISettingsService _settingsService;
     private readonly IMusicPlayerService _playerService;
     private readonly List<ReleaseModel> _source;
+    private ReleaseModel? _selectedRelease;
 
     [ObservableProperty]
     private ObservableCollection<ReleaseModel> _releases = [];
 
-    private ReleaseModel? _selectedRelease;
+    [ObservableProperty]
+    private bool _selectedReleasePlaying;
 
     [RelayCommand]
     private void ItemTap(ReleaseModel tappedItem)
@@ -40,7 +45,17 @@ public partial class MusicPageViewModel : ObservableObject
     [RelayCommand]
     private void PlaySelectedRelease()
     {
-        if (_selectedRelease != null)
+        if (_selectedRelease == null || _playerService == null)
+            return;
+
+        if (_selectedRelease.Title == (_playerService.CurrentTrack?.ReleaseTitle ?? string.Empty))
+        {
+            if (_playerService.CurrentState == MediaElementState.Playing)
+                _playerService.Pause();
+            else
+                _playerService.Play();
+        }
+        else
             _playerService.PlayRelease(_selectedRelease);
     }
 
@@ -72,12 +87,25 @@ public partial class MusicPageViewModel : ObservableObject
         Releases = new ObservableCollection<ReleaseModel>(_source);
     }
 
+    /// <summary>
+    /// If the selected release is playing, the playbutton in then selection overlay can be set to pause.
+    /// </summary>
+    private void OnMediaStateChanged(object sender, MediaStateChangedEventArgs e)
+    {
+        if (_selectedRelease == null)
+            SelectedReleasePlaying = false;
+        else if (e.NewState == MediaElementState.Playing)
+            SelectedReleasePlaying = _selectedRelease.Title == (_playerService?.CurrentTrack?.ReleaseTitle ?? string.Empty);
+        else
+            SelectedReleasePlaying = false;
+    }
+
     private static string ImagePath(string filename) =>
         // TODO: Get from MusicMateData.json
         CombinePaths("C:/Users/rvrie/source/repos/18Months", "Data/Images", filename);
     private static string MusicPath(string filename) =>
         // TODO: Get from MusicMateData.json
-        CombinePaths("C:/Users/rvrie/source/repos/18Months", "Data/Music", filename).Replace("/","\\");
+        CombinePaths("C:/Users/rvrie/source/repos/18Months", "Data/Music", filename).Replace("/", "\\");
 
     private static string CombinePaths(params string[] paths)
     {

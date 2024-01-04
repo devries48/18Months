@@ -11,7 +11,7 @@
 
     <ContentView.Resources>
         <converters:SecondsToStringConverter x:Key="ConvertSecondsToString" />
-        <converters:CurrentStateToGlyphConverter x:Key="ConvertStateToGlyph" />
+        <converters:CurrentStateToPlayingGlyphConverter x:Key="ConvertStateToPlayingGlyph" />
         <converters:CurrentStateToEnabledConverter x:Key="ConvertStateToEnabled" />
         <converters:AccentColorToDisabledConverter x:Key="ConvertAccentColorToDisabled" />
         <converters:BoolToVolumeGlyphConverter x:Key="ConvertBoolToVolumeGlyph" />
@@ -222,7 +222,7 @@
                 <ImageButton.Source>
                     <FontImageSource
                         FontFamily="MaterialIcons"
-                        Glyph="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToGlyph}}"
+                        Glyph="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToPlayingGlyph}}"
                         Size="40">
                         <FontImageSource.Color>
                             <Binding

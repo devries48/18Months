@@ -16,6 +16,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:BoolToPlayingGlyphConverter x:Key="ConvertBoolToPlayingGlyph" />
+            <converters:CurrentStateToPlayingGlyphConverter x:Key="ConvertStateToPlayingGlyph" />
             <toolkit:ByteArrayToImageSourceConverter x:Key="ConvertByteArrayToImageSource" />
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -53,11 +54,6 @@
                             LineBreakMode="TailTruncation"
                             Text="{Binding Title}" />
 
-                        <!--<BoxView
-                            Grid.Row="1"
-                            Grid.RowSpan="2"
-                            BackgroundColor="{StaticResource Background_Mid}"
-                            IsVisible="{Binding IsSelected}" />-->
                         <Grid
                             Grid.Row="0"
                             Grid.RowSpan="2"
@@ -95,7 +91,7 @@
                                     <FontImageSource
                                         Color="{StaticResource Dark_AccentText}"
                                         FontFamily="MaterialIcons"
-                                        Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedReleasePlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
+                                        Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
                                 </Button.ImageSource>
                             </Button>
 
@@ -125,26 +121,26 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        
+        <!--<ScrollView Grid.Column="0">
+            <VerticalStackLayout Padding="{OnIdiom Phone='0,50',Default='0,50'}" Spacing="{OnIdiom Phone=25,Default=50}">
 
-        <!-- Audio Player panel -->
+                <Grid ColumnDefinitions="*, 100" ColumnSpacing="5">
+                    <Entry
+                      x:Name="CustomSourceEntry"
+                      HorizontalOptions="FillAndExpand"
+                      Placeholder="Enter URL" />
+                    <Button
+                      Grid.Column="1"
+                      Clicked="OnAddTrackClickedAsync"
+                      Text="Load" />
+                </Grid>
+            </VerticalStackLayout>
+
+        </ScrollView>-->
+
         <views:MusicPlayerView Grid.Column="{OnIdiom Phone=0, Default=1}" IsVisible="{OnIdiom Phone=False, Default=True}" />
     </Grid>
-</ContentPage>
 
-<!-- Main content -->
-<!--<ScrollView Grid.Column="0">
-           <VerticalStackLayout Padding="{OnIdiom Phone='0,50',Default='0,50'}" Spacing="{OnIdiom Phone=25,Default=50}">
-
-               <Grid ColumnDefinitions="*, 100" ColumnSpacing="5">
-                   <Entry
-                       x:Name="CustomSourceEntry"
-                       HorizontalOptions="FillAndExpand"
-                       Placeholder="Enter URL" />
-                   <Button
-                       Grid.Column="1"
-                       Clicked="OnAddTrackClicked"
-                       Text="Load" />
-               </Grid>
-           </VerticalStackLayout>
-
-       </ScrollView>-->
+    <!-- Main content -->
+ </ContentPage>

@@ -26,7 +26,7 @@ public class MusicPlayerService : IMusicPlayerService
 
     public void PlayRelease(ReleaseModel release)
     {
-        if(release.Tracks.Count > 0)
+        if (release.Tracks.Count > 0)
         {
             playList.Clear();
             playList.AddRange(release.Tracks);
@@ -56,7 +56,7 @@ public class MusicPlayerService : IMusicPlayerService
 
     protected virtual void OnPlayListChanged(TrackModel track, AudioPlayerSource source, bool remove = false)
     {
-        if(remove)
+        if (remove)
             playList.Remove(track);
         else
             playList.Add(track);
@@ -69,11 +69,12 @@ public class MusicPlayerService : IMusicPlayerService
         AudioPlayerSource source,
         bool remove = false)
     {
-        if(remove)
+        if (remove)
         {
-            foreach(var track in tracks)
+            foreach (var track in tracks)
                 playList.Remove(track);
-        } else
+        }
+        else
             playList.AddRange(tracks);
 
         PlayListChanged?.Invoke(this, new TrackEventArgs(tracks, source, remove));
@@ -83,16 +84,16 @@ public class MusicPlayerService : IMusicPlayerService
     {
         TrackModel? track = null;
 
-        if(playListIndex >= 0 && playListIndex < playList.Count)
+        if (playListIndex >= 0 && playListIndex < playList.Count)
             track = playList[playListIndex];
 
         AudioPlayerAction?.Invoke(this, new ActionEventArgs(action, track));
     }
 
-    public void OnMediaStatusChanged(MediaStateChangedEventArgs e) 
-    { 
+    public void OnMediaStatusChanged(MediaStateChangedEventArgs e)
+    {
         CurrentState = e.NewState;
-        MediaStateChanged?.Invoke(this, e); 
+        MediaStateChanged?.Invoke(this, e);
     }
 }
 

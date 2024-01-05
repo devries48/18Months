@@ -42,7 +42,7 @@ public partial class ReleaseModel : ObservableObject
         {
             Title = title,
             Duration = duration,
-            FilePath = filePath
+            Uri = filePath
         };
         Tracks.Add(track);
     }

@@ -1,7 +1,4 @@
-﻿using CommunityToolkit.Maui.Core.Primitives;
-using System.Globalization;
-
-namespace Months18.Converters;
+﻿namespace Months18.Converters;
 
 public class CurrentStateToEnabledConverter : IValueConverter
 {

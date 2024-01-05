@@ -7,7 +7,7 @@ public class TrackModel(ReleaseModel release)
     public byte[] ReleaseImage { get => release.ImageBytes; }
     public string Title { get; set; } = string.Empty;
     public string Duration { get; set; } = string.Empty;
-    public string FilePath { get; set; } = string.Empty;
+    public string Uri { get; set; } = string.Empty;
 
     public AudioPlayerSource Source { get { return AudioPlayerSource.FileSystem; } }
 

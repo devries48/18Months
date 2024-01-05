@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Months18.Converters;
+﻿namespace Months18.Converters;
 
 public class AccentColorToDisabledConverter : IValueConverter
 {

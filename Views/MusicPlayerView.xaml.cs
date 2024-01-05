@@ -25,7 +25,7 @@ public partial class MusicPlayerView : INotifyPropertyChanged
 
     public TrackModel? CurrentTrack
     {
-        get { return _currentTrack; }
+        get => _currentTrack;
         set
         {
             _currentTrack = value;

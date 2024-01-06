@@ -1,10 +1,11 @@
 ﻿
 namespace Months18.Services
 {
-    public interface IMusicPlayerService
+    public interface IAudioPlayerService
     {
         TrackModel? CurrentTrack { get; set; }
         MediaElementState? CurrentState { get; }
+        int CurrentPlaylistIndex { get; }
 
         void AddToPlaylist(TrackModel track, AudioPlayerSource source);
         void AddToPlaylist(ReleaseModel release, AudioPlayerSource source);
@@ -12,17 +13,17 @@ namespace Months18.Services
         void Pause();
         void Play();
         void PlayRelease(ReleaseModel selectedRelease);
-        void PlayFromList(int playListIndex);
+        void PlayFromPlaylist(int index);
         void Stop();
 
         void OnMediaStatusChanged(MediaStateChangedEventArgs e);
 
         void SubscribeToAudioPlayerAction(AudioPlayerActionEventHandler handler);
-        void SubscribeToPlayListChanged(PlayListChangedEventHandler handler);
+        void SubscribeToPlaylistChanged(PlaylistChangedEventHandler handler);
         void SubscribeToMediaStateChanged(MediaStateChangedEventHandler handler);
 
         void UnsubscribeFromAudioPlayerAction(AudioPlayerActionEventHandler handler);
-        void UnsubscribeFromPlayListChanged(PlayListChangedEventHandler handler);
+        void UnsubscribeFromPlaylistChanged(PlaylistChangedEventHandler handler);
         void UnsubscribeToMediaStateChanged(MediaStateChangedEventHandler handler);
     }
 }

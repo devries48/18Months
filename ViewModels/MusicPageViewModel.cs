@@ -2,7 +2,7 @@
 
 public partial class MusicPageViewModel : ObservableObject
 {
-    public MusicPageViewModel(ISettingsService settingsService, IMusicPlayerService playerService)
+    public MusicPageViewModel(ISettingsService settingsService, IAudioPlayerService playerService)
     {
         _settingsService = settingsService;
         _playerService = playerService;
@@ -11,7 +11,7 @@ public partial class MusicPageViewModel : ObservableObject
     }
 
     private readonly ISettingsService _settingsService;
-    private readonly IMusicPlayerService _playerService;
+    private readonly IAudioPlayerService _playerService;
     private readonly List<ReleaseModel> _source;
     private ReleaseModel? _selectedRelease;
 
@@ -24,15 +24,14 @@ public partial class MusicPageViewModel : ObservableObject
     [RelayCommand]
     private void ItemTap(ReleaseModel tappedItem)
     {
-        if (_selectedRelease != null && _selectedRelease != tappedItem)
+        if(_selectedRelease != null && _selectedRelease != tappedItem)
             _selectedRelease.IsSelected = false;
 
-        if (tappedItem.IsSelected)
+        if(tappedItem.IsSelected)
         {
             tappedItem.IsSelected = false;
             _selectedRelease = null;
-        }
-        else
+        } else
         {
             _selectedRelease = tappedItem;
             tappedItem.IsSelected = true;
@@ -42,24 +41,24 @@ public partial class MusicPageViewModel : ObservableObject
     [RelayCommand]
     private void PlaySelectedRelease()
     {
-        if (_selectedRelease == null || _playerService == null)
+        if(_selectedRelease == null || _playerService == null)
             return;
 
-        if (_playerService.CurrentState == MediaElementState.Playing)
+        if(_playerService.CurrentState == MediaElementState.Playing)
         {
             _playerService.Pause();
             return;
         }
 
-        if (_selectedRelease.Title == (_playerService.CurrentTrack?.ReleaseTitle ?? string.Empty))
+        if(_selectedRelease.Title == (_playerService.CurrentTrack?.ReleaseTitle ?? string.Empty))
             _playerService.Play();
         else
             _playerService.PlayRelease(_selectedRelease);
     }
 
-    public async Task GetLocalReleases()
+    public async Task GetLocalReleasesAsync()
     {
-        if (_source.Count > 0)
+        if(_source.Count > 0)
             return;
 
         var release = await ReleaseModel.Create(
@@ -86,26 +85,41 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("03. Sly.mp3"), "Sly", "10:21");
         _source.Add(release);
 
+        release = await ReleaseModel.Create(
+            "Miles Davis",
+            "Bitches Brew",
+            ImagePath("Bitches Brew-front.jpg"),
+            "USA",
+            1970)
+            .ConfigureAwait(false);
+        release.AddTrack(MusicPath("01. Miles Runs The Voodoo Down.mp3"), "Miles Runs The Voodoo Down", "14:01");
+        release.AddTrack(MusicPath("03. Spanish Key.mp3"), "Spanish Key", "10:20");
+        _source.Add(release);
 
-        _source.Add(
-            await ReleaseModel.Create("Miles Davis", "Bitches Brew", ImagePath("Bitches Brew-front.jpg"), "USA", 1970)
-                .ConfigureAwait(false));
-        _source.Add(
-            await ReleaseModel.Create(
-                "Jameszoo & Metropol Orkest",
-                "Melkweg",
-                ImagePath("Melkweg-front.jpg"),
-                "NL",
-                2019)
-                .ConfigureAwait(false));
-        _source.Add(
-            await ReleaseModel.Create(
-                "Ozzy Osbourne",
-                "No More Tears",
-                ImagePath("No More Tears-front.jpg"),
-                "UK",
-                1991)
-                .ConfigureAwait(false));
+        release = await ReleaseModel.Create(
+            "Jameszoo & Metropol Orkest",
+            "Melkweg",
+            ImagePath("Melkweg-front.jpg"),
+            "NL",
+            2019)
+            .ConfigureAwait(false);
+        release.AddTrack(MusicPath("03. (toots).mp3"), "(toots)", "5:24");
+        release.AddTrack(MusicPath("04. (soup).mp3"), "(soup)", "6:36");
+        release.AddTrack(MusicPath("07. (meat).mp3"), "(meat)", "8:54");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create(
+            "Ozzy Osbourne",
+            "No More Tears",
+            ImagePath("No More Tears-front.jpg"),
+            "UK",
+            1991)
+            .ConfigureAwait(false);
+        release.AddTrack(MusicPath("03. Mama, I'm Coming Home.mp3"), "Mama, I'm Coming Home", "4:12");
+        release.AddTrack(MusicPath("05. No More Tears.mp3"), "No More Tears", "7:24");
+        release.AddTrack(MusicPath("11. Road To Nowhere.mp3"), "Road To Nowhere", "5:11");
+        _source.Add(release);
+
         _source.Add(
             await ReleaseModel.Create("King Crimson", "Red", ImagePath("Red-front.jpg"), "UK", 1974)
                 .ConfigureAwait(false));
@@ -113,19 +127,22 @@ public partial class MusicPageViewModel : ObservableObject
             await ReleaseModel.Create("Fifty Foot Hose", "Cauldron", ImagePath("Cauldron-front.jpg"), "USA", 1968)
                 .ConfigureAwait(false));
         _source.Add(
-            await ReleaseModel.Create("Can", "Soundtracks", ImagePath("Soundtracks-front.jpg"), "D", 1973)
+            await ReleaseModel.Create("CAN", "Soundtracks", ImagePath("Soundtracks-front.jpg"), "D", 1973)
                 .ConfigureAwait(false));
         _source.Add(
             await ReleaseModel.Create("Amon Düül II", "Yeti", ImagePath("Yeti-front.jpg"), "D", 1970)
                 .ConfigureAwait(false));
         _source.Add(
-            await ReleaseModel.Create("Can", "Ege Bamyasi", ImagePath("Ege Bamyasi-front.jpg"), "D", 1972)
+            await ReleaseModel.Create("CAN", "Ege Bamyasi", ImagePath("Ege Bamyasi-front.jpg"), "D", 1972)
                 .ConfigureAwait(false));
         _source.Add(
             await ReleaseModel.Create("Magma", "Kobaïa", ImagePath("Kobaia-front.jpg"), "FRA", 1970)
                 .ConfigureAwait(false));
         _source.Add(
             await ReleaseModel.Create("Catapilla", "Catapilla", ImagePath("Catapilla-front.jpg"), "UK", 1971)
+                .ConfigureAwait(false));
+        _source.Add(
+            await ReleaseModel.Create("Magma", "Mekanïk Destruktïẁ Kommandöh", ImagePath("Mdk-front.jpg"), "FRA", 1973)
                 .ConfigureAwait(false));
 
         _source.Add(
@@ -141,9 +158,7 @@ public partial class MusicPageViewModel : ObservableObject
     }
 
     private void OnMediaStateChanged(object sender, MediaStateChangedEventArgs e)
-    {
-        IsPlaying = e.NewState == MediaElementState.Playing;
-    }
+    { IsPlaying = e.NewState == MediaElementState.Playing; }
 
     private static string ImagePath(string filename) =>
  // TODO: Get from MusicMateData.json
@@ -157,9 +172,9 @@ public partial class MusicPageViewModel : ObservableObject
     {
         string result = string.Empty;
 
-        foreach (var path in paths)
+        foreach(var path in paths)
         {
-            if (result.Length != 0 && !result.EndsWith('/'))
+            if(result.Length != 0 && !result.EndsWith('/'))
                 result += "/";
 
             result += path;

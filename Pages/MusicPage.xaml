@@ -3,10 +3,10 @@
     x:Class="Months18.Pages.MusicPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Months18.Converters"
     xmlns:helpers="clr-namespace:Months18.Helpers"
     xmlns:models="clr-namespace:Months18.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:converters="clr-namespace:Months18.Converters"
     xmlns:views="clr-namespace:Months18.Views"
     xmlns:vms="clr-namespace:Months18.ViewModels"
     Appearing="ContentPage_Appearing"
@@ -22,7 +22,7 @@
     </ContentPage.Resources>
 
     <Grid ColumnDefinitions="{OnIdiom Phone='*', Default='*,350'}" RowDefinitions="*">
-        <CollectionView
+        <CollectionView x:Name="ResultCollectioView"
             ItemsLayout="VerticalGrid, 5"
             ItemsSource="{Binding Releases}"
             SelectionMode="Single">
@@ -38,7 +38,9 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Aspect="AspectFill" Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ConvertByteArrayToImageSource}}" />
+                        <Image
+                            Aspect="AspectFit" 
+                            Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ConvertByteArrayToImageSource}}" />
                         <Label
                             Grid.Row="1"
                             FontAttributes="Bold"
@@ -121,8 +123,12 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        
-        <!--<ScrollView Grid.Column="0">
+
+        <views:AudioPlayerView Grid.Column="{OnIdiom Phone=0, Default=1}" IsVisible="{OnIdiom Phone=False, Default=True}" />
+    </Grid>
+</ContentPage>
+
+<!--<ScrollView Grid.Column="0">
             <VerticalStackLayout Padding="{OnIdiom Phone='0,50',Default='0,50'}" Spacing="{OnIdiom Phone=25,Default=50}">
 
                 <Grid ColumnDefinitions="*, 100" ColumnSpacing="5">
@@ -138,9 +144,3 @@
             </VerticalStackLayout>
 
         </ScrollView>-->
-
-        <views:MusicPlayerView Grid.Column="{OnIdiom Phone=0, Default=1}" IsVisible="{OnIdiom Phone=False, Default=True}" />
-    </Grid>
-
-    <!-- Main content -->
- </ContentPage>

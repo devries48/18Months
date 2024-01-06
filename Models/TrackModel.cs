@@ -1,7 +1,11 @@
 namespace Months18.Models;
 
-public class TrackModel(ReleaseModel release)
+public partial class TrackModel(ReleaseModel release) : ObservableObject
 {
+    // Position property is used in the playlist
+    [ObservableProperty]
+    private int _position = 0;
+
     public string TrackArtist { get => release.Artist; }
     public string ReleaseTitle { get => release.Title; }
     public byte[] ReleaseImage { get => release.ImageBytes; }

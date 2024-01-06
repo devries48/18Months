@@ -2,26 +2,19 @@ using System.Diagnostics;
 
 namespace Months18.Views;
 
-public partial class MusicPlayerView : INotifyPropertyChanged
+public partial class AudioPlayerView : INotifyPropertyChanged
 {
-    public MusicPlayerView()
+    public AudioPlayerView()
     {
         InitializeComponent();
         InitializeService();
 
         MediaElement.PropertyChanged += OnMediaElementPropertyChanged;
         Unloaded += OnUnLoaded;
-
-        var m = new TrackModel(new ReleaseModel() { Artist = "Slayer", Title = "Hell Awaits" });
-        m.Title = "Hell Awaits";
-        m.Duration = "88:88";
-        CurrentPlayList.Add(m);
     }
 
-    private IMusicPlayerService? _playerService;
-    private List<TrackModel> _currentPlayList = [];
+    private IAudioPlayerService? _playerService;
     private TrackModel? _currentTrack;
-    private bool _playOpenedMedia;
 
     public TrackModel? CurrentTrack
     {
@@ -30,7 +23,7 @@ public partial class MusicPlayerView : INotifyPropertyChanged
         {
             _currentTrack = value;
 
-            if(_playerService != null)
+            if (_playerService != null)
                 _playerService.CurrentTrack = value;
 
             OnPropertyChanged(nameof(CurrentImage));
@@ -38,30 +31,29 @@ public partial class MusicPlayerView : INotifyPropertyChanged
             OnPropertyChanged(nameof(CurrentTitle));
         }
     }
-
-    public ObservableCollection<TrackModel> CurrentPlayList = [];
-
     public byte[]? CurrentImage => _currentTrack?.ReleaseImage;
-
     public string? CurrentArtist => _currentTrack?.TrackArtist;
-
     public string? CurrentTitle => _currentTrack?.Title;
 
-    #region MusicPlayerService Implementation
+    public ObservableCollection<TrackModel> CurrentPlaylist = [];
+    public int CurrentListIndex => _playerService?.CurrentPlaylistIndex ?? -1;
+
+
+    #region AudioPlayerService Implementation
     private void InitializeService()
     {
-        _playerService = MauiProgram.GetService<IMusicPlayerService>();
+        _playerService = MauiProgram.GetService<IAudioPlayerService>();
 
-        if(_playerService != null)
+        if (_playerService != null)
         {
             _playerService.SubscribeToAudioPlayerAction(OnAudioPlayerAction);
-            _playerService.SubscribeToPlayListChanged(OnPlayListChanged);
+            _playerService.SubscribeToPlaylistChanged(OnPlaylistChanged);
         }
     }
 
     private void OnAudioPlayerAction(object sender, ActionEventArgs e)
     {
-        switch(e.Action)
+        switch (e.Action)
         {
             case AudioPlayerAction.Play:
                 MediaElement.Play();
@@ -73,7 +65,7 @@ public partial class MusicPlayerView : INotifyPropertyChanged
                 MediaElement.Stop();
                 break;
             case AudioPlayerAction.PlayFromList:
-                if(e.Track != null)
+                if (e.Track != null)
                     PlayTrack(e.Track);
                 break;
             default:
@@ -82,13 +74,19 @@ public partial class MusicPlayerView : INotifyPropertyChanged
         }
     }
 
-    private void OnPlayListChanged(object sender, TrackEventArgs e)
+    // just get the whole playlist
+    private void OnPlaylistChanged(object sender, PlaylistEventArgs e)
     {
-        // just get the whole playlist
         var list = _playerService?.GetPlaylist();
 
-        if(list != null)
-            _currentPlayList = list;
+        if (list != null)
+        {
+            CurrentPlaylist = new ObservableCollection<TrackModel>(list);
+            PlaylistView.ItemsSource = CurrentPlaylist;
+
+            if (e.PlayTrackFromList.HasValue)
+                _playerService?.PlayFromPlaylist(e.PlayTrackFromList.Value);
+        }
     }
     #endregion
 
@@ -97,9 +95,9 @@ public partial class MusicPlayerView : INotifyPropertyChanged
     {
         _playerService?.OnMediaStatusChanged(e);
 
-        if(e.NewState == MediaElementState.Playing)
+        if (e.NewState == MediaElementState.Playing)
             FadeCurremtImage(true);
-        else if(e.NewState != MediaElementState.Buffering && e.NewState != MediaElementState.Opening)
+        else if (e.NewState != MediaElementState.Buffering && e.NewState != MediaElementState.Opening)
             FadeCurremtImage(false);
     }
 
@@ -117,9 +115,9 @@ public partial class MusicPlayerView : INotifyPropertyChanged
 
     private void OnPlayOrPauseClicked(object sender, EventArgs e)
     {
-        if(MediaElement.CurrentState == MediaElementState.Paused)
+        if (MediaElement.CurrentState == MediaElementState.Paused)
             MediaElement.Play();
-        else if(MediaElement.CurrentState == MediaElementState.Playing)
+        else if (MediaElement.CurrentState == MediaElementState.Playing)
             MediaElement.Pause();
     }
 
@@ -129,7 +127,7 @@ public partial class MusicPlayerView : INotifyPropertyChanged
 
     private void OnMediaElementPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if(e.PropertyName == MediaElement.DurationProperty.PropertyName)
+        if (e.PropertyName == MediaElement.DurationProperty.PropertyName)
             PositionSlider.Maximum = MediaElement.Duration.TotalSeconds;
     }
 
@@ -172,7 +170,7 @@ public partial class MusicPlayerView : INotifyPropertyChanged
     private void FadeCurremtImage(bool fadeIn)
     {
         var opacity = fadeIn ? 1 : 0.2;
-        if(ReleaseImage.Opacity == opacity)
+        if (ReleaseImage.Opacity == opacity)
             return;
 
         ReleaseImage.FadeTo(opacity);

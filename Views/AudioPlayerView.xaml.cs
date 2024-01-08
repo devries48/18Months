@@ -38,7 +38,6 @@ public partial class AudioPlayerView : INotifyPropertyChanged
     public ObservableCollection<TrackModel> CurrentPlaylist = [];
     public int CurrentListIndex => _playerService?.CurrentPlaylistIndex ?? -1;
 
-
     #region AudioPlayerService Implementation
     private void InitializeService()
     {

@@ -11,7 +11,7 @@ public class IndexToColorConverter : IMultiValueConverter
             (values[0] is int position) &&
             (values[1] is int currentIndex) &&
             (position == currentIndex + 1))
-                resColor = "Dark_Accent";
+            resColor = "Dark_Accent";
 
         if(Application.Current != null && Application.Current.Resources.TryGetValue(resColor, out var colorvalue))
             return (Color)colorvalue;

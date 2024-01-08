@@ -26,7 +26,7 @@ public class AudioPlayerService : IAudioPlayerService
 
     public void PlayRelease(ReleaseModel release)
     {
-        if (release.Tracks.Count > 0)
+        if(release.Tracks.Count > 0)
         {
             playlist.Clear();
             playlist.AddRange(release.Tracks);
@@ -54,7 +54,7 @@ public class AudioPlayerService : IAudioPlayerService
 
     protected virtual void OnPlaylistChanged(int? playTrackFromListIndex = null)
     {
-        for (int i = 0; i < playlist.Count; i++)
+        for(int i = 0; i < playlist.Count; i++)
             playlist[i].Position = i + 1;
 
         PlaylistChanged?.Invoke(this, new PlaylistEventArgs(playTrackFromListIndex));
@@ -64,9 +64,9 @@ public class AudioPlayerService : IAudioPlayerService
     {
         TrackModel? track = null;
 
-        if (playlistIndex >= 0 && playlistIndex < playlist.Count)
+        if(playlistIndex >= 0 && playlistIndex < playlist.Count)
         {
-            CurrentPlaylistIndex=playlistIndex+1;
+            CurrentPlaylistIndex = playlistIndex;
             track = playlist[playlistIndex];
         }
 

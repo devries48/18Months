@@ -144,6 +144,18 @@ public partial class MusicPageViewModel : ObservableObject
         _source.Add(
             await ReleaseModel.Create("Magma", "Mekanïk Destruktïẁ Kommandöh", ImagePath("Mdk-front.jpg"), "FRA", 1973)
                 .ConfigureAwait(false));
+        _source.Add(
+            await ReleaseModel.Create("CAN", "Tago Mago", ImagePath("Tago Mago-front.jpg"), "D", 1971)
+                .ConfigureAwait(false));
+      
+        release=
+     await ReleaseModel.Create("Banco Del Mutuo Soccorso", "Io Sono Nato Libero", ImagePath("Io Sono-front.jpg"), "ITA", 1973)
+         .ConfigureAwait(false);
+        release.AddTrack(MusicPath("01  Canto nomade per un prigionero politico.mp3"), "Canto nomade per un prigionero politico", "15:47");
+        release.AddTrack(MusicPath("02  Non mi rompete.mp3"), "Non mi rompete", "5:04");
+        _source.Add(release);
+
+
 
         _source.Add(
             await ReleaseModel.Create(

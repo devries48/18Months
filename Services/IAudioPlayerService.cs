@@ -1,29 +1,40 @@
-﻿
-namespace Months18.Services
+﻿namespace Months18.Services;
+
+public interface IAudioPlayerService
 {
-    public interface IAudioPlayerService
-    {
-        TrackModel? CurrentTrack { get; set; }
-        MediaElementState? CurrentState { get; }
-        int CurrentPlaylistIndex { get; }
+    TrackModel? CurrentTrack { get; set; }
 
-        void AddToPlaylist(TrackModel track, AudioPlayerSource source);
-        void AddToPlaylist(ReleaseModel release, AudioPlayerSource source);
-        List<TrackModel> GetPlaylist();
-        void Pause();
-        void Play();
-        void PlayRelease(ReleaseModel selectedRelease);
-        void PlayFromPlaylist(int index);
-        void Stop();
+    MediaElementState? CurrentState { get; }
 
-        void OnMediaStatusChanged(MediaStateChangedEventArgs e);
+    int CurrentPlaylistIndex { get; }
 
-        void SubscribeToAudioPlayerAction(AudioPlayerActionEventHandler handler);
-        void SubscribeToPlaylistChanged(PlaylistChangedEventHandler handler);
-        void SubscribeToMediaStateChanged(MediaStateChangedEventHandler handler);
+    void AddToPlaylist(TrackModel track, AudioPlayerSource source);
 
-        void UnsubscribeFromAudioPlayerAction(AudioPlayerActionEventHandler handler);
-        void UnsubscribeFromPlaylistChanged(PlaylistChangedEventHandler handler);
-        void UnsubscribeToMediaStateChanged(MediaStateChangedEventHandler handler);
-    }
+    void AddToPlaylist(ReleaseModel release, AudioPlayerSource source);
+
+    List<TrackModel> GetPlaylist();
+
+    void Pause();
+
+    void Play();
+
+    void PlayRelease(ReleaseModel selectedRelease);
+
+    void PlayFromPlaylist(int index);
+
+    void Stop();
+
+    void OnMediaStatusChanged(MediaStateChangedEventArgs e);
+
+    void SubscribeToAudioPlayerAction(AudioPlayerActionEventHandler handler);
+
+    void SubscribeToPlaylistChanged(PlaylistChangedEventHandler handler);
+
+    void SubscribeToMediaStateChanged(MediaStateChangedEventHandler handler);
+
+    void UnsubscribeFromAudioPlayerAction(AudioPlayerActionEventHandler handler);
+
+    void UnsubscribeFromPlaylistChanged(PlaylistChangedEventHandler handler);
+
+    void UnsubscribeToMediaStateChanged(MediaStateChangedEventHandler handler);
 }

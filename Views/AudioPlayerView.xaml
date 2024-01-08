@@ -78,7 +78,7 @@
                                 <Label
                                     Grid.Column="1"
                                     FontSize="12"
-                                    Text="{Binding Title}">
+                                    Text="{Binding ArtistAndTrack}">
                                     <Label.TextColor>
                                         <MultiBinding Converter="{StaticResource ConvertIndexToColor}">
                                             <Binding Path="Position" />

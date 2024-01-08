@@ -226,17 +226,17 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label
-                class="Secondary"
                 FontSize="14"
                 HeightRequest="20"
                 Opacity=".9"
-                Text="{Binding CurrentArtist}" />
+                Text="{Binding CurrentArtist}" 
+                Style="{StaticResource labelSecondaryStyle}"/>
             <Label
                 Grid.Row="1"
-                class="Secondary"
                 FontSize="16"
                 HeightRequest="22"
-                Text="{Binding CurrentTitle}" />
+                Text="{Binding CurrentTitle}" 
+                Style="{StaticResource labelSecondaryStyle}" />
 
         </Grid>
 
@@ -257,17 +257,17 @@
             </Grid.ColumnDefinitions>
 
             <Label
-                class="Secondary"
                 IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
-                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Position}" />
+                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Position}" 
+                Style="{StaticResource labelSecondaryStyle}"/>
 
             <Label
                 Grid.Column="1"
-                class="Secondary"
                 HorizontalOptions="End"
                 HorizontalTextAlignment="End"
                 IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
-                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Duration}" />
+                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Duration}" 
+                Style="{StaticResource labelSecondaryStyle}"/>
         </Grid>
 
         <Grid Grid.Row="7">

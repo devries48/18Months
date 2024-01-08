@@ -29,7 +29,7 @@
                 <RadioButton x:Name="localRadioButton" Grid.Row="1" Grid.ColumnSpan="2" 
                              Value="{x:Static vm:SettingsPageViewModel.LocalConnection}">
                     <RadioButton.Content>
-                        <Label class="Primary" Text="LOCAL, select path to MusicMateData.json file"/>
+                        <Label Text="LOCAL, select path to MusicMateData.json file" Style="{StaticResource labelPrimaryStyle}" />
                     </RadioButton.Content>
                 </RadioButton>
                 <Entry
@@ -46,7 +46,7 @@
                 Grid.ColumnSpan="3"
                 Value="{x:Static vm:SettingsPageViewModel.RemoteConnection}">
                     <RadioButton.Content>
-                        <Label class="Primary" Text="REMOTE, select URL to MusicMate Server" />
+                        <Label Text="REMOTE, select URL to MusicMate Server" Style="{StaticResource labelPrimaryStyle}" />
                     </RadioButton.Content>
                 </RadioButton>
                 <Entry

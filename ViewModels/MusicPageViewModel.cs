@@ -148,13 +148,16 @@ public partial class MusicPageViewModel : ObservableObject
             await ReleaseModel.Create("CAN", "Tago Mago", ImagePath("Tago Mago-front.jpg"), "D", 1971)
                 .ConfigureAwait(false));
       
-        release=
-     await ReleaseModel.Create("Banco Del Mutuo Soccorso", "Io Sono Nato Libero", ImagePath("Io Sono-front.jpg"), "ITA", 1973)
-         .ConfigureAwait(false);
+        release =await ReleaseModel.Create("Banco Del Mutuo Soccorso", "Banco Del Mutuo Soccorso", ImagePath("Banco-front.jpg"), "ITA", 1972).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01  In Volo .mp3"), "In Volo", "2:14");
+        release.AddTrack(MusicPath("02  R.I.P. (Requiescant In Pace) .mp3"), "R.I.P. (Requiescant In Pace)", "6:41");
+        release.AddTrack(MusicPath("03  Passaggio .mp3"), "Passaggio", "1:19");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Banco Del Mutuo Soccorso", "Io Sono Nato Libero", ImagePath("Io Sono-front.jpg"), "ITA", 1973).ConfigureAwait(false);
         release.AddTrack(MusicPath("01  Canto nomade per un prigionero politico.mp3"), "Canto nomade per un prigionero politico", "15:47");
         release.AddTrack(MusicPath("02  Non mi rompete.mp3"), "Non mi rompete", "5:04");
         _source.Add(release);
-
 
 
         _source.Add(

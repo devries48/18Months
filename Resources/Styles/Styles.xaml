@@ -10,15 +10,16 @@
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
     </Style>
 
+    <Style x:Key="labelSecondaryStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource Dark_SecondaryText}"/>
+        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+    </Style>
+
     <Style x:Key="MarqueeSecondaryStyle"  TargetType="controls:MarqueeLabel">
         <Setter Property="TextColor" Value="{StaticResource Dark_SecondaryText}"/>
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
     </Style>
 
-    <Style x:Key="labelSecondaryStyle" TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource Dark_SecondaryText}"/>
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
-    </Style>
 
     <Style TargetType="Label" Class="Shell">
         <Setter Property="FontFamily" Value="MaterialIcons" />
@@ -31,7 +32,14 @@
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
     </Style>
 
-
+    <!-- MarqueeLabel -->
+    <Style TargetType="controls:MarqueeLabel">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Dark_PrimaryText}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    
     <!-- SHELL -->
     <Style x:Key="BaseStyle" TargetType="Element">
         <Setter Property="Shell.FlyoutBackgroundColor" Value="{StaticResource Background_Mid}" />

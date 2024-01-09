@@ -57,6 +57,7 @@ public class AudioPlayerService : IAudioPlayerService
         for(int i = 0; i < playlist.Count; i++)
             playlist[i].Position = i + 1;
 
+        //TODO: If playlist contains only songs from 1 artist set a value to return only the title in that case.
         PlaylistChanged?.Invoke(this, new PlaylistEventArgs(playTrackFromListIndex));
     }
 

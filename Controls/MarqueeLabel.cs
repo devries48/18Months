@@ -11,11 +11,22 @@ public class MarqueeLabel : ScrollView
         HorizontalScrollBarVisibility = ScrollBarVisibility.Never;
 
         _label = new Label { LineBreakMode = LineBreakMode.NoWrap };
-        _label.SetBinding(Label.TextProperty, new Binding(nameof(Text), source: this));
-
-        Content = _label;
+       
+        SetupLabel();
+        
+        Content = _label;    
         SizeChanged += OnSizeChanged;
     }
+
+    private void SetupLabel()
+    {
+        _label.SetBinding(Label.TextProperty, new Binding(nameof(Text), source: this));
+        _label.SetBinding(Label.TextColorProperty, new Binding(nameof(TextColor), source: this));
+        _label.SetBinding(Label.FontFamilyProperty, new Binding(nameof(FontFamily), source: this));
+        _label.SetBinding(Label.FontSizeProperty, new Binding(nameof(FontSize), source: this));
+        // Add other property bindings as needed
+    }
+
 
     double translationX = 0;
     double totalTextWidth = 0;
@@ -32,11 +43,12 @@ public class MarqueeLabel : ScrollView
         string.Empty,
         propertyChanged: (bindable, oldValue, newValue) =>
         {
-            if(bindable is MarqueeLabel marquee && marquee._label != null)
+            if (bindable is MarqueeLabel marquee && marquee._label != null)
             {
                 marquee._label.Text = (string)newValue;
 
                 SetTotalTextWidth(marquee);
+                marquee.AnimateMarquee(); // Start animations when IsActive is true
             }
         });
 
@@ -48,9 +60,10 @@ public class MarqueeLabel : ScrollView
         default(Color),
         propertyChanged: (bindable, oldValue, newValue) =>
         {
-            if(bindable is MarqueeLabel marqueeLabel)
+            if (bindable is MarqueeLabel marqueeLabel)
             {
-                marqueeLabel._label.TextColor = (Color)newValue;
+                if (marqueeLabel._label != null)
+                    marqueeLabel._label.TextColor = (Color)newValue;
             }
         });
 
@@ -62,7 +75,7 @@ public class MarqueeLabel : ScrollView
         default(Color),
         propertyChanged: (bindable, oldValue, newValue) =>
         {
-            if(bindable is MarqueeLabel marqueeLabel)
+            if (bindable is MarqueeLabel marqueeLabel)
             {
                 marqueeLabel.UpdateTextColor();
             }
@@ -76,9 +89,10 @@ public class MarqueeLabel : ScrollView
         default(string),
         propertyChanged: (bindable, oldValue, newValue) =>
         {
-            if(bindable is MarqueeLabel marqueeLabel)
+            if (bindable is MarqueeLabel marqueeLabel)
             {
-                marqueeLabel._label.FontFamily = (string)newValue;
+                if (marqueeLabel._label != null)
+                    marqueeLabel._label.FontFamily = (string)newValue;
             }
         });
 
@@ -91,7 +105,7 @@ public class MarqueeLabel : ScrollView
         14.0,
         propertyChanged: (bindable, oldValue, newValue) =>
         {
-            if(bindable is MarqueeLabel marqueeLabel)
+            if (bindable is MarqueeLabel marqueeLabel)
             {
                 marqueeLabel._label.FontSize = (double)newValue;
             }
@@ -105,13 +119,14 @@ public class MarqueeLabel : ScrollView
         true,
         propertyChanged: (bindable, oldValue, newValue) =>
         {
-            if(bindable is MarqueeLabel marqueeLabel)
+            if (bindable is MarqueeLabel marqueeLabel)
             {
-                if((bool)newValue)
+                if ((bool)newValue)
                 {
                     marqueeLabel._label.LineBreakMode = LineBreakMode.NoWrap;
                     marqueeLabel.AnimateMarquee(); // Start animations when IsActive is true
-                } else
+                }
+                else
                 {
                     marqueeLabel.StopAnimation();
                 }
@@ -126,7 +141,7 @@ public class MarqueeLabel : ScrollView
         false,
         propertyChanged: (bindable, oldValue, newValue) =>
         {
-            if(bindable is MarqueeLabel marqueeLabel)
+            if (bindable is MarqueeLabel marqueeLabel)
             {
                 marqueeLabel.UpdateTextColor();
             }
@@ -137,10 +152,10 @@ public class MarqueeLabel : ScrollView
         nameof(DurationAnimation),
         typeof(double),
         typeof(MarqueeLabel),
-        6.0, // Default duration for the animation
+        8.0, // Default duration for the animation
         propertyChanged: (bindable, oldValue, newValue) =>
         {
-            if(bindable is MarqueeLabel marqueeLabel)
+            if (bindable is MarqueeLabel marqueeLabel)
             {
                 marqueeLabel.OnPropertyChanged(nameof(DurationAnimation));
             }
@@ -151,18 +166,30 @@ public class MarqueeLabel : ScrollView
         nameof(DurationPause),
         typeof(double),
         typeof(MarqueeLabel),
-        1.0, // Default duration for the pause
+        2.0, // Default duration for the pause
         propertyChanged: (bindable, oldValue, newValue) =>
         {
-            if(bindable is MarqueeLabel marqueeLabel)
+            if (bindable is MarqueeLabel marqueeLabel)
             {
                 marqueeLabel.OnPropertyChanged(nameof(DurationPause));
             }
         });
 
-    public string Text { get => (string)GetValue(TextProperty); set => SetValue(TextProperty, value); }
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
 
-    public Color TextColor { get => (Color)GetValue(TextColorProperty); set => SetValue(TextColorProperty, value); }
+    public Color TextColor
+    {
+        get => (Color)GetValue(TextColorProperty);
+        set
+        {
+            SetValue(TextColorProperty, value);
+            OnPropertyChanged(nameof(TextColor));
+        }
+    }
 
     public Color SelectedTextColor
     {
@@ -176,11 +203,23 @@ public class MarqueeLabel : ScrollView
         set => SetValue(FontFamilyProperty, value);
     }
 
-    public double FontSize { get => (double)GetValue(FontSizeProperty); set => SetValue(FontSizeProperty, value); }
+    public double FontSize
+    {
+        get => (double)GetValue(FontSizeProperty);
+        set => SetValue(FontSizeProperty, value);
+    }
 
-    public bool IsActive { get => (bool)GetValue(IsActiveProperty); set => SetValue(IsActiveProperty, value); }
+    public bool IsActive
+    {
+        get => (bool)GetValue(IsActiveProperty);
+        set => SetValue(IsActiveProperty, value);
+    }
 
-    public bool IsSelected { get => (bool)GetValue(IsSelectedProperty); set => SetValue(IsSelectedProperty, value); }
+    public bool IsSelected
+    {
+        get => (bool)GetValue(IsSelectedProperty);
+        set => SetValue(IsSelectedProperty, value);
+    }
 
     public double DurationAnimation
     {
@@ -198,13 +237,13 @@ public class MarqueeLabel : ScrollView
     private async void AnimateMarquee()
     {
         isAnimationRunning = false;
-        if(stopAnimationFlag == true)
+        if (stopAnimationFlag)
         {
             stopAnimationFlag = false;
             return;
         }
 
-        if(totalTextWidth <= Width)
+        if (totalTextWidth <= Width)
             return; // Skip animation if the content fits
 
         await Task.Delay(TimeSpan.FromSeconds(DurationPause));
@@ -217,7 +256,8 @@ public class MarqueeLabel : ScrollView
                 _label.TranslationX = translationX;
             },
             0,
-            -totalTextWidth,Easing.CubicIn);
+            -totalTextWidth,
+            Easing.Linear);
 
         // Set up the second animation from Width to 0
         var secondAnimation = new Animation(
@@ -228,7 +268,7 @@ public class MarqueeLabel : ScrollView
             },
             totalTextWidth,
             0,
-            Easing.CubicOut);
+            Easing.Linear);
 
         // Create a sequence of animations
         var sequence = new Animation
@@ -249,13 +289,13 @@ public class MarqueeLabel : ScrollView
 
     private void StopAnimation()
     {
-        if(isAnimationRunning)
+        if (isAnimationRunning)
             stopAnimationFlag = true;
         else
             _label.LineBreakMode = LineBreakMode.TailTruncation;
     }
 
-    private void UpdateTextColor() => _label.TextColor = IsSelected && SelectedTextColor != default(Color) ? SelectedTextColor : TextColor;
+    private void UpdateTextColor() => TextColor = IsSelected && SelectedTextColor != default(Color) ? SelectedTextColor : TextColor;
 
     private void OnSizeChanged(object? sender, EventArgs e)
     {

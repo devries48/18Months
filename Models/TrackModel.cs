@@ -15,7 +15,7 @@ public partial class TrackModel(ReleaseModel release) : ObservableObject
 
     public AudioPlayerSource Source { get => AudioPlayerSource.FileSystem; }
 
-    public string ArtistAndTrack { get => $"{TrackArtist} - {Title}"; }
+    public string PlaylistTrack { get => $"{TrackArtist}  -  {Title}"; }
 
     public byte[] GetReleaseImage()
     {

@@ -3,6 +3,7 @@
     x:Name="this"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Months18.Controls"
     xmlns:converters="clr-namespace:Months18.Converters"
     xmlns:helpers="clr-namespace:Months18.Helpers"
     xmlns:models="clr-namespace:Months18.Models"
@@ -16,7 +17,7 @@
         <converters:CurrentStateToEnabledConverter x:Key="ConvertStateToEnabled" />
         <converters:AccentColorToDisabledConverter x:Key="ConvertAccentColorToDisabled" />
         <converters:BoolToVolumeGlyphConverter x:Key="ConvertBoolToVolumeGlyph" />
-        <converters:IndexToColorConverter x:Key="ConvertIndexToColor" />
+        <converters:PlaylistIndexToBoolConverter x:Key="ConvertPlaylistIndexToBool" />
 
         <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
         <toolkit:InvertedBoolConverter x:Key="InvertBool" />
@@ -67,72 +68,33 @@
                                     Grid.Column="0"
                                     Margin="0,0,5,0"
                                     FontSize="12"
-                                    Text="{Binding Position, StringFormat='{0}.'}">
-                                    <Label.TextColor>
-                                        <MultiBinding Converter="{StaticResource ConvertIndexToColor}">
-                                            <Binding Path="Position" />
-                                            <Binding Path="CurrentListIndex" Source="{x:Reference this}" />
-                                        </MultiBinding>
-                                    </Label.TextColor>
-                                </Label>
-                                <Label
+                                    Text="{Binding Position, StringFormat='{0}.'}"
+                                    TextColor="{Binding Source={x:Reference MarqueeTrack}, Path=TextColor}" />
+                                <controls:MarqueeLabel
+                                    x:Name="MarqueeTrack"
                                     Grid.Column="1"
                                     FontSize="12"
-                                    Text="{Binding ArtistAndTrack}">
-                                    <Label.TextColor>
-                                        <MultiBinding Converter="{StaticResource ConvertIndexToColor}">
+                                    SelectedTextColor="{StaticResource Dark_Accent}"
+                                    Text="{Binding PlaylistTrack}">
+                                    <controls:MarqueeLabel.IsSelected>
+                                        <MultiBinding Converter="{StaticResource ConvertPlaylistIndexToBool}">
                                             <Binding Path="Position" />
                                             <Binding Path="CurrentListIndex" Source="{x:Reference this}" />
                                         </MultiBinding>
-                                    </Label.TextColor>
-                                </Label>
+                                    </controls:MarqueeLabel.IsSelected>
+                                </controls:MarqueeLabel>
                                 <Label
                                     Grid.Column="2"
+                                    Margin="5,0,0,0"
                                     FontSize="12"
                                     Text="{Binding Duration}"
-                                    VerticalOptions="End">
-                                    <Label.TextColor>
-                                        <MultiBinding Converter="{StaticResource ConvertIndexToColor}">
-                                            <Binding Path="Position" />
-                                            <Binding Path="CurrentListIndex" Source="{x:Reference this}" />
-                                        </MultiBinding>
-                                    </Label.TextColor>
-                                </Label>
+                                    TextColor="{Binding Source={x:Reference MarqueeTrack}, Path=TextColor}"
+                                    VerticalOptions="End" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <!--<CollectionView x:Name="PlaylistCollectionView"
-                ItemsLayout="VerticalGrid, 1"
-                ItemsSource="{Binding CurrentPlaylist}"
-                SelectionMode="Single">
-                
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid x:DataType="models:TrackModel">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="50" />
-                            </Grid.ColumnDefinitions>
-                            <Label 
-                             FontSize="13"
-                             LineBreakMode="TailTruncation"
-                             Text="1." />
-                            <Label
-                             Grid.Column="1"
-                             FontSize="14"
-                             LineBreakMode="TailTruncation"
-                             Text="{Binding Title}" />
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>-->
 
             <BoxView
                 Grid.Row="1"
@@ -228,16 +190,15 @@
             <Label
                 FontSize="14"
                 HeightRequest="20"
-                Opacity=".9"
-                Text="{Binding CurrentArtist}" 
-                Style="{StaticResource labelSecondaryStyle}"/>
-            <Label
+                Opacity=".7"
+                Style="{StaticResource labelSecondaryStyle}"
+                Text="{Binding CurrentArtist}" />
+            <controls:MarqueeLabel
                 Grid.Row="1"
                 FontSize="16"
                 HeightRequest="22"
-                Text="{Binding CurrentTitle}" 
-                Style="{StaticResource labelSecondaryStyle}" />
-
+                Style="{StaticResource MarqueeSecondaryStyle}"
+                Text="{Binding CurrentTitle}" />
         </Grid>
 
         <Slider
@@ -258,16 +219,16 @@
 
             <Label
                 IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
-                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Position}" 
-                Style="{StaticResource labelSecondaryStyle}"/>
+                Style="{StaticResource labelSecondaryStyle}"
+                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Position}" />
 
             <Label
                 Grid.Column="1"
                 HorizontalOptions="End"
                 HorizontalTextAlignment="End"
                 IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
-                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Duration}" 
-                Style="{StaticResource labelSecondaryStyle}"/>
+                Style="{StaticResource labelSecondaryStyle}"
+                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Duration}" />
         </Grid>
 
         <Grid Grid.Row="7">

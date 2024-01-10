@@ -36,9 +36,10 @@ public partial class AudioPlayerView : INotifyPropertyChanged
     public string? CurrentTitle => _currentTrack?.Title;
 
     public ObservableCollection<TrackModel> CurrentPlaylist = [];
-    public int CurrentListIndex => _playerService?.CurrentPlaylistIndex ?? -1;
+    public int CurrentPlaylistIndex => _playerService?.CurrentPlaylistIndex ?? -1;
 
-    #region AudioPlayerService Implementation
+
+    #region AudioPlayer Service Implementation
     private void InitializeService()
     {
         _playerService = MauiProgram.GetService<IAudioPlayerService>();
@@ -67,29 +68,47 @@ public partial class AudioPlayerView : INotifyPropertyChanged
                 if (e.Track != null)
                     PlayTrack(e.Track);
                 break;
+            case AudioPlayerAction.LoadFromList:
+                if (e.Track != null)
+                    LoadTrack(e.Track);
+                break;
+
             default:
                 // All cases are handled
                 break;
         }
     }
 
-    // just get the whole playlist
+    /// <summary>
+    /// Handle the AudioPlayerService PlaylistChanged event.
+    /// - ListChanged, Load the playlist.
+    /// - IndexChanged, Just set the CurrentPlaylistIndex and the button states.
+    /// </summary>
     private void OnPlaylistChanged(object sender, PlaylistEventArgs e)
     {
-        var list = _playerService?.GetPlaylist();
-
-        if (list != null)
+        if (e.Action == PlaylistAction.ListChanged) // reload the playlist
         {
-            CurrentPlaylist = new ObservableCollection<TrackModel>(list);
-            PlaylistView.ItemsSource = CurrentPlaylist;
+            var list = _playerService?.GetPlaylist();
 
-            if (e.PlayTrackFromList.HasValue)
-                _playerService?.PlayFromPlaylist(e.PlayTrackFromList.Value);
+            if (list != null)
+            {
+                CurrentPlaylist = new ObservableCollection<TrackModel>(list);
+                PlaylistView.ItemsSource = CurrentPlaylist;
+
+                if (e.PlaylistIndex.HasValue)
+                    _playerService?.PlayFromPlaylist(e.PlaylistIndex.Value, true);
+            }
         }
-    }
+     }
     #endregion
 
-    #region MediaElement Events
+    #region MediaElement, Handle events
+    private void OnMediaElementPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == MediaElement.DurationProperty.PropertyName)
+            PositionSlider.Maximum = MediaElement.Duration.TotalSeconds;
+    }
+
     void OnStateChanged(object? sender, MediaStateChangedEventArgs e)
     {
         _playerService?.OnMediaStatusChanged(e);
@@ -124,12 +143,6 @@ public partial class AudioPlayerView : INotifyPropertyChanged
 
     private void OnStopClicked(object sender, EventArgs e) { MediaElement.Stop(); }
 
-    private void OnMediaElementPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == MediaElement.DurationProperty.PropertyName)
-            PositionSlider.Maximum = MediaElement.Duration.TotalSeconds;
-    }
-
     private async void OnSliderDragCompleted(object? sender, EventArgs e)
     {
         ArgumentNullException.ThrowIfNull(sender);
@@ -142,12 +155,33 @@ public partial class AudioPlayerView : INotifyPropertyChanged
 
     private void OnSliderDragStarted(object sender, EventArgs e) { MediaElement.Pause(); }
 
+    private void OnPlaylistNextClicked(object sender, EventArgs e)
+    {
+        _playerService?.PlayFromPlaylist(CurrentPlaylistIndex + 1);
+    }
+
+    private void OnPlaylistPreviousClicked(object sender, EventArgs e)
+    {
+        _playerService?.PlayFromPlaylist(CurrentPlaylistIndex - 1);
+    }
+
     // NOTE: The state went to "Paused' when playing a new track, now wait for the MediaOpened event.
     //       Received ComException when MediaElement.Play() was called from event handler,
     //       MainThread.BeginInvokeOnMainThread resolved this issue.
     private void PlayTrack(TrackModel track)
     {
+        LoadTrack(track);
+        MediaElement.MediaOpened += OnMediaOpened;
+    }
+
+    private void LoadTrack(TrackModel track)
+    {
         CurrentTrack = track;
+
+        OnPropertyChanged(nameof(CurrentPlaylistIndex));
+
+        PlaylistNextButton.IsEnabled = _playerService?.CanPlaylistMoveForward ?? false;
+        PlaylistPreviousButton.IsEnabled = _playerService?.CanPlaylistMoveBack ?? false;
 
         MediaElement.Source = track.Source switch
         {
@@ -156,8 +190,6 @@ public partial class AudioPlayerView : INotifyPropertyChanged
             AudioPlayerSource.Url => MediaSource.FromUri(track.Uri),
             _ => ""
         };
-
-        MediaElement.MediaOpened += OnMediaOpened;
     }
 
     private void OnMediaOpened(object? sender, EventArgs e)

@@ -4,7 +4,9 @@ public partial class TrackModel(ReleaseModel release) : ObservableObject
 {
     // Position property is used in the playlist
     [ObservableProperty]
-    private int _position = 0;
+    private int _playlistPosition = 0;
+
+    public bool PlaylistSingleArtist { get; set; }
 
     public string TrackArtist { get => release.Artist; }
     public string ReleaseTitle { get => release.Title; }
@@ -15,7 +17,16 @@ public partial class TrackModel(ReleaseModel release) : ObservableObject
 
     public AudioPlayerSource Source { get => AudioPlayerSource.FileSystem; }
 
-    public string PlaylistTrack { get => $"{TrackArtist}  -  {Title}"; }
+    public string PlaylistTrack
+    {
+        get
+        {
+            if (PlaylistSingleArtist)
+                return Title;
+
+            return $"{TrackArtist}  -  {Title}";
+        }
+    }
 
     public byte[] GetReleaseImage()
     {

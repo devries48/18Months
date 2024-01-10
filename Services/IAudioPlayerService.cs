@@ -8,6 +8,10 @@ public interface IAudioPlayerService
 
     int CurrentPlaylistIndex { get; }
 
+    bool CanPlaylistMoveBack { get; }
+
+    bool CanPlaylistMoveForward { get; }
+
     void AddToPlaylist(TrackModel track, AudioPlayerSource source);
 
     void AddToPlaylist(ReleaseModel release, AudioPlayerSource source);
@@ -20,7 +24,7 @@ public interface IAudioPlayerService
 
     void PlayRelease(ReleaseModel selectedRelease);
 
-    void PlayFromPlaylist(int index);
+    void PlayFromPlaylist(int index, bool startPlay = false);
 
     void Stop();
 

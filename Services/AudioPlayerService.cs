@@ -14,27 +14,32 @@ public class AudioPlayerService : IAudioPlayerService
 
     public MediaElementState? CurrentState { get; private set; }
 
-    public int CurrentPlaylistIndex { get; private set; }
+    public int CurrentPlaylistIndex { get; set; }
+
+    public bool CanPlaylistMoveBack { get => playlist.Count > 0 && CurrentPlaylistIndex > 0; }
+
+    public bool CanPlaylistMoveForward { get => CurrentPlaylistIndex < playlist.Count - 2; }
 
     public List<TrackModel> GetPlaylist() => playlist;
 
-    public void AddToPlaylist(TrackModel track, AudioPlayerSource source) => OnPlaylistChanged();
+    public void AddToPlaylist(TrackModel track, AudioPlayerSource source) => OnPlaylistChanged(PlaylistAction.ListChanged);
 
-    public void AddToPlaylist(ReleaseModel release, AudioPlayerSource source) => OnPlaylistChanged();
+    public void AddToPlaylist(ReleaseModel release, AudioPlayerSource source) => OnPlaylistChanged(
+        PlaylistAction.ListChanged);
 
     public void Play() => OnAudioPlayerAction(Services.AudioPlayerAction.Play);
 
     public void PlayRelease(ReleaseModel release)
     {
-        if(release.Tracks.Count > 0)
+        if (release.Tracks.Count > 0)
         {
             playlist.Clear();
             playlist.AddRange(release.Tracks);
-            OnPlaylistChanged(0);
+            OnPlaylistChanged(PlaylistAction.ListChanged, 0);
         }
     }
 
-    public void PlayFromPlaylist(int index) => OnAudioPlayerAction(Services.AudioPlayerAction.PlayFromList, index);
+    public void PlayFromPlaylist(int index, bool startPlay) => OnPlaylistChanged(PlaylistAction.IndexChanged, index, startPlay);
 
     public void Pause() => OnAudioPlayerAction(Services.AudioPlayerAction.Pause);
 
@@ -52,20 +57,34 @@ public class AudioPlayerService : IAudioPlayerService
 
     public void UnsubscribeToMediaStateChanged(MediaStateChangedEventHandler handler) => MediaStateChanged -= handler;
 
-    protected virtual void OnPlaylistChanged(int? playTrackFromListIndex = null)
+    protected virtual void OnPlaylistChanged(PlaylistAction action, int? playlistIndex = null, bool startPlay = false)
     {
-        for(int i = 0; i < playlist.Count; i++)
-            playlist[i].Position = i + 1;
+        if (action == PlaylistAction.ListChanged)
+        {
+            bool isSingleArtist = IsSingleArtistPlaylist();
 
-        //TODO: If playlist contains only songs from 1 artist set a value to return only the title in that case.
-        PlaylistChanged?.Invoke(this, new PlaylistEventArgs(playTrackFromListIndex));
+            for (int i = 0; i < playlist.Count; i++)
+            {
+                playlist[i].PlaylistPosition = i + 1;
+                playlist[i].PlaylistSingleArtist = isSingleArtist;
+            }
+            PlaylistChanged?.Invoke(this, new PlaylistEventArgs(PlaylistAction.ListChanged, playlistIndex));
+        }
+        else if (action == PlaylistAction.IndexChanged && playlistIndex.HasValue)
+        {
+            var playerAction = CurrentState == MediaElementState.Playing || startPlay is true
+                ? Services.AudioPlayerAction.PlayFromList
+                : Services.AudioPlayerAction.LoadFromList;
+
+            OnAudioPlayerAction(playerAction, playlistIndex.Value);
+        }
     }
 
     protected virtual void OnAudioPlayerAction(AudioPlayerAction action, int playlistIndex = -1)
     {
         TrackModel? track = null;
 
-        if(playlistIndex >= 0 && playlistIndex < playlist.Count)
+        if (playlistIndex >= 0 && playlistIndex < playlist.Count)
         {
             CurrentPlaylistIndex = playlistIndex;
             track = playlist[playlistIndex];
@@ -79,14 +98,30 @@ public class AudioPlayerService : IAudioPlayerService
         CurrentState = e.NewState;
         MediaStateChanged?.Invoke(this, e);
     }
+
+    private bool IsSingleArtistPlaylist()
+    {
+        if (playlist.Count == 0)
+            return false;
+
+        var distinctArtists = playlist.Select(track => track.TrackArtist).Distinct();
+        return distinctArtists.Count() == 1;
+    }
 }
 
 public enum AudioPlayerAction
 {
     Play,
     PlayFromList,
+    LoadFromList,
     Pause,
     Stop
+}
+
+public enum PlaylistAction
+{
+    ListChanged,
+    IndexChanged
 }
 
 public enum AudioPlayerSource
@@ -100,9 +135,11 @@ public delegate void PlaylistChangedEventHandler(object sender, PlaylistEventArg
 public delegate void AudioPlayerActionEventHandler(object sender, ActionEventArgs e);
 public delegate void MediaStateChangedEventHandler(object sender, MediaStateChangedEventArgs e);
 
-public class PlaylistEventArgs(int? playTrackFromList) : EventArgs
+public class PlaylistEventArgs(PlaylistAction action, int? playlistIndex) : EventArgs
 {
-    public int? PlayTrackFromList { get; } = playTrackFromList;
+    public PlaylistAction Action { get; } = action;
+
+    public int? PlaylistIndex { get; } = playlistIndex;
 }
 
 public class ActionEventArgs(AudioPlayerAction action, TrackModel? track = null) : EventArgs

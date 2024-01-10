@@ -68,18 +68,19 @@
                                     Grid.Column="0"
                                     Margin="0,0,5,0"
                                     FontSize="12"
-                                    Text="{Binding Position, StringFormat='{0}.'}"
+                                    Text="{Binding PlaylistPosition, StringFormat='{0}.'}"
                                     TextColor="{Binding Source={x:Reference MarqueeTrack}, Path=TextColor}" />
                                 <controls:MarqueeLabel
                                     x:Name="MarqueeTrack"
                                     Grid.Column="1"
+                                    DefaultTextColor="{StaticResource Dark_SecondaryText}"
                                     FontSize="12"
                                     SelectedTextColor="{StaticResource Dark_Accent}"
                                     Text="{Binding PlaylistTrack}">
                                     <controls:MarqueeLabel.IsSelected>
                                         <MultiBinding Converter="{StaticResource ConvertPlaylistIndexToBool}">
-                                            <Binding Path="Position" />
-                                            <Binding Path="CurrentListIndex" Source="{x:Reference this}" />
+                                            <Binding Path="PlaylistPosition" />
+                                            <Binding Path="CurrentPlaylistIndex" Source="{x:Reference this}" />
                                         </MultiBinding>
                                     </controls:MarqueeLabel.IsSelected>
                                 </controls:MarqueeLabel>
@@ -256,8 +257,10 @@
             </ImageButton>
 
             <ImageButton
+                x:Name="PlaylistPreviousButton"
                 Grid.Column="1"
                 Margin="5"
+                Clicked="OnPlaylistPreviousClicked"
                 HeightRequest="30"
                 IsEnabled="False"
                 WidthRequest="30">
@@ -295,8 +298,10 @@
             </ImageButton>
 
             <ImageButton
+                x:Name="PlaylistNextButton"
                 Grid.Column="3"
                 Margin="5"
+                Clicked="OnPlaylistNextClicked"
                 HeightRequest="30"
                 IsEnabled="False"
                 WidthRequest="30">

@@ -24,6 +24,8 @@ public class MarqueeLabel : ScrollView
         _label.SetBinding(Label.TextColorProperty, new Binding(nameof(TextColor), source: this));
         _label.SetBinding(Label.FontFamilyProperty, new Binding(nameof(FontFamily), source: this));
         _label.SetBinding(Label.FontSizeProperty, new Binding(nameof(FontSize), source: this));
+        _label.SetBinding(Label.StyleProperty, new Binding(nameof(Style), source: this));
+      
         // Add other property bindings as needed
     }
 
@@ -66,6 +68,20 @@ public class MarqueeLabel : ScrollView
                     marqueeLabel._label.TextColor = (Color)newValue;
             }
         });
+
+    public static readonly BindableProperty DefaultTextColorProperty =
+    BindableProperty.Create(
+    nameof(DefaultTextColor),
+    typeof(Color),
+    typeof(MarqueeLabel),
+    default(Color),
+    propertyChanged: (bindable, oldValue, newValue) =>
+    {
+        if (bindable is MarqueeLabel marqueeLabel)
+        {
+            marqueeLabel.UpdateTextColor();
+        }
+    });
 
     public static readonly BindableProperty SelectedTextColorProperty =
         BindableProperty.Create(
@@ -197,6 +213,12 @@ public class MarqueeLabel : ScrollView
         set => SetValue(SelectedTextColorProperty, value);
     }
 
+    public Color DefaultTextColor
+    {
+        get => (Color)GetValue(DefaultTextColorProperty);
+        set => SetValue(DefaultTextColorProperty, value);
+    }
+
     public string FontFamily
     {
         get => (string)GetValue(FontFamilyProperty);
@@ -218,7 +240,12 @@ public class MarqueeLabel : ScrollView
     public bool IsSelected
     {
         get => (bool)GetValue(IsSelectedProperty);
-        set => SetValue(IsSelectedProperty, value);
+        set
+        {
+            SetValue(IsSelectedProperty, value);
+            OnPropertyChanged(nameof(IsSelected));
+        }
+
     }
 
     public double DurationAnimation
@@ -295,7 +322,7 @@ public class MarqueeLabel : ScrollView
             _label.LineBreakMode = LineBreakMode.TailTruncation;
     }
 
-    private void UpdateTextColor() => TextColor = IsSelected && SelectedTextColor != default(Color) ? SelectedTextColor : TextColor;
+    private void UpdateTextColor() => TextColor = IsSelected && SelectedTextColor != default(Color) ? SelectedTextColor : DefaultTextColor;
 
     private void OnSizeChanged(object? sender, EventArgs e)
     {

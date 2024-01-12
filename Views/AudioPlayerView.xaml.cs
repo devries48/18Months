@@ -31,13 +31,17 @@ public partial class AudioPlayerView : INotifyPropertyChanged
             OnPropertyChanged(nameof(CurrentTitle));
         }
     }
+
     public byte[]? CurrentImage => _currentTrack?.ReleaseImage;
+
     public string? CurrentArtist => _currentTrack?.TrackArtist;
+
     public string? CurrentTitle => _currentTrack?.Title;
 
     public ObservableCollection<TrackModel> CurrentPlaylist = [];
-    public int CurrentPlaylistIndex => _playerService?.CurrentPlaylistIndex ?? -1;
+    private bool _isSliding = false;
 
+    public int CurrentPlaylistIndex => _playerService?.CurrentPlaylistIndex ?? -1;
 
     #region AudioPlayer Service Implementation
     private void InitializeService()
@@ -80,13 +84,12 @@ public partial class AudioPlayerView : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Handle the AudioPlayerService PlaylistChanged event.
-    /// - ListChanged, Load the playlist.
-    /// - IndexChanged, Just set the CurrentPlaylistIndex and the button states.
+    /// Handle the AudioPlayerService PlaylistChanged event. - ListChanged, Load the playlist. - IndexChanged, Just set
+    /// the CurrentPlaylistIndex and the button states.
     /// </summary>
-    private void OnPlaylistChanged(object sender, PlaylistEventArgs e)
+    private void OnPlaylistChanged(object sender, PlaylistEventArgs e)  //TODO: DO we need an e.action?
     {
-        if (e.Action == PlaylistAction.ListChanged) // reload the playlist
+        if (e.Action == PlaylistAction.ListChanged) // reload the playlist 
         {
             var list = _playerService?.GetPlaylist();
 
@@ -99,7 +102,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
                     _playerService?.PlayFromPlaylist(e.PlaylistIndex.Value, true);
             }
         }
-     }
+    }
     #endregion
 
     #region MediaElement, Handle events
@@ -114,19 +117,24 @@ public partial class AudioPlayerView : INotifyPropertyChanged
         _playerService?.OnMediaStatusChanged(e);
 
         if (e.NewState == MediaElementState.Playing)
-            FadeCurremtImage(true);
+            Dispatcher.DispatchIfRequired(FadeInCurremtImage);
         else if (e.NewState != MediaElementState.Buffering && e.NewState != MediaElementState.Opening)
-            FadeCurremtImage(false);
+            Dispatcher.DispatchIfRequired(FadeOutCurremtImage);
     }
 
     void OnMediaFailed(object? sender, MediaFailedEventArgs e) => Debug.WriteLine(
         "Media failed. Error: {ErrorMessage}",
         e.ErrorMessage);
 
-    void OnMediaEnded(object? sender, EventArgs e) => Debug.WriteLine("Media ended.");
+    void OnMediaEnded(object? sender, EventArgs e) => _playerService?.PlayNextFromPlayList();
 
     void OnPositionChanged(object? sender, MediaPositionChangedEventArgs e)
-    { PositionSlider.Value = e.Position.TotalSeconds; }
+    {
+        if (_isSliding)
+            return;
+
+        PositionSlider.Value = e.Position.TotalSeconds;
+    }
 
     void OnSeekCompleted(object? sender, EventArgs e) => Debug.WriteLine("Seek completed.");
     #endregion
@@ -143,8 +151,13 @@ public partial class AudioPlayerView : INotifyPropertyChanged
 
     private void OnStopClicked(object sender, EventArgs e) { MediaElement.Stop(); }
 
+    /// <summary>
+    /// Set the postion of the slider to the track position in the MediaElement. 
+    /// </summary>
     private async void OnSliderDragCompleted(object? sender, EventArgs e)
     {
+        _isSliding = false;
+
         ArgumentNullException.ThrowIfNull(sender);
 
         var newValue = ((Slider)sender).Value;
@@ -153,24 +166,31 @@ public partial class AudioPlayerView : INotifyPropertyChanged
         MediaElement.Play();
     }
 
-    private void OnSliderDragStarted(object sender, EventArgs e) { MediaElement.Pause(); }
+    /// <summary>
+    /// Move to a position within the track started. When there is just a click on the Slider, this event is also
+    /// raised, followed by the DragComplete event. The isSliding flag is set, so the synchronisation with the MediaElement will be stopped.
+    /// It intefered with te track position when there was a just click on the Slider.
+    /// </summary>
+    private void OnSliderDragStarted(object sender, EventArgs e)
+    {
+        _isSliding = true;
+        MediaElement.Pause();
+    }
 
     private void OnPlaylistNextClicked(object sender, EventArgs e)
-    {
-        _playerService?.PlayFromPlaylist(CurrentPlaylistIndex + 1);
-    }
+    { _playerService?.PlayNextFromPlayList(); }
 
     private void OnPlaylistPreviousClicked(object sender, EventArgs e)
-    {
-        _playerService?.PlayFromPlaylist(CurrentPlaylistIndex - 1);
-    }
+    { _playerService?.PlayFromPlaylist(CurrentPlaylistIndex - 1); }
 
-    // NOTE: The state went to "Paused' when playing a new track, now wait for the MediaOpened event.
-    //       Received ComException when MediaElement.Play() was called from event handler,
-    //       MainThread.BeginInvokeOnMainThread resolved this issue.
+    /// <summary>
+    /// The state went to "Paused' when playing a new track, now wait for the MediaOpened event.
+    /// Received ComException when MediaElement.Play() was called from event handler,
+    /// MainThread.BeginInvokeOnMainThread resolved this issue.
+    /// </summary>
     private void PlayTrack(TrackModel track)
     {
-        LoadTrack(track);
+        Dispatcher.DispatchIfRequired(() => LoadTrack(track));
         MediaElement.MediaOpened += OnMediaOpened;
     }
 
@@ -195,17 +215,14 @@ public partial class AudioPlayerView : INotifyPropertyChanged
     private void OnMediaOpened(object? sender, EventArgs e)
     {
         MediaElement.MediaOpened -= OnMediaOpened;
-        MainThread.BeginInvokeOnMainThread(MediaElement.Play);
+        Dispatcher.DispatchIfRequired(MediaElement.Play);
+        //MainThread.BeginInvokeOnMainThread(MediaElement.Play);
     }
 
-    private void FadeCurremtImage(bool fadeIn)
-    {
-        var opacity = fadeIn ? 1 : 0.2;
-        if (ReleaseImage.Opacity == opacity)
-            return;
 
-        ReleaseImage.FadeTo(opacity);
-    }
+    private void FadeInCurremtImage() => ReleaseImage.FadeTo(1);
+
+    private void FadeOutCurremtImage() => ReleaseImage.FadeTo(0.2);
 
     private void OnUnLoaded(object? sender, EventArgs e)
     {

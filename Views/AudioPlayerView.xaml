@@ -191,7 +191,7 @@
             <Label
                 FontSize="14"
                 HeightRequest="20"
-                Opacity=".7"
+                Opacity=".8"
                 Style="{StaticResource labelSecondaryStyle}"
                 Text="{Binding CurrentArtist}" />
             <controls:MarqueeLabel

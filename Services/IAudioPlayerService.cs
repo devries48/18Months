@@ -24,7 +24,16 @@ public interface IAudioPlayerService
 
     void PlayRelease(ReleaseModel selectedRelease);
 
+    /// <summary>
+    /// Select a Track to Play on the Playlist
+    /// </summary>
+    /// <param name="index">The index of the Track in the Playlist.</param>
+    /// <param name="startPlay">Force start on the MediaElement.</param>
     void PlayFromPlaylist(int index, bool startPlay = false);
+
+    void PlayNextFromPlayList();
+
+    void PlayPreviousFromPlayList();
 
     void Stop();
 

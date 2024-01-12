@@ -70,7 +70,7 @@ public partial class MusicPageViewModel : ObservableObject
             .ConfigureAwait(false);
         release.AddTrack(MusicPath("01. Wednesday Night Prayer Meeting.mp3"), "Wednesday Night Prayer Meeting", "5:43");
         release.AddTrack(MusicPath("03. Moanin'.mp3"), "Moanin'", "8:03");
-        release.AddTrack(MusicPath("06. E's Flat Ah's Flat Too"), "E's Flat Ah's Flat Too", "6:47");
+        release.AddTrack(MusicPath("06. E's Flat Ah's Flat Too.mp3"), "E's Flat Ah's Flat Too", "6:47");
         _source.Add(release);
 
         release = await ReleaseModel.Create(
@@ -147,8 +147,26 @@ public partial class MusicPageViewModel : ObservableObject
         _source.Add(
             await ReleaseModel.Create("CAN", "Tago Mago", ImagePath("Tago Mago-front.jpg"), "D", 1971)
                 .ConfigureAwait(false));
-      
-        release =await ReleaseModel.Create("Banco Del Mutuo Soccorso", "Banco Del Mutuo Soccorso", ImagePath("Banco-front.jpg"), "ITA", 1972).ConfigureAwait(false);
+
+        release = await ReleaseModel.Create("Amon Düül II", "Phallus Dei", ImagePath("Phallus-front.jpg"), "D", 1969).ConfigureAwait(false);
+        release.AddTrack(MusicPath("03. Luzifers Ghilom.mp3"), "Luzifers Ghilom", "8:34");
+        release.AddTrack(MusicPath("05. Phallus Dei.mp3"), "Phallus Dei", "20:46");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Joe McPhee", "Nation Time", ImagePath("Nation Time-front.jpg"), "D", 1970).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01 - Nation Time.mp3"), "Nation Time", "18:36");
+        release.AddTrack(MusicPath("02 - Shakey Jake.mp3"), "Shakey Jake", "13:39");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Area", "Arbeit macht frei", ImagePath("Arbeit-front.jpg"), "ITA", 1973).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01. Luglio, Agosto, Settembre (Nero).mp3"), "Luglio, Agosto, Settembre (Nero)", "4:27");
+        release.AddTrack(MusicPath("02. Arbeit Macht Frei.mp3"), "Arbeit Macht Frei", "8:00");
+        release.AddTrack(MusicPath("04. Le Labbra Del Tempo.mp3"), "Le Labbra Del Tempo", "6:04");
+        _source.Add(release);
+
+
+
+        release = await ReleaseModel.Create("Banco Del Mutuo Soccorso", "Banco Del Mutuo Soccorso", ImagePath("Banco-front.jpg"), "ITA", 1972).ConfigureAwait(false);
         release.AddTrack(MusicPath("01  In Volo .mp3"), "In Volo", "2:14");
         release.AddTrack(MusicPath("02  R.I.P. (Requiescant In Pace) .mp3"), "R.I.P. (Requiescant In Pace)", "6:41");
         release.AddTrack(MusicPath("03  Passaggio .mp3"), "Passaggio", "1:19");
@@ -183,6 +201,7 @@ public partial class MusicPageViewModel : ObservableObject
  // TODO: Get from MusicMateData.json
  CombinePaths("C:/Users/rvrie/source/repos/18Months", "Data/Music", filename).Replace("/", "\\");
 
+    //TODO: Check if file exists
     private static string CombinePaths(params string[] paths)
     {
         string result = string.Empty;

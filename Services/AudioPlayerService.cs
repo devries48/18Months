@@ -18,11 +18,12 @@ public class AudioPlayerService : IAudioPlayerService
 
     public bool CanPlaylistMoveBack { get => playlist.Count > 0 && CurrentPlaylistIndex > 0; }
 
-    public bool CanPlaylistMoveForward { get => CurrentPlaylistIndex < playlist.Count - 2; }
+    public bool CanPlaylistMoveForward { get => CurrentPlaylistIndex < playlist.Count - 1; }
 
     public List<TrackModel> GetPlaylist() => playlist;
 
-    public void AddToPlaylist(TrackModel track, AudioPlayerSource source) => OnPlaylistChanged(PlaylistAction.ListChanged);
+    public void AddToPlaylist(TrackModel track, AudioPlayerSource source) => OnPlaylistChanged(
+        PlaylistAction.ListChanged);
 
     public void AddToPlaylist(ReleaseModel release, AudioPlayerSource source) => OnPlaylistChanged(
         PlaylistAction.ListChanged);
@@ -31,7 +32,7 @@ public class AudioPlayerService : IAudioPlayerService
 
     public void PlayRelease(ReleaseModel release)
     {
-        if (release.Tracks.Count > 0)
+        if(release.Tracks.Count > 0)
         {
             playlist.Clear();
             playlist.AddRange(release.Tracks);
@@ -39,12 +40,24 @@ public class AudioPlayerService : IAudioPlayerService
         }
     }
 
-    public void PlayFromPlaylist(int index, bool startPlay) => OnPlaylistChanged(PlaylistAction.IndexChanged, index, startPlay);
+    public void PlayFromPlaylist(int index, bool startPlay) => OnPlaylistChanged(
+        PlaylistAction.IndexChanged,
+        index,
+        startPlay);
+
+    public void PlayNextFromPlayList() => OnPlaylistChanged(PlaylistAction.IndexChanged, CurrentPlaylistIndex + 1, true);
+
+    public void PlayPreviousFromPlayList() => OnPlaylistChanged(
+        PlaylistAction.IndexChanged,
+        CurrentPlaylistIndex - 1,
+        true);
 
     public void Pause() => OnAudioPlayerAction(Services.AudioPlayerAction.Pause);
 
     public void Stop() => OnAudioPlayerAction(Services.AudioPlayerAction.Stop);
 
+
+    #region Event Subscribe & Unsubscribe
     public void SubscribeToPlaylistChanged(PlaylistChangedEventHandler handler) => PlaylistChanged += handler;
 
     public void UnsubscribeFromPlaylistChanged(PlaylistChangedEventHandler handler) => PlaylistChanged -= handler;
@@ -56,21 +69,21 @@ public class AudioPlayerService : IAudioPlayerService
     public void SubscribeToMediaStateChanged(MediaStateChangedEventHandler handler) => MediaStateChanged += handler;
 
     public void UnsubscribeToMediaStateChanged(MediaStateChangedEventHandler handler) => MediaStateChanged -= handler;
+    #endregion
 
-    protected virtual void OnPlaylistChanged(PlaylistAction action, int? playlistIndex = null, bool startPlay = false)
+    public  void OnPlaylistChanged(PlaylistAction action, int? playlistIndex = null, bool startPlay = false)
     {
-        if (action == PlaylistAction.ListChanged)
+        if(action == PlaylistAction.ListChanged)
         {
             bool isSingleArtist = IsSingleArtistPlaylist();
 
-            for (int i = 0; i < playlist.Count; i++)
+            for(int i = 0; i < playlist.Count; i++)
             {
                 playlist[i].PlaylistPosition = i + 1;
                 playlist[i].PlaylistSingleArtist = isSingleArtist;
             }
             PlaylistChanged?.Invoke(this, new PlaylistEventArgs(PlaylistAction.ListChanged, playlistIndex));
-        }
-        else if (action == PlaylistAction.IndexChanged && playlistIndex.HasValue)
+        } else if(action == PlaylistAction.IndexChanged && playlistIndex.HasValue)
         {
             var playerAction = CurrentState == MediaElementState.Playing || startPlay is true
                 ? Services.AudioPlayerAction.PlayFromList
@@ -80,11 +93,11 @@ public class AudioPlayerService : IAudioPlayerService
         }
     }
 
-    protected virtual void OnAudioPlayerAction(AudioPlayerAction action, int playlistIndex = -1)
+    public void OnAudioPlayerAction(AudioPlayerAction action, int playlistIndex = -1)
     {
         TrackModel? track = null;
 
-        if (playlistIndex >= 0 && playlistIndex < playlist.Count)
+        if(playlistIndex >= 0 && playlistIndex < playlist.Count)
         {
             CurrentPlaylistIndex = playlistIndex;
             track = playlist[playlistIndex];
@@ -101,7 +114,7 @@ public class AudioPlayerService : IAudioPlayerService
 
     private bool IsSingleArtistPlaylist()
     {
-        if (playlist.Count == 0)
+        if(playlist.Count == 0)
             return false;
 
         var distinctArtists = playlist.Select(track => track.TrackArtist).Distinct();

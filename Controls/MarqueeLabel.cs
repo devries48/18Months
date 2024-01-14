@@ -126,7 +126,7 @@ public class MarqueeLabel : ScrollView
         nameof(IsActive),
         typeof(bool),
         typeof(MarqueeLabel),
-        true,
+        false,
         propertyChanged: (bindable, oldValue, newValue) =>
         {
             if (bindable is MarqueeLabel marqueeLabel)
@@ -157,7 +157,7 @@ public class MarqueeLabel : ScrollView
             if (bindable is MarqueeLabel marqueeLabel)
             {
                 marqueeLabel.UpdateTextColor();
-                marqueeLabel.UpdateIsEnabled();
+                marqueeLabel.UpdateIsActive();
             }
         });
 
@@ -353,7 +353,7 @@ public class MarqueeLabel : ScrollView
 
     private void UpdateTextColor() => TextColor = IsSelected && SelectedTextColor != default(Color) ? SelectedTextColor : DefaultTextColor;
 
-    private void UpdateIsEnabled() => IsEnabled = IsSelected;
+    private void UpdateIsActive() => IsActive = IsSelected;
 
     private void InitLabelText()
     {

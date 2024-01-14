@@ -4,25 +4,50 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Months18.Controls"
-    xmlns:models="clr-namespace:Months18.Models"
-    xmlns:rcv="clr-namespace:ReorderableCollectionView.Maui;assembly=ReorderableCollectionView.Maui">
+    xmlns:models="clr-namespace:Months18.Models">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <!--<controls:MarqueeLabel Text="This is a marquee label"/>-->
-        <controls:MarqueeLabel
+        <!--<controls:MarqueeLabel
             Grid.Row="1"
             Style="{StaticResource MarqueeSecondaryStyle}"
-            Text="This is a marquee label that does not fit" />
+            Text="She Brings The Rain (From Bottom - Ein Großer Graublauer Vogel)" />-->
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="200"/>
+                <ColumnDefinition  Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label
+                FontSize="14"
+                HeightRequest="20"
+                Opacity=".8"
+                Style="{StaticResource labelSecondaryStyle}"
+                Text="CurrentArtist" />
+            <controls:MarqueeLabel
+                x:Name="testLabel"
+                Grid.Row="1"
+                FontSize="16"
+                HeightRequest="22"
+                Style="{StaticResource MarqueeSecondaryStyle}"
+                Text="She Brings The Rain (From Bottom - Ein Großer Graublauer Vogel)" />
+            <Button Grid.Row="1" Grid.Column="1" Text="STOP" Clicked="Button_Clicked" />
+        </Grid>
 
         <ScrollView
             Margin="0"

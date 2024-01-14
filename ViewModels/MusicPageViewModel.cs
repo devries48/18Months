@@ -24,14 +24,15 @@ public partial class MusicPageViewModel : ObservableObject
     [RelayCommand]
     private void ItemTap(ReleaseModel tappedItem)
     {
-        if(_selectedRelease != null && _selectedRelease != tappedItem)
+        if (_selectedRelease != null && _selectedRelease != tappedItem)
             _selectedRelease.IsSelected = false;
 
-        if(tappedItem.IsSelected)
+        if (tappedItem.IsSelected)
         {
             tappedItem.IsSelected = false;
             _selectedRelease = null;
-        } else
+        }
+        else
         {
             _selectedRelease = tappedItem;
             tappedItem.IsSelected = true;
@@ -41,16 +42,16 @@ public partial class MusicPageViewModel : ObservableObject
     [RelayCommand]
     private void PlaySelectedRelease()
     {
-        if(_selectedRelease == null || _playerService == null)
+        if (_selectedRelease == null || _playerService == null)
             return;
 
-        if(_playerService.CurrentState == MediaElementState.Playing)
+        if (_playerService.CurrentState == MediaElementState.Playing)
         {
             _playerService.Pause();
             return;
         }
 
-        if(_selectedRelease.Title == (_playerService.CurrentTrack?.ReleaseTitle ?? string.Empty))
+        if (_selectedRelease.Title == (_playerService.CurrentTrack?.ReleaseTitle ?? string.Empty))
             _playerService.Play();
         else
             _playerService.PlayRelease(_selectedRelease);
@@ -58,7 +59,7 @@ public partial class MusicPageViewModel : ObservableObject
 
     public async Task GetLocalReleasesAsync()
     {
-        if(_source.Count > 0)
+        if (_source.Count > 0)
             return;
 
         var release = await ReleaseModel.Create(
@@ -120,15 +121,28 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("11. Road To Nowhere.mp3"), "Road To Nowhere", "5:11");
         _source.Add(release);
 
-        _source.Add(
-            await ReleaseModel.Create("King Crimson", "Red", ImagePath("Red-front.jpg"), "UK", 1974)
-                .ConfigureAwait(false));
-        _source.Add(
-            await ReleaseModel.Create("Fifty Foot Hose", "Cauldron", ImagePath("Cauldron-front.jpg"), "USA", 1968)
-                .ConfigureAwait(false));
-        _source.Add(
-            await ReleaseModel.Create("CAN", "Soundtracks", ImagePath("Soundtracks-front.jpg"), "D", 1973)
-                .ConfigureAwait(false));
+
+
+        release = await ReleaseModel.Create("King Crimson", "Red", ImagePath("Red-front.jpg"), "UK", 1974).ConfigureAwait(false);
+        release.AddTrack(MusicPath("02 - Fallen Angel.mp3"), "Fallen Angel", "6:01");
+        release.AddTrack(MusicPath("05 - Starless.mp3"), "Starless", "12:18");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Fifty Foot Hose", "Cauldron", ImagePath("Cauldron-front.jpg"), "USA", 1968).ConfigureAwait(false);
+        release.AddTrack(MusicPath("02 If Not This Time.mp3"), "If Not This Time", "3:38");
+        release.AddTrack(MusicPath("04 The Things That Concern You.mp3"), "The Things That Concern You", "3:29");
+        release.AddTrack(MusicPath("06 Red The Sign Post.mp3"), "Red The Sign Post", "2:59");
+        release.AddTrack(MusicPath("08 Rose.mp3"), "Rose", "5:09");
+        release.AddTrack(MusicPath("10 God Bless The Child.mp3"), "God Bless The Child", "2:51");
+        _source.Add(release);
+
+        release =await ReleaseModel.Create("CAN", "Soundtracks", ImagePath("Soundtracks-front.jpg"), "D", 1973).ConfigureAwait(false);
+        release.AddTrack(MusicPath("02. Tango Whiskyman (From Deadlock).mp3"), "Tango Whiskyman (From Deadlock)", "4:03");
+        release.AddTrack(MusicPath("04. Don't Turn The Light On, Leave Me Alone (From Cream).mp3"), "Don't Turn The Light On, Leave Me Alone (From Cream)", "3:42");
+        release.AddTrack(MusicPath("06. Mother Sky (From Deep End).mp3"), "Mother Sky (From Deep End)", "14:28");
+        release.AddTrack(MusicPath("07. She Brings The Rain (From Bottom - Ein Großer Graublauer Vogel).mp3"), "She Brings The Rain (From Bottom - Ein Großer Graublauer Vogel)", "4:05");
+        _source.Add(release);
+        
         _source.Add(
             await ReleaseModel.Create("Amon Düül II", "Yeti", ImagePath("Yeti-front.jpg"), "D", 1970)
                 .ConfigureAwait(false));
@@ -206,9 +220,9 @@ public partial class MusicPageViewModel : ObservableObject
     {
         string result = string.Empty;
 
-        foreach(var path in paths)
+        foreach (var path in paths)
         {
-            if(result.Length != 0 && !result.EndsWith('/'))
+            if (result.Length != 0 && !result.EndsWith('/'))
                 result += "/";
 
             result += path;

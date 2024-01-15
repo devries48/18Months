@@ -54,6 +54,8 @@ public static class MauiProgram
         services.AddTransient<SettingsPage>();
         services.AddTransient<MusicPageViewModel>();
         services.AddTransient<MusicPage>();
+        services.AddTransient<TherapyPageViewModel>();
+        services.AddTransient<TherapyPage>();
 
         var app = builder.Build();
         serviceProvider = app.Services; // store service provider reference

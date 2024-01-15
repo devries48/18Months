@@ -125,7 +125,16 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <views:AudioPlayerView Grid.Column="{OnIdiom Phone=0, Default=1}" IsVisible="{OnIdiom Phone=False, Default=True}" />
+        <views:AudioPlayerView Grid.Column="{OnIdiom Phone=0, Default=1}" IsVisible="{OnIdiom Phone=False, Default=True}">
+            <views:AudioPlayerView.Shadow>
+                <Shadow
+                        Offset="-10,10"
+                        Brush="Black"
+                        Opacity=".5"
+                        Radius="30" />
+            </views:AudioPlayerView.Shadow>
+
+        </views:AudioPlayerView>
     </Grid>
 </ContentPage>
 

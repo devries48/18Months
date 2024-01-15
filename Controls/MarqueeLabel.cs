@@ -157,7 +157,8 @@ public class MarqueeLabel : ScrollView
             if (bindable is MarqueeLabel marqueeLabel)
             {
                 marqueeLabel.UpdateTextColor();
-                marqueeLabel.UpdateIsActive();
+                marqueeLabel.IsActive = marqueeLabel.IsSelected;
+                //marqueeLabel.UpdateIsActive();
             }
         });
 
@@ -353,12 +354,17 @@ public class MarqueeLabel : ScrollView
 
     private void UpdateTextColor() => TextColor = IsSelected && SelectedTextColor != default(Color) ? SelectedTextColor : DefaultTextColor;
 
-    private void UpdateIsActive() => IsActive = IsSelected;
+    private void UpdateIsActive()
+    {
 
+    }
+
+
+    /// <summary>
+    /// Initialize MarqueeLabel, abort possible active animation from previous usage.
+    /// </summary>
     private void InitLabelText()
     {
-        //if (_label.Width <= 0) return;
-
         if (_isAnimationRunning)
         {
             this.AbortAnimation("MarqueeAnimation");

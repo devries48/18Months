@@ -19,6 +19,6 @@ public partial class MusicPage : ContentPage
     private void ContentPage_Appearing(object sender, EventArgs e)
     {
         base.OnAppearing();
-        _ =  ViewModel.GetLocalReleasesAsync().ConfigureAwait(false);
+        //_ =  ViewModel.GetLocalReleasesAsync().ConfigureAwait(false);
     }
 }

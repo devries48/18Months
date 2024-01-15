@@ -75,9 +75,9 @@
                                     Grid.Column="1"
                                     DefaultTextColor="{StaticResource Dark_SecondaryText}"
                                     FontSize="12"
+                                    HorizontalOptions="Start"
                                     SelectedTextColor="{StaticResource Dark_Accent}"
-                                    Text="{Binding PlaylistTrack}"
-                                    HorizontalOptions="Start">
+                                    Text="{Binding PlaylistTrack}">
                                     <controls:MarqueeLabel.IsSelected>
                                         <MultiBinding Converter="{StaticResource ConvertPlaylistIndexToBool}">
                                             <Binding Path="PlaylistPosition" />
@@ -89,9 +89,9 @@
                                     Grid.Column="2"
                                     Margin="15,0,0,0"
                                     FontSize="12"
+                                    HorizontalOptions="End"
                                     Text="{Binding Duration}"
-                                    TextColor="{Binding Source={x:Reference MarqueeTrack}, Path=TextColor}"
-                                    HorizontalOptions="End" />
+                                    TextColor="{Binding Source={x:Reference MarqueeTrack}, Path=TextColor}" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
@@ -143,7 +143,15 @@
                 HorizontalOptions="Center"
                 Opacity=".2"
                 Source="{Binding CurrentImage, Mode=OneWay, Converter={StaticResource ByteArrayToImageSourceConverter}}"
-                WidthRequest="200" />
+                WidthRequest="200">
+                <Image.Shadow>
+                    <Shadow
+                        Offset="10,10"
+                        Brush="{StaticResource Background_Dark}"
+                        Opacity=".9"
+                        Radius="10" />
+                </Image.Shadow>
+            </Image>
 
             <AbsoluteLayout
                 Grid.Column="2"

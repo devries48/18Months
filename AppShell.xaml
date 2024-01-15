@@ -10,7 +10,7 @@
     FlyoutBehavior="{OnIdiom Phone=Disabled, Default=Locked}"
     FlyoutWidth="68"
     Title="18 Months of Therapy">
-
+  
     <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Music_note}" Title="Music">
         <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MusicPage" />
     </controls:FlyoutItemIconFont>
@@ -19,9 +19,9 @@
         <ShellContent ContentTemplate="{DataTemplate page:VideoPage}" Route="VideoPage" />
     </controls:FlyoutItemIconFont>
 
-    <!--<controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Psychology}" Title="Therapy">
-        <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MusicPage" />
-    </controls:FlyoutItemIconFont>-->
+    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Psychology}" Title="Therapy">
+        <ShellContent ContentTemplate="{DataTemplate page:TherapyPage}" Route="MusicPage" />
+    </controls:FlyoutItemIconFont>
 
     <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Settings}" Title="Settings" >
         <ShellContent ContentTemplate="{DataTemplate page:SettingsPage}" Route="SettingsPage" />

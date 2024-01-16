@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+﻿<ContentPage
     x:Class="Months18.Pages.MusicPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -10,7 +9,7 @@
     xmlns:views="clr-namespace:Months18.Views"
     xmlns:vms="clr-namespace:Months18.ViewModels"
     Appearing="ContentPage_Appearing"
-    BindingContext="{Binding Source={RelativeSource Self}, Path=ViewModel}"
+    Padding="20"
     x:DataType="vms:MusicPageViewModel">
 
     <ContentPage.Resources>
@@ -22,26 +21,44 @@
     </ContentPage.Resources>
 
     <Grid ColumnDefinitions="{OnIdiom Phone='*', Default='*,350'}" RowDefinitions="*">
-        <CollectionView x:Name="ResultCollectioView"
-            ItemsLayout="VerticalGrid, 5"
+        <CollectionView
+            x:Name="ReleaseCollectionView"
             ItemsSource="{Binding Releases}"
-            SelectionMode="Single">
+            SelectionMode="Single"
+            SizeChanged="CollectionView_SizeChanged">
+
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="{Binding Span}" />
+            </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="20" x:DataType="models:ReleaseModel">
+                    <Grid
+                        Padding="10"
+                        WidthRequest="200"
+                        x:DataType="models:ReleaseModel">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="180" />
                         </Grid.ColumnDefinitions>
                         <Image
-                            Aspect="AspectFit" 
-                            HorizontalOptions="Fill"
-                            Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ConvertByteArrayToImageSource}}" />
+                            Aspect="AspectFill"
+                            HeightRequest="180"
+                            HorizontalOptions="Center"
+                            Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ConvertByteArrayToImageSource}}"
+                            VerticalOptions="Center">
+                            <Image.Shadow>
+                                <Shadow
+                                    Offset="5,5"
+                                    Brush="Black"
+                                    Opacity="0.99"
+                                    Radius="10" />
+                            </Image.Shadow>
+                        </Image>
                         <Label
                             Grid.Row="1"
                             FontAttributes="Bold"
@@ -58,21 +75,48 @@
                             Text="{Binding Title}" />
 
                         <Grid
-                            Grid.Row="0"
-                            Grid.RowSpan="2"
+                            Grid.RowSpan="3"
                             IsVisible="{Binding IsSelected}"
-                            VerticalOptions="End">
+                            VerticalOptions="FillAndExpand">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button
+                                Grid.Row="2"
+                                BackgroundColor="{StaticResource Dark_Accent}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=PlaySelectedReleaseCommand}"
+                                CornerRadius="30"
+                                HeightRequest="30"
+                                HorizontalOptions="Start"
+                                VerticalOptions="End"
+                                WidthRequest="30">
+                                <Button.ImageSource>
+                                    <FontImageSource
+                                        Color="{StaticResource Dark_AccentText}"
+                                        FontFamily="MaterialIcons"
+                                        Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
+                                </Button.ImageSource>
+                                <Button.Behaviors>
+                                    <toolkit:AnimationBehavior EventName="Clicked">
+                                        <toolkit:AnimationBehavior.AnimationType>
+                                            <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                                        </toolkit:AnimationBehavior.AnimationType>
+                                    </toolkit:AnimationBehavior>
+                                </Button.Behaviors>
+                            </Button>
 
                             <ImageButton
+                                Grid.Row="2"
+                                Grid.Column="1"
                                 BackgroundColor="{StaticResource Dark_Primary}"
                                 HeightRequest="20"
-                                HorizontalOptions="Start"
-                                VerticalOptions="Center"
+                                VerticalOptions="End"
                                 WidthRequest="20">
                                 <ImageButton.Source>
                                     <FontImageSource
@@ -83,26 +127,13 @@
                                 </ImageButton.Source>
                             </ImageButton>
 
-                            <Button
-                                Grid.Column="1"
-                                BackgroundColor="{StaticResource Dark_Accent}"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=PlaySelectedReleaseCommand}"
-                                CornerRadius="30"
-                                HeightRequest="30"
-                                WidthRequest="30">
-                                <Button.ImageSource>
-                                    <FontImageSource
-                                        Color="{StaticResource Dark_AccentText}"
-                                        FontFamily="MaterialIcons"
-                                        Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
-                                </Button.ImageSource>
-                            </Button>
-
                             <ImageButton
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Margin="10,0,0,0"
                                 BackgroundColor="{StaticResource Dark_Primary}"
                                 HeightRequest="20"
-                                HorizontalOptions="End"
-                                VerticalOptions="Center"
+                                VerticalOptions="End"
                                 WidthRequest="20">
                                 <ImageButton.Source>
                                     <FontImageSource
@@ -128,10 +159,10 @@
         <views:AudioPlayerView Grid.Column="{OnIdiom Phone=0, Default=1}" IsVisible="{OnIdiom Phone=False, Default=True}">
             <views:AudioPlayerView.Shadow>
                 <Shadow
-                        Offset="-10,10"
-                        Brush="Black"
-                        Opacity=".5"
-                        Radius="30" />
+                    Offset="-10,10"
+                    Brush="Black"
+                    Opacity=".5"
+                    Radius="30" />
             </views:AudioPlayerView.Shadow>
 
         </views:AudioPlayerView>

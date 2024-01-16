@@ -50,6 +50,7 @@ public static class MauiProgram
 
         services.AddSingleton<IAudioPlayerService, AudioPlayerService>();
         services.AddSingleton<ISettingsService, SettingsService>();
+        services.AddSingleton<ScaleAnimation>();
         services.AddTransient<SettingsPageViewModel>();
         services.AddTransient<SettingsPage>();
         services.AddTransient<MusicPageViewModel>();

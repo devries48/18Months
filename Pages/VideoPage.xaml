@@ -4,8 +4,22 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Months18.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:helpers="clr-namespace:Months18.Helpers"
     xmlns:models="clr-namespace:Months18.Models">
 
+    <ContentPage.Resources>
+        <Style x:Key="ButtonClickableStyle" TargetType="Button">
+            <Style.Behaviors>
+                    <toolkit:AnimationBehavior EventName="Clicked">
+                        <toolkit:AnimationBehavior.AnimationType>
+                            <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                        </toolkit:AnimationBehavior.AnimationType>
+                    </toolkit:AnimationBehavior>
+            </Style.Behaviors>
+        </Style>
+    </ContentPage.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -28,20 +42,39 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition  Width="200"/>
                 <ColumnDefinition  Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Label
-                FontSize="14"
-                HeightRequest="20"
-                Opacity=".8"
-                Style="{StaticResource labelSecondaryStyle}"
-                Text="CurrentArtist" />
+            <Button Text="Click this Button" Margin="16,0" Style="{StaticResource ButtonClickableStyle}"/>
+            <!--<Button.Behaviors>
+                    <toolkit:AnimationBehavior EventName="Clicked">
+                        <toolkit:AnimationBehavior.AnimationType>
+                            <helpers:ScaleAnimation
+                            Easing="{x:Static Easing.Linear}"
+                            Length="100"/>
+                        </toolkit:AnimationBehavior.AnimationType>
+                    </toolkit:AnimationBehavior>
+                </Button.Behaviors>
+            </Button>-->
+            <Button Grid.Row="1" Style="{StaticResource ButtonClickableStyle}"
+                              BackgroundColor="{StaticResource Dark_Accent}"
+                              CornerRadius="30"
+                              HorizontalOptions="Start"
+                              HeightRequest="30"
+                              WidthRequest="30">
+                <Button.ImageSource>
+                    <FontImageSource
+                                      Color="{StaticResource Dark_AccentText}"
+                                      FontFamily="MaterialIcons"
+                                      Glyph="{x:Static helpers:IconFont.Play_arrow}"/>
+                </Button.ImageSource>
+            </Button>
             <controls:MarqueeLabel
                 x:Name="testLabel"
-                Grid.Row="1"
+                Grid.Row="2"
                 FontSize="16"
                 HeightRequest="22"
                 Style="{StaticResource MarqueeSecondaryStyle}"
@@ -62,70 +95,5 @@
                 Text="Manual marquee label and it is very long"
                 TranslationX="0" />
         </ScrollView>
-
-        <!--<rcv:ReorderableCollectionView
-            Grid.Row="2"
-            CanReorderItems="True"
-            HorizontalOptions="Center"
-            IsGrouped="true"
-            VerticalOptions="Center">
-            <CollectionView.ItemsLayout>
-                <rcv:VariableSpanGridItemsLayout
-                    HorizontalItemSpacing="5"
-                    ItemHeight="80"
-                    ItemWidth="170"
-                    VerticalItemSpacing="5" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid
-                        BackgroundColor="{StaticResource  Gray100}"
-                        Padding="10"
-                        x:DataType="models:ReleaseModel">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="70" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Image
-                            Grid.RowSpan="2"
-                            Aspect="AspectFill"
-                            HeightRequest="60"
-                            Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ConvertByteArrayToImageSource}}"
-                            WidthRequest="60" />
-                        <Label
-                            Grid.Column="1"
-                            FontAttributes="Bold"
-                            LineBreakMode="TailTruncation"
-                            Text="{Binding Artist}" />
-                        <Label
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            FontAttributes="Italic"
-                            LineBreakMode="TailTruncation"
-                            Text="{Binding Title}"
-                            VerticalOptions="End" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            --><!--<CollectionView.GroupHeaderTemplate>
-                <DataTemplate>
-                    <Label
-                        BackgroundColor="LightGray"
-                        FontAttributes="Bold"
-                        FontSize="Large"
-                        Text="Header" />
-                </DataTemplate>
-            </CollectionView.GroupHeaderTemplate>
-            <CollectionView.GroupFooterTemplate>
-                <DataTemplate>
-                    <Label Margin="0,0,0,10" Text="Footer" />
-                </DataTemplate>
-            </CollectionView.GroupFooterTemplate>--><!--
-        </rcv:ReorderableCollectionView>-->
-
     </Grid>
 </ContentPage>

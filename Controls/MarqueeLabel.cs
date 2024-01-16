@@ -65,11 +65,8 @@ public class MarqueeLabel : ScrollView
         default(Color),
         propertyChanged: (bindable, oldValue, newValue) =>
         {
-            if (bindable is MarqueeLabel marqueeLabel)
-            {
-                if (marqueeLabel._label != null)
-                    marqueeLabel._label.TextColor = (Color)newValue;
-            }
+            if (bindable is MarqueeLabel marqueeLabel && marqueeLabel._label != null)
+                marqueeLabel._label.TextColor = (Color)newValue;
         });
 
     public static readonly BindableProperty DefaultTextColorProperty =
@@ -294,7 +291,7 @@ public class MarqueeLabel : ScrollView
             }
         }
 
-        if (CancelToken.IsCancellationRequested) 
+        if (CancelToken.IsCancellationRequested)
         {
             _isAnimationRunning = false;
             return;

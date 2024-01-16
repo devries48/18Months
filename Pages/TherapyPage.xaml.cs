@@ -11,7 +11,7 @@ public partial class TherapyPage : ContentPage
         BindingContext = viewModel;
     }
 
-    private MusicPageViewModel _viewModel;
+    private readonly MusicPageViewModel _viewModel;
 
     /// <summary>
     /// Calculate the number of columns of the CollectionView, 
@@ -20,7 +20,6 @@ public partial class TherapyPage : ContentPage
     {
         int span = (int)(ReleaseCollectionView.Width - 20) / MusicPageViewModel.DefaultItemWidth;
         if (span == 0) span = 1;
-        if (_viewModel.Span != span)
-            _viewModel.Span = span;
+        _viewModel.Span = span;
     }
 }

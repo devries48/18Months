@@ -1,35 +1,36 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Months18.Controls"
     xmlns:helpers="clr-namespace:Months18.Helpers"
-    xmlns:controls="clr-namespace:Months18.Controls">
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <Style x:Key="labelPrimaryStyle" TargetType="Label">
-        <Setter Property="FontSize" Value="16"/>
-        <Setter Property="TextColor" Value="{StaticResource Dark_PrimaryText}"/>
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextColor" Value="{StaticResource Dark_PrimaryText}" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
     </Style>
 
     <Style x:Key="labelSecondaryStyle" TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource Dark_SecondaryText}"/>
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="TextColor" Value="{StaticResource Dark_SecondaryText}" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
     </Style>
 
-    <Style x:Key="MarqueeSecondaryStyle"  TargetType="controls:MarqueeLabel">
-        <Setter Property="TextColor" Value="{StaticResource Dark_SecondaryText}"/>
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+    <Style x:Key="MarqueeSecondaryStyle" TargetType="controls:MarqueeLabel">
+        <Setter Property="TextColor" Value="{StaticResource Dark_SecondaryText}" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
     </Style>
 
 
-    <Style TargetType="Label" Class="Shell">
+    <Style Class="Shell" TargetType="Label">
         <Setter Property="FontFamily" Value="MaterialIcons" />
         <Setter Property="FontSize" Value="40" />
     </Style>
 
-    <Style TargetType="Label" Class="SectionHeader">
-        <Setter Property="FontSize" Value="25"/>
-        <Setter Property="TextColor" Value="{StaticResource Dark_HeaderText}"/>
-        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+    <Style Class="SectionHeader" TargetType="Label">
+        <Setter Property="FontSize" Value="25" />
+        <Setter Property="TextColor" Value="{StaticResource Dark_HeaderText}" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
     </Style>
 
     <!-- MarqueeLabel -->
@@ -39,7 +40,7 @@
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
     </Style>
-    
+
     <!-- SHELL -->
     <Style x:Key="BaseStyle" TargetType="Element">
         <Setter Property="Shell.FlyoutBackgroundColor" Value="{StaticResource Background_Mid}" />

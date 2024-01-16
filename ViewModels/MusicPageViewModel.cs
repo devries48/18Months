@@ -8,8 +8,6 @@ public partial class MusicPageViewModel : ObservableObject
         _playerService = playerService;
         _source = [];
         _playerService.SubscribeToMediaStateChanged(OnMediaStateChanged);
-
-        _=GetLocalReleasesAsync();
     }
 
     private readonly ISettingsService _settingsService;

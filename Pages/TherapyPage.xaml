@@ -85,6 +85,7 @@
                         ItemsSource="{Binding Releases}" 
                         SizeChanged="CollectionView_SizeChanged"
                         SelectionMode="Single">
+            
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid 

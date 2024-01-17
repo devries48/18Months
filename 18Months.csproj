@@ -49,7 +49,6 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -73,10 +72,6 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
-	  <None Remove="Resources\Images\tab_home.svg" />
-	  <None Remove="Resources\Images\tab_home_on.svg" />
-	  <None Remove="Resources\Images\tab_settings.svg" />
-	  <None Remove="Resources\Images\tab_settings_on.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -116,6 +111,10 @@
 	  <MauiXaml Update="Views\AudioPlayerView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
 
 </Project>

@@ -9,4 +9,14 @@ public static class Extenstions
         else
             action();
     }
+
+    public static string Description(this Enum enumValue)
+    {
+        var descriptionAttribute = enumValue.GetType()?
+            .GetField(enumValue.ToString())?
+            .GetCustomAttributes(false)
+            .SingleOrDefault(attr => attr.GetType() == typeof(DescriptionAttribute)) as DescriptionAttribute;
+
+        return descriptionAttribute?.Description ?? string.Empty;
+    }
 }

@@ -32,11 +32,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!--<controls:MarqueeLabel Text="This is a marquee label"/>-->
-        <!--<controls:MarqueeLabel
-            Grid.Row="1"
-            Style="{StaticResource MarqueeSecondaryStyle}"
-            Text="She Brings The Rain (From Bottom - Ein Großer Graublauer Vogel)" />-->
+        <controls:FlagImage Grid.Row="1" CountryCode="DEU" />
 
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
@@ -49,16 +45,6 @@
                 <ColumnDefinition  Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Button Text="Click this Button" Margin="16,0" Style="{StaticResource ButtonClickableStyle}"/>
-            <!--<Button.Behaviors>
-                    <toolkit:AnimationBehavior EventName="Clicked">
-                        <toolkit:AnimationBehavior.AnimationType>
-                            <helpers:ScaleAnimation
-                            Easing="{x:Static Easing.Linear}"
-                            Length="100"/>
-                        </toolkit:AnimationBehavior.AnimationType>
-                    </toolkit:AnimationBehavior>
-                </Button.Behaviors>
-            </Button>-->
             <Button Grid.Row="1" Style="{StaticResource ButtonClickableStyle}"
                               BackgroundColor="{StaticResource Dark_Accent}"
                               CornerRadius="30"

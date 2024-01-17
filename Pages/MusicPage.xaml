@@ -2,6 +2,7 @@
     x:Class="Months18.Pages.MusicPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Months18.Controls"
     xmlns:converters="clr-namespace:Months18.Converters"
     xmlns:helpers="clr-namespace:Months18.Helpers"
     xmlns:models="clr-namespace:Months18.Models"
@@ -9,7 +10,6 @@
     xmlns:views="clr-namespace:Months18.Views"
     xmlns:vms="clr-namespace:Months18.ViewModels"
     Appearing="ContentPage_Appearing"
-    Padding="20"
     x:DataType="vms:MusicPageViewModel">
 
     <ContentPage.Resources>
@@ -23,6 +23,7 @@
     <Grid ColumnDefinitions="{OnIdiom Phone='*', Default='*,350'}" RowDefinitions="*">
         <CollectionView
             x:Name="ReleaseCollectionView"
+            Margin="10,20,0,20"
             ItemsSource="{Binding Releases}"
             SelectionMode="Single"
             SizeChanged="CollectionView_SizeChanged">
@@ -34,17 +35,11 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid
+                        ColumnDefinitions="180"
                         Padding="10"
+                        RowDefinitions="*,Auto,Auto"
                         WidthRequest="200"
                         x:DataType="models:ReleaseModel">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="180" />
-                        </Grid.ColumnDefinitions>
                         <Image
                             Aspect="AspectFill"
                             HeightRequest="180"
@@ -76,19 +71,12 @@
 
                         <Grid
                             Grid.RowSpan="3"
+                            ColumnDefinitions="*,Auto,Auto"
                             IsVisible="{Binding IsSelected}"
+                            RowDefinitions="*"
                             VerticalOptions="FillAndExpand">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
 
                             <Button
-                                Grid.Row="2"
                                 BackgroundColor="{StaticResource Dark_Accent}"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=PlaySelectedReleaseCommand}"
                                 CornerRadius="30"
@@ -112,7 +100,6 @@
                             </Button>
 
                             <ImageButton
-                                Grid.Row="2"
                                 Grid.Column="1"
                                 BackgroundColor="{StaticResource Dark_Primary}"
                                 HeightRequest="20"
@@ -128,7 +115,6 @@
                             </ImageButton>
 
                             <ImageButton
-                                Grid.Row="2"
                                 Grid.Column="2"
                                 Margin="10,0,0,0"
                                 BackgroundColor="{StaticResource Dark_Primary}"
@@ -144,6 +130,49 @@
                                 </ImageButton.Source>
                             </ImageButton>
 
+                            <!--<Label
+                                FontSize="12"
+                                HorizontalOptions="Start"
+                                Text="{Binding Origin}"
+                                VerticalOptions="Start" />-->
+
+                            <Border
+                                Grid.ColumnSpan="3"
+                                Background="{StaticResource Background_Mid}"
+                                HorizontalOptions="Start"
+                                Stroke="{StaticResource Dark_Accent}"
+                                StrokeThickness="4"
+                                HeightRequest="45"
+                                WidthRequest="80"
+                                VerticalOptions="Start">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="0,40,0,40" />
+                                </Border.StrokeShape>
+                                <controls:FlagImage
+                                    Grid.Row="1"
+                                    Aspect="Fill"
+                                    CountryCodeText="{Binding Origin}" />
+                            </Border>
+
+                            <Border
+                                Grid.ColumnSpan="3"
+                                Background="{StaticResource Background_Mid}"
+                                HorizontalOptions="End"
+                                Padding="16,8"
+                                Stroke="{StaticResource Dark_Accent}"
+                                StrokeThickness="4"
+                                HeightRequest="45"
+                                WidthRequest="80"
+                                VerticalOptions="Start">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="40,0,40,0" />
+                                </Border.StrokeShape>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    Text="{Binding Year}"
+                                    TextColor="{StaticResource Dark_PrimaryText}" />
+                            </Border>
                         </Grid>
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer

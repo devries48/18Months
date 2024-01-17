@@ -20,7 +20,7 @@ public partial class MusicPage : ContentPage
 
     private void CollectionView_SizeChanged(object sender, EventArgs e)
     {
-        int span = (int)(ReleaseCollectionView.Width - 40) / MusicPageViewModel.DefaultItemWidth;
+        int span = (int)(ReleaseCollectionView.Width - 50) / MusicPageViewModel.DefaultItemWidth;
         if (span == 0) span = 1;
         _viewModel.Span = span;
     }

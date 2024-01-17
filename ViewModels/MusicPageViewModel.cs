@@ -97,19 +97,19 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("03. Spanish Key.mp3"), "Spanish Key", "10:20");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("Jameszoo & Metropol Orkest", "Melkweg", ImagePath("Melkweg-front.jpg"), "NL", 2019).ConfigureAwait(false);
+        release = await ReleaseModel.Create("Jameszoo & Metropol Orkest", "Melkweg", ImagePath("Melkweg-front.jpg"), "NLD", 2019).ConfigureAwait(false);
         release.AddTrack(MusicPath("03. (toots).mp3"), "(toots)", "5:24");
         release.AddTrack(MusicPath("04. (soup).mp3"), "(soup)", "6:36");
         release.AddTrack(MusicPath("07. (meat).mp3"), "(meat)", "8:54");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("Ozzy Osbourne", "No More Tears", ImagePath("No More Tears-front.jpg"), "UK", 1991).ConfigureAwait(false);
+        release = await ReleaseModel.Create("Ozzy Osbourne", "No More Tears", ImagePath("No More Tears-front.jpg"), "GBR", 1991).ConfigureAwait(false);
         release.AddTrack(MusicPath("03. Mama, I'm Coming Home.mp3"), "Mama, I'm Coming Home", "4:12");
         release.AddTrack(MusicPath("05. No More Tears.mp3"), "No More Tears", "7:24");
         release.AddTrack(MusicPath("11. Road To Nowhere.mp3"), "Road To Nowhere", "5:11");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("King Crimson", "Red", ImagePath("Red-front.jpg"), "UK", 1974).ConfigureAwait(false);
+        release = await ReleaseModel.Create("King Crimson", "Red", ImagePath("Red-front.jpg"), "GBR", 1974).ConfigureAwait(false);
         release.AddTrack(MusicPath("02 - Fallen Angel.mp3"), "Fallen Angel", "6:01");
         release.AddTrack(MusicPath("05 - Starless.mp3"), "Starless", "12:18");
         _source.Add(release);
@@ -122,21 +122,21 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("10 God Bless The Child.mp3"), "God Bless The Child", "2:51");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("CAN", "Soundtracks", ImagePath("Soundtracks-front.jpg"), "D", 1973).ConfigureAwait(false);
+        release = await ReleaseModel.Create("CAN", "Soundtracks", ImagePath("Soundtracks-front.jpg"), "DEU", 1973).ConfigureAwait(false);
         release.AddTrack(MusicPath("02. Tango Whiskyman (From Deadlock).mp3"), "Tango Whiskyman (From Deadlock)", "4:03");
         release.AddTrack(MusicPath("04. Don't Turn The Light On, Leave Me Alone (From Cream).mp3"), "Don't Turn The Light On, Leave Me Alone (From Cream)", "3:42");
         release.AddTrack(MusicPath("06. Mother Sky (From Deep End).mp3"), "Mother Sky (From Deep End)", "14:28");
         release.AddTrack(MusicPath("07. She Brings The Rain (From Bottom - Ein Großer Graublauer Vogel).mp3"), "She Brings The Rain (From Bottom - Ein Großer Graublauer Vogel)", "4:05");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("Amon Düül II", "Yeti", ImagePath("Yeti-front.jpg"), "D", 1970).ConfigureAwait(false);
+        release = await ReleaseModel.Create("Amon Düül II", "Yeti", ImagePath("Yeti-front.jpg"), "DEU", 1970).ConfigureAwait(false);
         release.AddTrack(MusicPath("01. Soap Shop Rock a) Burning Sister.mp3"), "Soap Shop Rock a) Burning Sister", "3:45");
         release.AddTrack(MusicPath("02. Soap Shop Rock b) Halluzination Guillotine.mp3"), "Soap Shop Rock b) Halluzination Guillotine", "3:10");
         release.AddTrack(MusicPath("03. Soap Shop Rock c) Gulp A Sonata.mp3"), "Soap Shop Rock c) Gulp A Sonata", "0:46");
         release.AddTrack(MusicPath("04. Soap Shop Rock d) Flesh-Coloured Anti-Aircraft Alarm.mp3"), "Soap Shop Rock d) Flesh-Coloured Anti-Aircraft Alarm", "6:04");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("CAN", "Ege Bamyasi", ImagePath("Ege Bamyasi-front.jpg"), "D", 1972).ConfigureAwait(false);
+        release = await ReleaseModel.Create("CAN", "Ege Bamyasi", ImagePath("Ege Bamyasi-front.jpg"), "DEU", 1972).ConfigureAwait(false);
         release.AddTrack(MusicPath("01. Pinch.mp3"), "Pinch", "9:29");
         release.AddTrack(MusicPath("03. One More Night.mp3"), "One More Night", "5:35");
         release.AddTrack(MusicPath("04. Vitamin C.mp3"), "Vitamin C", "3:32");
@@ -150,7 +150,7 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("2.04. Müh.mp3"), "Müh", "11:17");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("Catapilla", "Catapilla", ImagePath("Catapilla-front.jpg"), "UK", 1971).ConfigureAwait(false);
+        release = await ReleaseModel.Create("Catapilla", "Catapilla", ImagePath("Catapilla-front.jpg"), "GBR", 1971).ConfigureAwait(false);
         release.AddTrack(MusicPath("01. Naked Death.mp3"), "Naked Death", "15:42");
         _source.Add(release);
 
@@ -160,17 +160,17 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("03. Kobaïa Is De Hündïn.mp3"), "Kobaïa Is De Hündïn", "3:35");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("CAN", "Tago Mago", ImagePath("Tago Mago-front.jpg"), "D", 1971).ConfigureAwait(false);
+        release = await ReleaseModel.Create("CAN", "Tago Mago", ImagePath("Tago Mago-front.jpg"), "DEU", 1971).ConfigureAwait(false);
         release.AddTrack(MusicPath("01. Paperhouse.mp3"), "Paperhouse", "7:28");
         release.AddTrack(MusicPath("04. Halleluhwah.mp3"), "Halleluhwah", "18:28");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("Amon Düül II", "Phallus Dei", ImagePath("Phallus-front.jpg"), "D", 1969).ConfigureAwait(false);
+        release = await ReleaseModel.Create("Amon Düül II", "Phallus Dei", ImagePath("Phallus-front.jpg"), "DEU", 1969).ConfigureAwait(false);
         release.AddTrack(MusicPath("03. Luzifers Ghilom.mp3"), "Luzifers Ghilom", "8:34");
         release.AddTrack(MusicPath("05. Phallus Dei.mp3"), "Phallus Dei", "20:46");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("Joe McPhee", "Nation Time", ImagePath("Nation Time-front.jpg"), "D", 1970).ConfigureAwait(false);
+        release = await ReleaseModel.Create("Joe McPhee", "Nation Time", ImagePath("Nation Time-front.jpg"), "USA", 1970).ConfigureAwait(false);
         release.AddTrack(MusicPath("01 - Nation Time.mp3"), "Nation Time", "18:36");
         release.AddTrack(MusicPath("02 - Shakey Jake.mp3"), "Shakey Jake", "13:39");
         _source.Add(release);
@@ -181,7 +181,7 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("04. Le Labbra Del Tempo.mp3"), "Le Labbra Del Tempo", "6:04");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("King Crimson", "In the Court of the Crimson King", ImagePath("Court-front.jpg"), "UK", 1969).ConfigureAwait(false);
+        release = await ReleaseModel.Create("King Crimson", "In the Court of the Crimson King", ImagePath("Court-front.jpg"), "GBR", 1969).ConfigureAwait(false);
         release.AddTrack(MusicPath("02 - I Talk to the Wind.mp3"), "I Talk to the Wind", "6:03");
         release.AddTrack(MusicPath("03 - Epitaph - March for No Reason - Tomorrow and Tomorrow.mp3"), "Epitaph - March for No Reason - Tomorrow and Tomorrow", "8:51");
         _source.Add(release);
@@ -203,7 +203,7 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("04.L'ultima notte.mp3"), "L'ultima notte", "11:35");
         _source.Add(release);
 
-        release = await ReleaseModel.Create("Deep Purple", "Who Do We Think We Are", ImagePath("Who-front.jpg"), "UK", 1973).ConfigureAwait(false);
+        release = await ReleaseModel.Create("Deep Purple", "Who Do We Think We Are", ImagePath("Who-front.jpg"), "GBR", 1973).ConfigureAwait(false);
         release.AddTrack(MusicPath("01. Woman From Tokyo.mp3"), "Woman From Tokyo", "5:52");
         release.AddTrack(MusicPath("05. Rat Bat Blue.mp3"), "Rat Bat Blue", "5:26");
         release.AddTrack(MusicPath("06. Place In Line.mp3"), "Place In Line", "6:33");
@@ -243,12 +243,24 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("01. Oro Caldo.mp3"), "Oro Caldo", "18:31");
         _source.Add(release);
 
+        release = await ReleaseModel.Create("Quella Vecchia Locanda", "Il tempo della gioia", ImagePath("Tempo-front.jpg"), "ITA", 1974).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01.Villa Doria Pamphili.mp3"), "Villa Doria Pamphili", "5:27");
+        release.AddTrack(MusicPath("04.Un giorno, un amico.mp3"), "Un giorno, un amico", "9:40");
+        release.AddTrack(MusicPath("05.È accaduto una notte.mp3"), "È accaduto una notte", "8:17");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Premiata Forneria Marconi", "Per un amico", ImagePath("Amico-front.jpg"), "ITA", 1972).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01  Appena Un Poco .mp3"), "Appena Un Poco", "7:46");
+        release.AddTrack(MusicPath("02  Generale! .mp3"), "Generale!", "4:18");
+        release.AddTrack(MusicPath("03  Per Un Amico .mp3"), "Per Un Amico", "5:24");
+        _source.Add(release);
+
         _source.Add(
             await ReleaseModel.Create(
                 "Koenjihyakkei",
                 "Angherr Shisspa",
                 ImagePath("Angherr Shisspa-front.jpg"),
-                "JP",
+                "JPN",
                 2005)
                 .ConfigureAwait(false));
 

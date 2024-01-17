@@ -15,11 +15,11 @@
         <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MusicPage" />
     </controls:FlyoutItemIconFont>
 
-    <!--<controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Videocam}" Title="Video">
+    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Videocam}" Title="Video">
         <ShellContent ContentTemplate="{DataTemplate page:VideoPage}" Route="VideoPage" />
     </controls:FlyoutItemIconFont>
 
-    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Psychology}" Title="Therapy">
+    <!--<controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Psychology}" Title="Therapy">
         <ShellContent ContentTemplate="{DataTemplate page:TherapyPage}" Route="MusicPage" />
     </controls:FlyoutItemIconFont>-->
 

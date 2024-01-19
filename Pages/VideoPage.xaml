@@ -4,22 +4,33 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Months18.Controls"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:helpers="clr-namespace:Months18.Helpers"
-    xmlns:models="clr-namespace:Months18.Models">
+    xmlns:models="clr-namespace:Months18.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <ContentPage.Resources>
         <Style x:Key="ButtonClickableStyle" TargetType="Button">
             <Style.Behaviors>
-                    <toolkit:AnimationBehavior EventName="Clicked">
-                        <toolkit:AnimationBehavior.AnimationType>
-                            <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
-                        </toolkit:AnimationBehavior.AnimationType>
-                    </toolkit:AnimationBehavior>
+                <toolkit:AnimationBehavior EventName="Clicked">
+                    <toolkit:AnimationBehavior.AnimationType>
+                        <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                    </toolkit:AnimationBehavior.AnimationType>
+                </toolkit:AnimationBehavior>
             </Style.Behaviors>
         </Style>
+        
+        <Style x:Key="ImageButtonClickableStyle" TargetType="ImageButton">
+            <Style.Behaviors>
+                <toolkit:AnimationBehavior EventName="Clicked">
+                    <toolkit:AnimationBehavior.AnimationType>
+                        <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                    </toolkit:AnimationBehavior.AnimationType>
+                </toolkit:AnimationBehavior>
+            </Style.Behaviors>
+        </Style>
+
     </ContentPage.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,10 +40,38 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <controls:FlagImage Grid.Row="1" CountryCode="DEU" />
+        <ImageButton
+            BackgroundColor="{StaticResource Dark_Primary}"
+            HeightRequest="20"
+            Style="{StaticResource ImageButtonClickableStyle}"
+            VerticalOptions="End"
+            WidthRequest="20">
+            <ImageButton.Source>
+                <FontImageSource Color="{StaticResource Dark_PrimaryText}" FontFamily="MaterialIcons" Glyph="{x:Static helpers:IconFont.Visibility}" Size="26"/>
+            </ImageButton.Source>
+        </ImageButton>
+
+        <ImageButton
+            Grid.Column="1"
+            Margin="10,0,0,0"
+            BackgroundColor="{StaticResource Dark_Primary}"
+            HeightRequest="20"
+            Style="{StaticResource ImageButtonClickableStyle}"
+            VerticalOptions="End"
+            WidthRequest="20">
+            <ImageButton.Source>
+                <FontImageSource Color="{StaticResource Dark_PrimaryText}" FontFamily="MaterialIcons" Glyph="{x:Static helpers:IconFont.Playlist_add}" Size="26"/>
+            </ImageButton.Source>
+        </ImageButton>
+
+        <controls:FlagImage
+            Grid.Row="1"
+            CountryCode="DEU"
+            HeightRequest="20" />
 
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
@@ -41,21 +80,26 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition  Width="200"/>
-                <ColumnDefinition  Width="Auto"/>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Text="Click this Button" Margin="16,0" Style="{StaticResource ButtonClickableStyle}"/>
-            <Button Grid.Row="1" Style="{StaticResource ButtonClickableStyle}"
-                              BackgroundColor="{StaticResource Dark_Accent}"
-                              CornerRadius="30"
-                              HorizontalOptions="Start"
-                              HeightRequest="30"
-                              WidthRequest="30">
+            <Button
+                Margin="16,0"
+                Style="{StaticResource ButtonClickableStyle}"
+                Text="Click this Button" />
+            <Button
+                Grid.Row="1"
+                BackgroundColor="{StaticResource Dark_Accent}"
+                CornerRadius="30"
+                HeightRequest="30"
+                HorizontalOptions="Start"
+                Style="{StaticResource ButtonClickableStyle}"
+                WidthRequest="30">
                 <Button.ImageSource>
                     <FontImageSource
-                                      Color="{StaticResource Dark_AccentText}"
-                                      FontFamily="MaterialIcons"
-                                      Glyph="{x:Static helpers:IconFont.Play_arrow}"/>
+                        Color="{StaticResource Dark_AccentText}"
+                        FontFamily="MaterialIcons"
+                        Glyph="{x:Static helpers:IconFont.Play_arrow}" />
                 </Button.ImageSource>
             </Button>
             <controls:MarqueeLabel
@@ -65,21 +109,12 @@
                 HeightRequest="22"
                 Style="{StaticResource MarqueeSecondaryStyle}"
                 Text="She Brings The Rain (From Bottom - Ein Großer Graublauer Vogel)" />
-            <Button Grid.Row="1" Grid.Column="1" Text="STOP" Clicked="Button_Clicked" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                Clicked="Button_Clicked"
+                Text="STOP" />
         </Grid>
 
-        <ScrollView
-            Margin="0"
-            Background="red"
-            HorizontalScrollBarVisibility="Never"
-            Orientation="Horizontal"
-            Padding="0">
-            <Label
-                x:Name="marqueeLabel"
-                Background="DarkBlue"
-                LineBreakMode="NoWrap"
-                Text="Manual marquee label and it is very long"
-                TranslationX="0" />
-        </ScrollView>
     </Grid>
 </ContentPage>

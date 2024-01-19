@@ -72,6 +72,7 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
+	  <None Remove="Resources\Images\music_cast..svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -111,10 +112,6 @@
 	  <MauiXaml Update="Views\AudioPlayerView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
 
 </Project>

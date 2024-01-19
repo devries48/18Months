@@ -13,15 +13,25 @@ public partial class MusicPageViewModel : ObservableObject
     private readonly ISettingsService _settingsService;
     private readonly IAudioPlayerService _playerService;
     private readonly List<ReleaseModel> _source;
-    private ReleaseModel? _selectedRelease;
 
     public const int DefaultItemWidth = 200;
-    // test
+   
     [ObservableProperty]
-    int span = 1;
+    private int _span = 1;
 
-    [RelayCommand]
-    void ChangeSpan(int byAmount)
+    [ObservableProperty]
+    private ObservableCollection<ReleaseModel> _releases = [];
+
+    [ObservableProperty]
+    private ReleaseModel? _selectedRelease;
+
+    [ObservableProperty]
+    private bool _isPlaying;
+
+    [ObservableProperty]
+    private bool _isDetailViewVisible;
+
+    [RelayCommand]private void ChangeSpan(int byAmount)
     {
         if (Span + byAmount <= 0)   //Prevent span from being <= 0.
         {
@@ -31,36 +41,27 @@ public partial class MusicPageViewModel : ObservableObject
 
         Span += byAmount;
     }
-    // end test
 
-    [ObservableProperty]
-    private ObservableCollection<ReleaseModel> _releases = [];
-
-    [ObservableProperty]
-    private bool _isPlaying;
-
-    [RelayCommand]
-    private void ItemTap(ReleaseModel tappedItem)
+    [RelayCommand]private void ItemTap(ReleaseModel tappedItem)
     {
-        if (_selectedRelease != null && _selectedRelease != tappedItem)
-            _selectedRelease.IsSelected = false;
+        if (SelectedRelease != null && SelectedRelease != tappedItem)
+            SelectedRelease.IsSelected = false;
 
         if (tappedItem.IsSelected)
         {
             tappedItem.IsSelected = false;
-            _selectedRelease = null;
+            SelectedRelease = null;
         }
         else
         {
-            _selectedRelease = tappedItem;
+            SelectedRelease = tappedItem;
             tappedItem.IsSelected = true;
         }
     }
 
-    [RelayCommand]
-    private void PlaySelectedRelease()
+    [RelayCommand]private void PlaySelectedRelease()
     {
-        if (_selectedRelease == null || _playerService == null)
+        if (SelectedRelease == null || _playerService == null)
             return;
 
         if (_playerService.CurrentState == MediaElementState.Playing)
@@ -69,11 +70,20 @@ public partial class MusicPageViewModel : ObservableObject
             return;
         }
 
-        if (_selectedRelease.Title == (_playerService.CurrentTrack?.ReleaseTitle ?? string.Empty))
+        if (SelectedRelease.Title == (_playerService.CurrentTrack?.ReleaseTitle ?? string.Empty))
             _playerService.Play();
         else
-            _playerService.PlayRelease(_selectedRelease);
+            _playerService.PlayRelease(SelectedRelease);
     }
+
+    [RelayCommand]private void ShowSelectedRelease()
+    {
+        if (SelectedRelease == null || _playerService == null)
+            return;
+
+        IsDetailViewVisible = true;
+    }
+    [RelayCommand]private void HideSelectedRelease() => IsDetailViewVisible = false;
 
     public async Task GetLocalReleasesAsync()
     {
@@ -186,6 +196,14 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("03 - Epitaph - March for No Reason - Tomorrow and Tomorrow.mp3"), "Epitaph - March for No Reason - Tomorrow and Tomorrow", "8:51");
         _source.Add(release);
 
+        release = await ReleaseModel.Create("Miles Davis", "Ascenseur pour l'échafaud", ImagePath("Ascenseur-front.jpg"), "USA", 1958).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01. Generique.mp3"), "Generique", "2:48");
+        release.AddTrack(MusicPath("02. L'Assasinat De Carala.mp3"), "L'Assasinat De Carala", "2:10");
+        release.AddTrack(MusicPath("03. Sur L'Autoroute.mp3"), "Sur L'Autoroute", "2:18");
+        release.AddTrack(MusicPath("04. Julien Dans L'Ascenseur.mp3"), "Julien Dans L'Ascenseur", "2:10");
+        release.AddTrack(MusicPath("05. Florence Sur Les Champs Elysees.mp3"), "Florence Sur Les Champs Elysees", "2:51");
+        _source.Add(release);
+
         release = await ReleaseModel.Create("Opeth", "Damnation", ImagePath("Damnation-front.jpg"), "SWE", 2003).ConfigureAwait(false);
         release.AddTrack(MusicPath("01. Windowpane.mp3"), "Windowpane", "7:44");
         release.AddTrack(MusicPath("02. In My Time Of Need.mp3"), "In My Time Of Need", "5:46");
@@ -255,14 +273,45 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("03  Per Un Amico .mp3"), "Per Un Amico", "5:24");
         _source.Add(release);
 
-        _source.Add(
-            await ReleaseModel.Create(
-                "Koenjihyakkei",
-                "Angherr Shisspa",
-                ImagePath("Angherr Shisspa-front.jpg"),
-                "JPN",
-                2005)
-                .ConfigureAwait(false));
+        release = await ReleaseModel.Create("Charles Mingus", "Mingus Ah Um", ImagePath("Mingus-front.jpg"), "USA", 1959).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01. Better Git it in Your Soul.mp3"), "Better Git it in Your Soul", "7:22");
+        release.AddTrack(MusicPath("02. Goodbye Pork Pie Hat.mp3"), "Goodbye Pork Pie Hat", "4:47");
+        release.AddTrack(MusicPath("03. Boogie Stop Shuffle.mp3"), "Boogie Stop Shuffle", "3:44");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Mercyful Fate", "Don't Break the Oath", ImagePath("Oath-front.jpg"), "DNK", 1984).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01 - A Dangerous Meeting.mp3"), "A Dangerous Meeting", "5:09");
+        release.AddTrack(MusicPath("02 - Nightmare.mp3"), "Nightmare", "6:18");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Camel", "Mirage", ImagePath("Mirage-front.jpg"), "GBR", 1974).ConfigureAwait(false);
+        release.AddTrack(MusicPath("03. Nimrodel-The Procession-The White Rider.mp3"), "Nimrodel-The Procession-The White Rider", "9:18");
+        release.AddTrack(MusicPath("05. Lady Fantasy-Encounter, Smiles For You, Lady Fantasy.mp3"), "Lady Fantasy-Encounter, Smiles For You, Lady Fantasy", "12:45");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Koenjihyakkei", "Angherr Shisspa", ImagePath("Angherr Shisspa-front.jpg"), "JPN", 2005).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01 - Tziidall Raszhisst.mp3"), "Tziidall Raszhisst", "7:13");
+        release.AddTrack(MusicPath("02 - Rattims Friezz.mp3"), "Rattims Friezz", "7:01");
+        release.AddTrack(MusicPath("07 - Angherr Shisspa.mp3"), "Angherr Shisspa", "6:34");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Kollektiv", "Kollektiv", ImagePath("Kollektiv-front.jpg"), "DEU", 1973).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01  Rambo Zambo .mp3"), "Rambo Zambo", "11:42");
+        release.AddTrack(MusicPath("04  Gageg .mp3"), "Gageg", "19:58");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Brainstorm", "Smile a While", ImagePath("Smile-front.jpg"), "DEU", 1972).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01-Das Schwein Trugt.mp3"), "Das Schwein Trugt", "4:37");
+        release.AddTrack(MusicPath("02-Zwick Zwick.mp3"), "Zwick Zwick", "4:37");
+        release.AddTrack(MusicPath("05-Snakeskin Tango.mp3"), "Snakeskin Tango", "2:17");
+        release.AddTrack(MusicPath("06-Smile A While.mp3"), "Smile A While", "15:31");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Dün", "Eros", ImagePath("Eros-front.jpg"), "FRA", 1981).ConfigureAwait(false);
+        release.AddTrack(MusicPath("04 - Eros.mp3"), "Eros", "10:29");
+        release.AddTrack(MusicPath("08 - Eros (version alternative).mp3"), "Eros (version alternative)", "7:16");
+        _source.Add(release);
+
 
         Releases = new ObservableCollection<ReleaseModel>(_source);
     }

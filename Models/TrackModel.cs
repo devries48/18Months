@@ -11,6 +11,8 @@ public partial class TrackModel(ReleaseModel release) : ObservableObject
     public string TrackArtist { get => release.Artist; }
     public string ReleaseTitle { get => release.Title; }
     public byte[] ReleaseImage { get => release.ImageBytes; }
+
+    public int Nr { get; set; } = 0;
     public string Title { get; set; } = string.Empty;
     public string Duration { get; set; } = string.Empty;
     public string Uri { get; set; } = string.Empty;

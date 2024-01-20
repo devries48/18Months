@@ -119,17 +119,21 @@
             <ImageButton
                 Grid.Row="1"
                 Margin="5"
+                Aspect="AspectFit"
                 HeightRequest="40"
                 HorizontalOptions="End"
                 IsEnabled="False"
+                Padding="5"
+                Source="music_cast.png"
                 VerticalOptions="Start"
                 WidthRequest="40">
-                <ImageButton.Source>
-                    <FontImageSource
-                        Color="{StaticResource Dark_SecondaryText}"
-                        FontFamily="MaterialIcons"
-                        Glyph="{x:Static helpers:IconFont.Cast}" />
-                </ImageButton.Source>
+                <ImageButton.Behaviors>
+                    <toolkit:AnimationBehavior EventName="Clicked">
+                        <toolkit:AnimationBehavior.AnimationType>
+                            <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                        </toolkit:AnimationBehavior.AnimationType>
+                    </toolkit:AnimationBehavior>
+                </ImageButton.Behaviors>
             </ImageButton>
 
             <Image
@@ -186,6 +190,13 @@
                         FontFamily="MaterialIcons"
                         Glyph="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertBoolToVolumeGlyph}}" />
                 </ImageButton.Source>
+                <ImageButton.Behaviors>
+                    <toolkit:AnimationBehavior EventName="Clicked">
+                        <toolkit:AnimationBehavior.AnimationType>
+                            <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                        </toolkit:AnimationBehavior.AnimationType>
+                    </toolkit:AnimationBehavior>
+                </ImageButton.Behaviors>
             </ImageButton>
         </Grid>
 
@@ -198,14 +209,16 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label
-                FontSize="14"
+                Margin="0,5,0,2"
+                FontSize="15"
                 HeightRequest="20"
                 Opacity=".8"
+                VerticalOptions="End"
                 Style="{StaticResource labelSecondaryStyle}"
                 Text="{Binding CurrentArtist}" />
             <controls:MarqueeLabel
                 Grid.Row="1"
-                FontSize="16"
+                FontSize="18"
                 HeightRequest="22"
                 IsActive="True"
                 Style="{StaticResource MarqueeSecondaryStyle}"
@@ -280,6 +293,13 @@
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Skip_previous}" />
                 </ImageButton.Source>
+                <ImageButton.Behaviors>
+                    <toolkit:AnimationBehavior EventName="Clicked">
+                        <toolkit:AnimationBehavior.AnimationType>
+                            <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                        </toolkit:AnimationBehavior.AnimationType>
+                    </toolkit:AnimationBehavior>
+                </ImageButton.Behaviors>
             </ImageButton>
 
             <ImageButton
@@ -308,9 +328,7 @@
                 <ImageButton.Behaviors>
                     <toolkit:AnimationBehavior EventName="Clicked">
                         <toolkit:AnimationBehavior.AnimationType>
-                            <helpers:ScaleAnimation
-                            Easing="{x:Static Easing.Linear}"
-                            Length="100"/>
+                            <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
                         </toolkit:AnimationBehavior.AnimationType>
                     </toolkit:AnimationBehavior>
                 </ImageButton.Behaviors>
@@ -330,6 +348,13 @@
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Skip_next}" />
                 </ImageButton.Source>
+                <ImageButton.Behaviors>
+                    <toolkit:AnimationBehavior EventName="Clicked">
+                        <toolkit:AnimationBehavior.AnimationType>
+                            <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                        </toolkit:AnimationBehavior.AnimationType>
+                    </toolkit:AnimationBehavior>
+                </ImageButton.Behaviors>
             </ImageButton>
 
             <ImageButton

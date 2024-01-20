@@ -1,11 +1,14 @@
-﻿namespace Months18.Models;
+﻿using Months18.Controls;
+
+namespace Months18.Models;
 
 public partial class ReleaseModel : ObservableObject
 {
     public string Artist { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
-    public string Origin { get; set; } = string.Empty;
     public string Year { get; set; } = string.Empty;
+    public CountryCode CountryCode { get; set; } = CountryCode.None;
+    public string Country { get; private set; } = string.Empty;
     public List<TrackModel> Tracks { get; set; } = [];
 
     [ObservableProperty]
@@ -14,9 +17,9 @@ public partial class ReleaseModel : ObservableObject
     [ObservableProperty]
     private bool _isSelected;
 
-    public static async Task<ReleaseModel> Create(string artist, string title, string imagePath, string origin, int year)
+    public static async Task<ReleaseModel> Create(string artist, string title, string imagePath, CountryCode origin, int year)
     {
-        var release = new ReleaseModel() { Artist = artist, Title = title, Origin = origin, Year = year.ToString() };
+        var release = new ReleaseModel() { Artist = artist, Title = title, CountryCode = origin, Year = year.ToString() };
         await release.LoadImageBytesAsync(imagePath);
         return release;
     }
@@ -35,15 +38,16 @@ public partial class ReleaseModel : ObservableObject
             Console.WriteLine($"Error loading image bytes: {ex.Message}");
         }
     }
-
     public void AddTrack(string filePath, string title, string duration)
     {
         var track = new TrackModel(this)
         {
+            Nr = Tracks.Count + 1,
             Title = title,
             Duration = duration,
             Uri = filePath
         };
+
         Tracks.Add(track);
     }
 }

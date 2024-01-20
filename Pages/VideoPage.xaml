@@ -18,7 +18,7 @@
                 </toolkit:AnimationBehavior>
             </Style.Behaviors>
         </Style>
-        
+
         <Style x:Key="ImageButtonClickableStyle" TargetType="ImageButton">
             <Style.Behaviors>
                 <toolkit:AnimationBehavior EventName="Clicked">
@@ -44,15 +44,22 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+
         <ImageButton
+            Aspect="AspectFit"
             BackgroundColor="{StaticResource Dark_Primary}"
             HeightRequest="20"
-            Style="{StaticResource ImageButtonClickableStyle}"
-            VerticalOptions="End"
+            IsEnabled="False"
+            Padding="6"
+            Source="music_cast.png"
             WidthRequest="20">
-            <ImageButton.Source>
-                <FontImageSource Color="{StaticResource Dark_PrimaryText}" FontFamily="MaterialIcons" Glyph="{x:Static helpers:IconFont.Visibility}" Size="26"/>
-            </ImageButton.Source>
+            <ImageButton.Behaviors>
+                <toolkit:AnimationBehavior EventName="Clicked">
+                    <toolkit:AnimationBehavior.AnimationType>
+                        <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                    </toolkit:AnimationBehavior.AnimationType>
+                </toolkit:AnimationBehavior>
+            </ImageButton.Behaviors>
         </ImageButton>
 
         <ImageButton
@@ -64,9 +71,22 @@
             VerticalOptions="End"
             WidthRequest="20">
             <ImageButton.Source>
-                <FontImageSource Color="{StaticResource Dark_PrimaryText}" FontFamily="MaterialIcons" Glyph="{x:Static helpers:IconFont.Playlist_add}" Size="26"/>
+                <FontImageSource
+                    Color="{StaticResource Dark_PrimaryText}"
+                    FontFamily="MaterialIcons"
+                    Glyph="{x:Static helpers:IconFont.Playlist_add}"
+                    Size="26" />
             </ImageButton.Source>
         </ImageButton>
+
+        <ImageButton
+            Grid.Column="2"
+            Aspect="AspectFit"
+            BackgroundColor="{StaticResource Dark_Primary}"
+            HeightRequest="20"
+            Padding="6"
+            Source="music_cast.png"
+            WidthRequest="20" />
 
         <controls:FlagImage
             Grid.Row="1"

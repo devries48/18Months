@@ -38,9 +38,10 @@ public static class MauiProgram
             .UseMauiCommunityToolkitMediaElement()
             .ConfigureFonts(fonts =>
             {
+                fonts.AddFont("Lobster-Regular.ttf", "Lobster");
                 fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
-                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansRegular");
-                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                //fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansRegular");
+                //fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
 #if DEBUG

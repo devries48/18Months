@@ -4,6 +4,15 @@ namespace Months18.Controls;
 
 public class MarqueeLabel : ScrollView
 {
+    bool _isAnimationRunning = false;
+
+    readonly Label _label;
+    bool _stopAnimationFlag = false;
+    double _totalTextWidth = 0;
+
+    double _translationX = 0;
+    CancellationTokenSource cancelTokenSource = new();
+
     public MarqueeLabel()
     {
         Orientation = ScrollOrientation.Horizontal;
@@ -20,15 +29,110 @@ public class MarqueeLabel : ScrollView
         SizeChanged += OnSizeChanged;
     }
 
-    double _translationX = 0;
-    double _totalTextWidth = 0;
-    bool _isAnimationRunning = false;
-    bool _stopAnimationFlag = false;
+    private async void AnimateMarquee()
+    {
+        if (_stopAnimationFlag)
+        {
+            _stopAnimationFlag = false;
+            return;
+        }
 
-    readonly Label _label;
-    CancellationTokenSource cancelTokenSource = new();
+        if (NotAnimated()) return;
 
-    CancellationToken CancelToken => cancelTokenSource.Token;
+        _isAnimationRunning = true;
+
+        // Pause for 'DurationPause' seconds before a new animation
+        var delayTaskCompletionSource = new TaskCompletionSource<bool>();
+
+        using (CancelToken.Register(() => delayTaskCompletionSource.TrySetCanceled()))
+        {
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(DurationPause), CancelToken);
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        if (CancelToken.IsCancellationRequested)
+        {
+            _isAnimationRunning = false;
+            return;
+        }
+
+        // Set up the first animation from 0 to -totalTextWidth
+        var firstAnimation = new Animation(
+            x =>
+            {
+                _translationX = x;
+                _label.TranslationX = _translationX;
+            },
+            0,
+            -_totalTextWidth,
+            Easing.Linear);
+
+        // Set up the second animation from Width to 0
+        var secondAnimation = new Animation(
+            x =>
+            {
+                _translationX = x;
+                _label.TranslationX = _translationX;
+            },
+            _totalTextWidth,
+            0,
+            Easing.Linear);
+
+        // Create a sequence of animations
+        var sequence = new Animation
+        {
+            { 0, 0.5, firstAnimation }, // Run the first animation for the first half of the sequence
+            { 0.5, 1, secondAnimation } // Run the second animation for the second half of the sequence
+        };
+
+        // Callback for the end of the sequence
+        sequence.Commit(
+            this,
+            "MarqueeAnimation",
+            16,
+            (uint)(DurationAnimation * 1000),
+            Easing.Linear,
+            (value, cancelled) => AnimateMarquee());
+    }
+
+
+    /// <summary>
+    /// Initialize MarqueeLabel, abort possible active animation from previous usage.
+    /// </summary>
+    private void InitLabelText()
+    {
+        if (_isAnimationRunning)
+        {
+            this.AbortAnimation("MarqueeAnimation");
+
+            cancelTokenSource.Cancel();
+            cancelTokenSource = new CancellationTokenSource(); // Set a new CancellationToken for the upcoming animation
+        }
+
+        SizeRequest labelSize = _label.Measure(double.PositiveInfinity, double.PositiveInfinity);
+        _totalTextWidth = labelSize.Request.Width;
+        _label.TranslationX = 0;
+
+        AnimateMarquee();
+    }
+
+    private bool NotAnimated() => _stopAnimationFlag || !IsActive || !IsEnabled || _totalTextWidth <= Width;
+
+    /// <summary>
+    /// The first thime the label is initialised the with = -1, so wait for the size change
+    /// </summary>
+    private void OnSizeChanged(object? sender, EventArgs e)
+    {
+        SizeChanged -= OnSizeChanged;
+
+        InitLabelText();
+    }
 
     private void SetupLabel()
     {
@@ -36,10 +140,31 @@ public class MarqueeLabel : ScrollView
         _label.SetBinding(Label.TextColorProperty, new Binding(nameof(TextColor), source: this));
         _label.SetBinding(Label.FontFamilyProperty, new Binding(nameof(FontFamily), source: this));
         _label.SetBinding(Label.FontSizeProperty, new Binding(nameof(FontSize), source: this));
+        _label.SetBinding(Label.FontAttributesProperty, new Binding(nameof(FontAttributes), source: this));
         _label.SetBinding(Label.StyleProperty, new Binding(nameof(Style), source: this));
 
         // Add other property bindings as needed
     }
+
+    /// <summary>
+    /// The animation completes and stops
+    /// </summary>
+    private void StopAnimation()
+    {
+        if (_isAnimationRunning)
+            _stopAnimationFlag = true;
+        else
+            _label.LineBreakMode = LineBreakMode.TailTruncation;
+    }
+
+    private void UpdateIsActive()
+    {
+
+    }
+
+    private void UpdateTextColor() => TextColor = IsSelected && SelectedTextColor != default(Color) ? SelectedTextColor : DefaultTextColor;
+
+    CancellationToken CancelToken => cancelTokenSource.Token;
 
     #region BindableProperties
     public static readonly BindableProperty TextProperty =
@@ -117,6 +242,19 @@ public class MarqueeLabel : ScrollView
             if (bindable is MarqueeLabel marqueeLabel)
                 marqueeLabel._label.FontSize = (double)newValue;
         });
+
+    public static readonly BindableProperty FontAttributesProperty =
+    BindableProperty.Create(
+    nameof(FontAttributes),
+    typeof(FontAttributes),
+    typeof(MarqueeLabel),
+    FontAttributes.None,
+    propertyChanged: (bindable, oldValue, newValue) =>
+    {
+        if (bindable is MarqueeLabel marqueeLabel)
+            marqueeLabel._label.FontAttributes = (FontAttributes)newValue;
+    });
+
 
     public static readonly BindableProperty IsActiveProperty =
         BindableProperty.Create(
@@ -230,7 +368,15 @@ public class MarqueeLabel : ScrollView
             OnPropertyChanged(nameof(FontSize));
         }
     }
-
+    public FontAttributes FontAttributes
+    {
+        get => (FontAttributes)GetValue(FontAttributesProperty);
+        set
+        {
+            SetValue(FontAttributesProperty, value);
+            OnPropertyChanged(nameof(FontAttributes));
+        }
+    }
     public bool IsActive
     {
         get => (bool)GetValue(IsActiveProperty);
@@ -264,126 +410,4 @@ public class MarqueeLabel : ScrollView
     }
     #endregion
 
-    private async void AnimateMarquee()
-    {
-        if (_stopAnimationFlag)
-        {
-            _stopAnimationFlag = false;
-            return;
-        }
-
-        if (NotAnimated()) return;
-
-        _isAnimationRunning = true;
-
-        // Pause for 'DurationPause' seconds before a new animation
-        var delayTaskCompletionSource = new TaskCompletionSource<bool>();
-
-        using (CancelToken.Register(() => delayTaskCompletionSource.TrySetCanceled()))
-        {
-            try
-            {
-                await Task.Delay(TimeSpan.FromSeconds(DurationPause), CancelToken);
-            }
-            catch
-            {
-                return;
-            }
-        }
-
-        if (CancelToken.IsCancellationRequested)
-        {
-            _isAnimationRunning = false;
-            return;
-        }
-
-        // Set up the first animation from 0 to -totalTextWidth
-        var firstAnimation = new Animation(
-            x =>
-            {
-                _translationX = x;
-                _label.TranslationX = _translationX;
-            },
-            0,
-            -_totalTextWidth,
-            Easing.Linear);
-
-        // Set up the second animation from Width to 0
-        var secondAnimation = new Animation(
-            x =>
-            {
-                _translationX = x;
-                _label.TranslationX = _translationX;
-            },
-            _totalTextWidth,
-            0,
-            Easing.Linear);
-
-        // Create a sequence of animations
-        var sequence = new Animation
-        {
-            { 0, 0.5, firstAnimation }, // Run the first animation for the first half of the sequence
-            { 0.5, 1, secondAnimation } // Run the second animation for the second half of the sequence
-        };
-
-        // Callback for the end of the sequence
-        sequence.Commit(
-            this,
-            "MarqueeAnimation",
-            16,
-            (uint)(DurationAnimation * 1000),
-            Easing.Linear,
-            (value, cancelled) => AnimateMarquee());
-    }
-
-    private bool NotAnimated() => _stopAnimationFlag || !IsActive || !IsEnabled || _totalTextWidth <= Width;
-
-    /// <summary>
-    /// The animation completes and stops
-    /// </summary>
-    private void StopAnimation()
-    {
-        if (_isAnimationRunning)
-            _stopAnimationFlag = true;
-        else
-            _label.LineBreakMode = LineBreakMode.TailTruncation;
-    }
-
-    private void UpdateTextColor() => TextColor = IsSelected && SelectedTextColor != default(Color) ? SelectedTextColor : DefaultTextColor;
-
-    private void UpdateIsActive()
-    {
-
-    }
-
-
-    /// <summary>
-    /// Initialize MarqueeLabel, abort possible active animation from previous usage.
-    /// </summary>
-    private void InitLabelText()
-    {
-        if (_isAnimationRunning)
-        {
-            this.AbortAnimation("MarqueeAnimation");
-
-            cancelTokenSource.Cancel();
-            cancelTokenSource = new CancellationTokenSource(); // Set a new CancellationToken for the upcoming animation
-        }
-
-        SizeRequest labelSize = _label.Measure(double.PositiveInfinity, double.PositiveInfinity);
-        _totalTextWidth = labelSize.Request.Width;
-        _label.TranslationX = 0;
-
-        AnimateMarquee();
-    }
-
-    /// <summary>
-    /// The first thime the label is initialised the with = -1, so wait for the size change
-    /// </summary>
-    private void OnSizeChanged(object? sender, EventArgs e)
-    {
-        SizeChanged -= OnSizeChanged;
-
-        InitLabelText();
-    }
 }

@@ -17,6 +17,7 @@
             <converters:BoolToPlayingGlyphConverter x:Key="ConvertBoolToPlayingGlyph" />
             <converters:CurrentStateToPlayingGlyphConverter x:Key="ConvertStateToPlayingGlyph" />
             <toolkit:ByteArrayToImageSourceConverter x:Key="ConvertByteArrayToImageSource" />
+            <toolkit:InvertedBoolConverter x:Key="InvertBool" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -25,6 +26,7 @@
             x:Name="ReleaseCollectionView"
             Margin="10,20,0,20"
             ItemsSource="{Binding Releases}"
+            IsEnabled="{Binding IsDetailViewVisible, Converter={StaticResource InvertBool}}"
             SelectionMode="Single"
             SizeChanged="CollectionView_SizeChanged">
 
@@ -135,13 +137,6 @@
                                                 Glyph="{x:Static helpers:IconFont.Visibility}"
                                                 Size="26" />
                                         </ImageButton.Source>
-                                        <ImageButton.Behaviors>
-                                            <toolkit:AnimationBehavior EventName="Clicked">
-                                                <toolkit:AnimationBehavior.AnimationType>
-                                                    <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
-                                                </toolkit:AnimationBehavior.AnimationType>
-                                            </toolkit:AnimationBehavior>
-                                        </ImageButton.Behaviors>
                                     </ImageButton>
 
                                     <ImageButton
@@ -230,8 +225,12 @@
         <ContentView
             x:Name="DetailView"
             HeightRequest="500"
-            IsVisible="{Binding IsDetailViewVisible}"
+            IsVisible="False"
             WidthRequest="600">
+            <ContentView.Behaviors>
+                <helpers:AnimationBehavior AnimationType="Scaling" ShouldAnimate="{Binding IsDetailViewVisible}"  AnimationLength="500"/>
+            </ContentView.Behaviors>
+
             <Border
                 Background="{StaticResource Background_Dark}"
                 Padding="10"
@@ -334,7 +333,7 @@
                         Grid.ColumnSpan="2"
                         Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=HideSelectedReleaseCommand}"
                         HorizontalOptions="End"
-                        Text="Close" />
+                        Text="Close"/>
                 </Grid>
                 <Border.Shadow>
                     <Shadow

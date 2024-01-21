@@ -3,7 +3,6 @@
 // codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 public enum CountryCode
 {
-
     [Description("none")] None,
     [Description("flag_of_afghanistan.png")] AFG,
     [Description("flag_of_albania.png")] ALB,

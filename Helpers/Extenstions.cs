@@ -19,4 +19,9 @@ public static class Extenstions
 
         return descriptionAttribute?.Description ?? string.Empty;
     }
+
+    public static bool IsApproximatelyEqual(this double value1, double value2, double epsilon = 0.000001)
+    {
+        return Math.Abs(value1 - value2) < epsilon;
+    }
 }

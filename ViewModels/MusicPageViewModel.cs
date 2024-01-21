@@ -33,6 +33,12 @@ public partial class MusicPageViewModel : ObservableObject
     [ObservableProperty]
     private bool _isDetailViewVisible;
 
+    [ObservableProperty]
+    private AnimationType _detailsVisibleAnimation=AnimationType.Fading;
+
+    [ObservableProperty]
+    private AnimationType _releasesVisibleAnimation = AnimationType.Scaling;
+
     [RelayCommand]private void ChangeSpan(int byAmount)
     {
         if (Span + byAmount <= 0)   //Prevent span from being <= 0.
@@ -316,6 +322,13 @@ public partial class MusicPageViewModel : ObservableObject
         release = await ReleaseModel.Create("Arachnoïd", "Arachnoïd", ImagePath("Spin-front.jpg"), CountryCode.FRA, 1979).ConfigureAwait(false);
         release.AddTrack(MusicPath("01 - Le chamadere.mp3"), "Le chamadere", "13:51");
         release.AddTrack(MusicPath("02 - Piano caveau.mp3"), "Piano caveau", "7:18");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Charles Mingus", "The Black Saint and the Sinner Lady", ImagePath("Saint-front.jpg"), CountryCode.USA, 1963).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01. Track A - Solo Dancer.mp3"), "Track A - Solo Dancer", "6:39");
+        release.AddTrack(MusicPath("02. Track B - Duet Solo Dancers.mp3"), "Track B - Duet Solo Dancers", "6:46");
+        release.AddTrack(MusicPath("03. Track C - Group Dancers.mp3"), "Track C - Group Dancers", "7:23");
+        release.AddTrack(MusicPath("04. Mode D - Trio and Group Dancers + Mode E - Single Solos and Group Dance + Mod.mp3"), "Mode D - Trio and Group Dancers/Mode E - Single Solos and Group Dance", "18:38");
         _source.Add(release);
 
         Releases = new ObservableCollection<ReleaseModel>(_source);

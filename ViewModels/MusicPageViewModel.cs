@@ -223,6 +223,12 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("04. The Drapery Falls.mp3"), "The Drapery Falls", "10:53");
         _source.Add(release);
 
+        release = await ReleaseModel.Create("Opeth", "Ghost Reveries", ImagePath("Ghost-front.jpg"), CountryCode.SWE, 2005).ConfigureAwait(false);
+        release.AddTrack(MusicPath("01. Ghost Of Perdition.mp3"), "Ghost Of Perdition", "10:29");
+        release.AddTrack(MusicPath("02. The Baying Of The Hounds.mp3"), "The Baying Of The Hounds", "10:41");
+        release.AddTrack(MusicPath("08. Isolation Years.mp3"), "Isolation Years", "3:51");
+        _source.Add(release);
+
         release = await ReleaseModel.Create("Capitolo 6", "Frutti per Kagua", ImagePath("Frutti-front.jpg"), CountryCode.ITA, 1972).ConfigureAwait(false);
         release.AddTrack(MusicPath("01.Frutti per Kagua.mp3"), "Frutti per Kagua", "18:28");
         release.AddTrack(MusicPath("04.L'ultima notte.mp3"), "L'ultima notte", "11:35");

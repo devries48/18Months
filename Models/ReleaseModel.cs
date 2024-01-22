@@ -8,7 +8,6 @@ public partial class ReleaseModel : ObservableObject
     public string Title { get; set; } = string.Empty;
     public string Year { get; set; } = string.Empty;
     public CountryCode CountryCode { get; set; } = CountryCode.None;
-    public string Country { get; private set; } = string.Empty;
     public List<TrackModel> Tracks { get; set; } = [];
 
     [ObservableProperty]
@@ -38,6 +37,7 @@ public partial class ReleaseModel : ObservableObject
             Console.WriteLine($"Error loading image bytes: {ex.Message}");
         }
     }
+
     public void AddTrack(string filePath, string title, string duration)
     {
         var track = new TrackModel(this)
@@ -49,5 +49,14 @@ public partial class ReleaseModel : ObservableObject
         };
 
         Tracks.Add(track);
+    }
+
+    public string YearAndCountry
+    {
+        get
+        {
+            var country = CountryCode.Description().Replace("flag_of_","").Replace(".png","").Replace('_', ' ').ToTitleCase();
+            return $"{Year}, {country}";
+        }
     }
 }

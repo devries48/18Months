@@ -25,14 +25,22 @@
         <CollectionView
             x:Name="ReleaseCollectionView"
             Margin="10,20,0,20"
+            IsEnabled="{Binding  IsDetailViewVisible, Converter={StaticResource InvertBool}}"
             ItemsSource="{Binding Releases}"
-            IsEnabled="{Binding IsDetailViewVisible, Converter={StaticResource InvertBool}}"
             SelectionMode="Single"
             SizeChanged="CollectionView_SizeChanged">
 
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="{Binding Span}" />
             </CollectionView.ItemsLayout>
+
+            <CollectionView.Behaviors>
+                <helpers:AnimationBehavior
+                    AnimationLength="500"
+                    AnimationType="Fading"
+                    MinimumOpacity="0.5"
+                    ShouldAnimate="{Binding IsDetailViewVisible}" />
+            </CollectionView.Behaviors>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -137,6 +145,13 @@
                                                 Glyph="{x:Static helpers:IconFont.Visibility}"
                                                 Size="26" />
                                         </ImageButton.Source>
+                                        <ImageButton.Behaviors>
+                                            <toolkit:AnimationBehavior EventName="Clicked">
+                                                <toolkit:AnimationBehavior.AnimationType>
+                                                    <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                                                </toolkit:AnimationBehavior.AnimationType>
+                                            </toolkit:AnimationBehavior>
+                                        </ImageButton.Behaviors>
                                     </ImageButton>
 
                                     <ImageButton
@@ -188,7 +203,7 @@
                                 Background="{StaticResource Background_Mid}"
                                 HeightRequest="45"
                                 HorizontalOptions="End"
-                                Padding="16,8"
+                                Padding="17,9"
                                 Stroke="{StaticResource Dark_Accent}"
                                 StrokeThickness="4"
                                 VerticalOptions="Start"
@@ -205,7 +220,7 @@
                                 </Border.Shadow>
                                 <Label
                                     FontAttributes="Bold"
-                                    FontSize="15"
+                                    FontSize="16"
                                     Text="{Binding Year}"
                                     TextColor="{StaticResource Dark_PrimaryText}" />
                             </Border>
@@ -228,7 +243,10 @@
             IsVisible="False"
             WidthRequest="600">
             <ContentView.Behaviors>
-                <helpers:AnimationBehavior AnimationType="Scaling" ShouldAnimate="{Binding IsDetailViewVisible}"  AnimationLength="500"/>
+                <helpers:AnimationBehavior
+                    AnimationLength="500"
+                    AnimationType="Scaling"
+                    ShouldAnimate="{Binding IsDetailViewVisible}" />
             </ContentView.Behaviors>
 
             <Border
@@ -262,10 +280,10 @@
 
                     <controls:MarqueeLabel
                         Grid.Row="1"
-                        Margin="0,10,0,5"
+                        Margin="0,10,0,15"
                         DefaultTextColor="{StaticResource Dark_PrimaryText}"
+                        FontSize="16"
                         FontAttributes="Bold"
-                        FontSize="18"
                         HorizontalOptions="Start"
                         IsActive="True"
                         Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.Artist}" />
@@ -273,7 +291,7 @@
                     <controls:MarqueeLabel
                         Grid.Row="2"
                         DefaultTextColor="{StaticResource Dark_PrimaryText}"
-                        FontAttributes="Italic"
+                        FontAttributes="Italic,Bold"
                         FontSize="18"
                         HorizontalOptions="Start"
                         IsActive="True"
@@ -281,10 +299,10 @@
 
                     <Label
                         Grid.Row="3"
-                        FontSize="18"
+                          Margin="0,5,0,10"
+                        FontSize="13"
                         HorizontalOptions="Start"
-                        Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.Title, StringFormat='Release year {0}'}" />
-
+                        Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.YearAndCountry}" />
                     <ListView
                         x:Name="TracklistView"
                         Grid.RowSpan="4"
@@ -312,7 +330,7 @@
                                             x:Name="MarqueeTrack"
                                             Grid.Column="1"
                                             DefaultTextColor="{StaticResource Dark_PrimaryText}"
-                                            FontSize="12"
+                                            FontSize="13"
                                             HorizontalOptions="Start"
                                             IsActive="True"
                                             Text="{Binding Title}" />
@@ -333,14 +351,14 @@
                         Grid.ColumnSpan="2"
                         Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=HideSelectedReleaseCommand}"
                         HorizontalOptions="End"
-                        Text="Close"/>
+                        Text="Close" />
                 </Grid>
                 <Border.Shadow>
                     <Shadow
                         Offset="10,10"
-                        Brush="Black"
                         Opacity=".5"
-                        Radius="30" />
+                        Radius="30"
+                        Brush="Black" />
                 </Border.Shadow>
             </Border>
 

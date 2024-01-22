@@ -24,4 +24,9 @@ public static class Extenstions
     {
         return Math.Abs(value1 - value2) < epsilon;
     }
+
+    public static string ToTitleCase(this string title)
+    {
+        return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(title.ToLower());
+    }
 }

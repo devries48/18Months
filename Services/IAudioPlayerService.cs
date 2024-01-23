@@ -22,7 +22,9 @@ public interface IAudioPlayerService
 
     void Play();
 
-    void PlayRelease(ReleaseModel selectedRelease);
+    void PlayRelease(ReleaseModel release);
+
+    void PlayTrack(TrackModel track);
 
     /// <summary>
     /// Select a Track to Play on the Playlist

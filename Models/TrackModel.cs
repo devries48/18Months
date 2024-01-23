@@ -6,6 +6,10 @@ public partial class TrackModel(ReleaseModel release) : ObservableObject
     [ObservableProperty]
     private int _playlistPosition = 0;
 
+    // Display Button panel in DetailView
+    [ObservableProperty]
+    private bool _isSelected;
+
     public bool PlaylistSingleArtist { get; set; }
 
     public string TrackArtist { get => release.Artist; }

@@ -107,7 +107,6 @@
                                 </Border.Shadow>
 
                                 <Grid ColumnDefinitions="*,Auto,Auto">
-
                                     <Button
                                         BackgroundColor="{StaticResource Dark_Accent}"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=PlaySelectedReleaseCommand}"
@@ -228,7 +227,7 @@
 
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=ItemTapCommand}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=ReleaseTapCommand}"
                                 CommandParameter="{Binding}"
                                 NumberOfTapsRequired="1" />
                         </Grid.GestureRecognizers>
@@ -260,12 +259,11 @@
                 <Grid
                     ColumnDefinitions="250,*"
                     Padding="20"
-                    RowDefinitions="250,Auto,Auto, Auto,*,Auto"
+                    RowDefinitions="250,Auto,Auto,Auto,Auto,*,Auto"
                     x:DataType="models:ReleaseModel">
                     <Image
                         Aspect="AspectFill"
                         HeightRequest="250"
-                        HorizontalOptions="Start"
                         Source="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.ImageBytes, Mode=OneWay, Converter={StaticResource ConvertByteArrayToImageSource}}"
                         VerticalOptions="Start"
                         WidthRequest="250">
@@ -280,11 +278,10 @@
 
                     <controls:MarqueeLabel
                         Grid.Row="1"
-                        Margin="0,10,0,15"
+                        Margin="0,5,0,10"
                         DefaultTextColor="{StaticResource Dark_PrimaryText}"
-                        FontSize="16"
                         FontAttributes="Bold"
-                        HorizontalOptions="Start"
+                        FontSize="16"
                         IsActive="True"
                         Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.Artist}" />
 
@@ -293,72 +290,143 @@
                         DefaultTextColor="{StaticResource Dark_PrimaryText}"
                         FontAttributes="Italic,Bold"
                         FontSize="18"
-                        HorizontalOptions="Start"
                         IsActive="True"
                         Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.Title}" />
 
                     <Label
                         Grid.Row="3"
-                          Margin="0,5,0,10"
-                        FontSize="13"
-                        HorizontalOptions="Start"
+                        Margin="0,2,0,10"
+                        FontSize="14"
                         Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.YearAndCountry}" />
+
+                    <Label
+                        Grid.Row="4"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.Genre}" />
+
+                    <Label
+                        Grid.Row="5"
+                        Grid.RowSpan="2"
+                        FontSize="14"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.SubGenres}" />
+
+                    <Label
+                        Grid.Row="7"
+                        FontSize="14"
+                        Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.TotalLength}"
+                        VerticalOptions="End" />
+
+                    <Button
+                        Grid.Row="7"
+                        Grid.Column="2"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=HideSelectedReleaseCommand}"
+                        HorizontalOptions="End"
+                        Text="Close" />
+
                     <ListView
                         x:Name="TracklistView"
-                        Grid.RowSpan="4"
+                        Grid.RowSpan="6"
                         Grid.Column="1"
                         Margin="10,0,0,0"
                         ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.Tracks}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Grid Padding="2,4" x:DataType="models:TrackModel">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label
-                                            Grid.Column="0"
-                                            Margin="0,0,10,0"
-                                            FontSize="12"
-                                            Text="{Binding Nr, StringFormat='{0}.'}" />
-                                        <controls:MarqueeLabel
-                                            x:Name="MarqueeTrack"
-                                            Grid.Column="1"
-                                            DefaultTextColor="{StaticResource Dark_PrimaryText}"
-                                            FontSize="13"
-                                            HorizontalOptions="Start"
-                                            IsActive="True"
-                                            Text="{Binding Title}" />
-                                        <Label
-                                            Grid.Column="2"
-                                            Margin="15,0,0,0"
-                                            FontSize="12"
-                                            HorizontalOptions="End"
-                                            Text="{Binding Duration}" />
+                                    <Grid>
+                                        <Grid Padding="2,4" x:DataType="models:TrackModel" VerticalOptions="Center">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label
+                                                Grid.Column="0"
+                                                Margin="0,0,10,0"
+                                                FontSize="12"
+                                                Text="{Binding Nr, StringFormat='{0}.'}" />
+                                            <controls:MarqueeLabel
+                                                x:Name="MarqueeTrack"
+                                                Grid.Column="1"
+                                                DefaultTextColor="{StaticResource Dark_PrimaryText}"
+                                                FontSize="13"
+                                                IsActive="True"
+                                                Text="{Binding Title}" />
+                                            <Label
+                                                Grid.Column="2"
+                                                Margin="15,0,0,0"
+                                                FontSize="12"
+                                                HorizontalOptions="End"
+                                                Text="{Binding Duration}" />
+                                        </Grid>
+                                        
+                                        <Grid ColumnDefinitions="*,Auto,Auto" IsVisible="{Binding IsSelected}">
+                                            <Button
+                                                Grid.Column="1"
+                                                BackgroundColor="{StaticResource Dark_Accent}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=PlaySelectedTrackCommand}"
+                                                CornerRadius="30"
+                                                HeightRequest="30"
+                                                HorizontalOptions="Start"
+                                                WidthRequest="30">
+                                                <Button.ImageSource>
+                                                    <FontImageSource
+                                                        Color="{StaticResource Dark_AccentText}"
+                                                        FontFamily="MaterialIcons"
+                                                        Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
+                                                </Button.ImageSource>
+                                                <Button.Behaviors>
+                                                    <toolkit:AnimationBehavior EventName="Clicked">
+                                                        <toolkit:AnimationBehavior.AnimationType>
+                                                            <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                                                        </toolkit:AnimationBehavior.AnimationType>
+                                                    </toolkit:AnimationBehavior>
+                                                </Button.Behaviors>
+                                            </Button>
+                                            
+                                            <ImageButton
+                                                Grid.Column="2"
+                                                Margin="10,0,0,0"
+                                                BackgroundColor="{StaticResource Dark_Primary}"
+                                                HeightRequest="20"
+                                                HorizontalOptions="End"
+                                                VerticalOptions="Center"
+                                                WidthRequest="20">
+                                                <ImageButton.Source>
+                                                    <FontImageSource
+                                                        Color="{StaticResource Dark_PrimaryText}"
+                                                        FontFamily="MaterialIcons"
+                                                        Glyph="{x:Static helpers:IconFont.Playlist_add}"
+                                                        Size="26" />
+                                                </ImageButton.Source>
+                                            </ImageButton>
+
+                                        </Grid>
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=TrackTapCommand}"
+                                                CommandParameter="{Binding}"
+                                                NumberOfTapsRequired="1" />
+                                        </Grid.GestureRecognizers>
+
                                     </Grid>
+
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
 
-                    <Button
-                        Grid.Row="5"
-                        Grid.ColumnSpan="2"
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=HideSelectedReleaseCommand}"
-                        HorizontalOptions="End"
-                        Text="Close" />
                 </Grid>
                 <Border.Shadow>
                     <Shadow
                         Offset="10,10"
+                        Brush="Black"
                         Opacity=".5"
-                        Radius="30"
-                        Brush="Black" />
+                        Radius="30" />
                 </Border.Shadow>
             </Border>
 

@@ -9,6 +9,8 @@ public partial class ReleaseModel : ObservableObject
     public string Year { get; set; } = string.Empty;
     public CountryCode CountryCode { get; set; } = CountryCode.None;
     public List<TrackModel> Tracks { get; set; } = [];
+    public string Genre { get; set; } = string.Empty;
+    public string SubGenres { get; set; } = string.Empty;
 
     [ObservableProperty]
     private byte[] _imageBytes = [];
@@ -51,12 +53,42 @@ public partial class ReleaseModel : ObservableObject
         Tracks.Add(track);
     }
 
+    public void AddGenres(params string[] genres)
+    {
+        Genre = genres.First();
+        if (genres.Length > 1)
+            SubGenres = string.Join(", ", genres.Skip(1));
+    }
+
     public string YearAndCountry
     {
         get
         {
-            var country = CountryCode.Description().Replace("flag_of_","").Replace(".png","").Replace('_', ' ').ToTitleCase();
+            var country = CountryCode.Description().Replace("flag_of_", "").Replace(".png", "").Replace('_', ' ').ToTitleCase();
             return $"{Year}, {country}";
         }
+    }
+
+    public string TotalLength => CalculateTotalTime();
+
+    private string CalculateTotalTime()
+    {
+        int totalMinutes = 0;
+        int totalSeconds = 0;
+
+        foreach (var track in Tracks)
+        {
+            var parts = track.Duration.Split(':');
+            if (parts.Length == 2 && int.TryParse(parts[0], out int minutes) && int.TryParse(parts[1], out int seconds))
+            {
+                totalMinutes += minutes;
+                totalSeconds += seconds;
+            }
+        }
+
+        totalMinutes += totalSeconds / 60;
+        totalSeconds %= 60;
+
+        return $"Total length: {totalMinutes}:{totalSeconds:D2}";
     }
 }

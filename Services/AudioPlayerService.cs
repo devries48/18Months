@@ -1,4 +1,6 @@
-﻿namespace Months18.Services;
+﻿using System.Diagnostics;
+
+namespace Months18.Services;
 
 public class AudioPlayerService : IAudioPlayerService
 {
@@ -38,6 +40,13 @@ public class AudioPlayerService : IAudioPlayerService
             playlist.AddRange(release.Tracks);
             OnPlaylistChanged(PlaylistAction.ListChanged, 0);
         }
+    }
+
+    public void PlayTrack(TrackModel track)
+    {
+        playlist.Clear();
+        playlist.Add(track);
+        OnPlaylistChanged(PlaylistAction.ListChanged, 0);
     }
 
     public void PlayFromPlaylist(int index, bool startPlay) => OnPlaylistChanged(

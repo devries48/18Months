@@ -74,7 +74,7 @@
                                     x:Name="MarqueeTrack"
                                     Grid.Column="1"
                                     DefaultTextColor="{StaticResource Dark_SecondaryText}"
-                                    FontSize="12"
+                                    FontSize="13"
                                     HorizontalOptions="Start"
                                     SelectedTextColor="{StaticResource Dark_Accent}"
                                     Text="{Binding PlaylistTrack}">

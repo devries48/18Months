@@ -151,8 +151,8 @@ public partial class MusicPageViewModel : ObservableObject
 
         release = await ReleaseModel.Create("Miles Davis", "Bitches Brew", ImagePath("Bitches Brew-front.jpg"), CountryCode.USA, 1970).ConfigureAwait(false);
         release.AddGenres("Jazz Fusion", "Avant-Garde Jazz", "Jazz-Rock", "Jazz-Funk");
-        release.AddTrack(MusicPath("01. Miles Runs The Voodoo Down.mp3"), "Miles Runs The Voodoo Down", "14:01");
-        release.AddTrack(MusicPath("03. Spanish Key.mp3"), "Spanish Key", "10:20");
+        release.AddTrack(MusicPath("01. Spanish Key.mp3"), "Spanish Key", "17:29");
+        release.AddTrack(MusicPath("03. Miles Runs The Voodoo Down.mp3"), "Miles Runs The Voodoo Down", "14:04");
         _source.Add(release);
 
         release = await ReleaseModel.Create("Jameszoo & Metropol Orkest", "Melkweg", ImagePath("Melkweg-front.jpg"), CountryCode.NLD, 2019).ConfigureAwait(false);

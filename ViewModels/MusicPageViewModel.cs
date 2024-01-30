@@ -267,6 +267,12 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("05. Florence Sur Les Champs Elysees.mp3"), "Florence Sur Les Champs Elysees", "2:51");
         _source.Add(release);
 
+        release = await ReleaseModel.Create("Led Zeppelin", "Houses of the Holy", ImagePath("Houses-front.jpg"), CountryCode.GBR, 1973).ConfigureAwait(false);
+        release.AddGenres("Hard Rock", "Folk Rock", "Blues Rock", "Progressive Rock");
+        release.AddTrack(MusicPath("02. The Rain Song.mp3"), "The Rain Song", "7:39");
+        release.AddTrack(MusicPath("07. No Quarter.mp3"), "No Quarter", "7:03");
+        _source.Add(release);
+
         release = await ReleaseModel.Create("Opeth", "Damnation", ImagePath("Damnation-front.jpg"), CountryCode.SWE, 2003).ConfigureAwait(false);
         release.AddGenres("Progressive Rock", "Contemporary Folk");
         release.AddTrack(MusicPath("01. Windowpane.mp3"), "Windowpane", "7:44");
@@ -415,6 +421,17 @@ public partial class MusicPageViewModel : ObservableObject
         release.AddTrack(MusicPath("04. Mode D - Trio and Group Dancers + Mode E - Single Solos and Group Dance + Mod.mp3"), "Mode D - Trio and Group Dancers/Mode E - Single Solos and Group Dance", "18:38");
         _source.Add(release);
 
+        release = await ReleaseModel.Create("Änglagård", "Hybris", ImagePath("Hybris-front.jpg"), CountryCode.SWE, 1992).ConfigureAwait(false);
+        release.AddGenres("Symphonic Prog", "Progressive Rock", "Progressive Folk");
+        release.AddTrack(MusicPath("02 - Vandringar i vilsenhet.mp3"), "Vandringar i vilsenhet", "11:57");
+        release.AddTrack(MusicPath("04 - Kung Bore.mp3"), "Kung Bore", "12:57");
+        _source.Add(release);
+
+        release = await ReleaseModel.Create("Pharoah Sanders", "Karma", ImagePath("Karma-front.jpg"), CountryCode.USA, 1969).ConfigureAwait(false);
+        release.AddGenres("Spiritual Jazz", "Avant-Garde Jazz", "Free Jazz");
+        release.AddTrack(MusicPath("01 - The Creator Has a Master Plan.mp3"), "The Creator Has a Master Plan", "32:47");
+        _source.Add(release);
+        
         Releases = new ObservableCollection<ReleaseModel>(_source);
     }
 

@@ -71,6 +71,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove=".deepsource.toml" />
+	  <None Remove=".gitattributes" />
+	  <None Remove=".gitignore" />
 	  <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
 	  <None Remove="Resources\Images\music_cast..svg" />
 	</ItemGroup>

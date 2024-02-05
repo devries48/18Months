@@ -21,7 +21,90 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid ColumnDefinitions="{OnIdiom Phone='*', Default='*,350'}" RowDefinitions="Auto,*">
+    <Grid ColumnDefinitions="{OnIdiom Phone='*', Default='*,350'}" RowDefinitions="45,*">
+        <controls:Toolbar
+            Grid.RowSpan="2"
+            Margin="20,10"
+            AccentColor="{StaticResource Dark_Accent}"
+            BackgroundColor="{StaticResource Background_Dark}"
+            ExpandedHeight="200"
+            HeaderColor="{StaticResource Dark_PrimaryText}"
+            HeightRequest="45"
+            Stroke="{StaticResource Background_Mid}">
+            <controls:Toolbar.HeaderContent>
+                <Label
+                    Margin="10,0,0,0"
+                    FontSize="14"
+                    Opacity=".9"
+                    FontAttributes="Italic"
+                    Text="{Binding Path=SelectedLevel.Header}"
+                    VerticalOptions="Center" />
+            </controls:Toolbar.HeaderContent>
+            <controls:Toolbar.ExpandedContent>
+                <Grid
+                    Margin="10,20,10,0"
+                    ColumnDefinitions="*,*"
+                    RowDefinitions="Auto,Auto,Auto,auto">
+                    <Label FontSize="13" Text="Select listening level" />
+                    <Slider
+                        Grid.Row="1"
+                        Value="{Binding Mode=TwoWay, Path=LevelValue}"
+                        HorizontalOptions="Start"
+                        Maximum="4"
+                        Minimum="0"
+                        WidthRequest="190" />
+                    <Label
+                        Grid.Row="2"
+                        Margin="0,10,0,5"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        Text="{Binding Path=SelectedLevel.Name}" />
+                    <Label
+                        Grid.Row="3"
+                        FontAttributes="Italic"
+                        FontSize="13"
+                        Text="{Binding Path=SelectedLevel.Description}" />
+
+                    <Label
+                        Grid.Column="1"
+                        FontSize="13"
+                        HorizontalTextAlignment="Center"
+                        Text="Play Random Track" />
+                    <Button
+                        Grid.Row="1"
+                        Grid.RowSpan="2"
+                        Grid.Column="1"
+                        Margin="0,10,0,0"
+                        BackgroundColor="{StaticResource Dark_Accent}"
+                        CornerRadius="30"
+                        HeightRequest="30"
+                        HorizontalOptions="Center"
+                        WidthRequest="30">
+                        <Button.ImageSource>
+                            <FontImageSource
+                                Color="{StaticResource Dark_AccentText}"
+                                FontFamily="MaterialIcons"
+                                Glyph="{x:Static helpers:IconFont.Question_mark}" />
+                        </Button.ImageSource>
+                        <Button.Behaviors>
+                            <toolkit:AnimationBehavior EventName="Clicked">
+                                <toolkit:AnimationBehavior.AnimationType>
+                                    <helpers:ScaleAndRotateAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                                </toolkit:AnimationBehavior.AnimationType>
+                            </toolkit:AnimationBehavior>
+                        </Button.Behaviors>
+                    </Button>
+
+                </Grid>
+            </controls:Toolbar.ExpandedContent>
+            <controls:Toolbar.Shadow>
+                <Shadow
+                    Offset="5,10"
+                    Brush="Black"
+                    Opacity=".5"
+                    Radius="5" />
+            </controls:Toolbar.Shadow>
+        </controls:Toolbar>
 
         <Grid Grid.Row="1">
             <CollectionView
@@ -184,8 +267,9 @@
                                     VerticalOptions="Start"
                                     WidthRequest="80">
                                     <controls:FlagImage
-                                       Aspect="Fill"
-                                       CountryCode="{Binding CountryCode}" />
+                                        Aspect="Fill"
+                                        CountryCode="{Binding CountryCode}"
+                                        HeightRequest="38" />
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="0,40,0,40" />
                                     </Border.StrokeShape>
@@ -209,10 +293,10 @@
                                     VerticalOptions="Start"
                                     WidthRequest="80">
                                     <Label
-                                      FontAttributes="Bold"
-                                      FontSize="16"
-                                      Text="{Binding Year}"
-                                      TextColor="{StaticResource Dark_PrimaryText}" />
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{Binding Year}"
+                                        TextColor="{StaticResource Dark_PrimaryText}" />
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="40,0,40,0" />
                                     </Border.StrokeShape>
@@ -239,10 +323,10 @@
 
             <ContentView
                 x:Name="DetailView"
-                ZIndex="1"
                 HeightRequest="500"
                 IsVisible="False"
-                WidthRequest="600">
+                WidthRequest="600"
+                ZIndex="1">
                 <ContentView.Behaviors>
                     <helpers:AnimationBehavior
                         AnimationLength="500"

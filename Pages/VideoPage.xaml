@@ -25,7 +25,8 @@
             Grid.ColumnSpan="2"
             BackgroundColor="{StaticResource Background_Dark}"
             AccentColor="{StaticResource Dark_Accent}"
-            HeightRequest="40"
+            HeaderColor="{StaticResource Dark_PrimaryText}"
+            HeightRequest="45"
             ExpandedHeight="200"
             Stroke="{StaticResource Background_Mid}">
             <controls:Toolbar.HeaderContent>
@@ -43,7 +44,7 @@
                     <Label
                         FontSize="13"
                         Text="Select your listening level" />
-                    <Slider  Grid.Row="1" Maximum="5" Minimum="0">
+                    <Slider Grid.Row="1" Maximum="5" Minimum="0" ValueChanged="Slider_ValueChanged">
          
                     </Slider>
                     <Label Grid.Row="2" FontSize="13" FontAttributes="Bold" Text="LEVEL 0"/>

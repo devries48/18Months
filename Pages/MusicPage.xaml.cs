@@ -14,8 +14,8 @@ public partial class MusicPage : ContentPage
 
     private void ContentPage_Appearing(object sender, EventArgs e)
     {
-        base.OnAppearing();
-        _ =  _viewModel.GetLocalReleasesAsync().ConfigureAwait(false);
+        //base.OnAppearing();
+        //_ =  _viewModel.GetLocalReleasesAsync().ConfigureAwait(false);
     }
 
     private void CollectionView_SizeChanged(object sender, EventArgs e)

@@ -11,6 +11,7 @@ public partial class ReleaseModel : ObservableObject
     public List<TrackModel> Tracks { get; set; } = [];
     public string Genre { get; set; } = string.Empty;
     public string SubGenres { get; set; } = string.Empty;
+    public int Level { get; set; } = 0;
 
     [ObservableProperty]
     private byte[] _imageBytes = [];
@@ -18,9 +19,9 @@ public partial class ReleaseModel : ObservableObject
     [ObservableProperty]
     private bool _isSelected;
 
-    public static async Task<ReleaseModel> Create(string artist, string title, string imagePath, CountryCode origin, int year)
+    public static async Task<ReleaseModel> Create(string artist, string title, string imagePath, CountryCode origin, int year,int level)
     {
-        var release = new ReleaseModel() { Artist = artist, Title = title, CountryCode = origin, Year = year.ToString() };
+        var release = new ReleaseModel() { Artist = artist, Title = title, CountryCode = origin, Year = year.ToString(), Level=level };
         await release.LoadImageBytesAsync(imagePath);
         return release;
     }

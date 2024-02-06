@@ -16,7 +16,7 @@ public static class Prefernces
 
     public static double Volume
     {
-        get { return Preferences.Get(nameof(Volume), 1); }
+        get { return Preferences.Get(nameof(Volume), 1d); }
         set { Preferences.Set(nameof(Volume), value); }
     }
 }

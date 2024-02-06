@@ -3,19 +3,19 @@
 public class LevelModel
 {
     private static readonly string[] headers = [
-            "No filter, the complete chronological journey",
+            "The Complete Journey",
             "Level 1, Introduction",
-            "Level 2, ",
-            "Level 3, ",
-            "Level 4, ",
+            "Level 2, Exploration",
+            "Level 3, Obscurity",
+            "Level 4, Madness",
         ];
 
     private static readonly string[] descriptions = [
         "Most listened albums through the months of therapy",
-        "Level 1, 70's rock, psychedelic, cool jazz",
-        "Level 2, ",
+        "Level 1, A ",
+        "Level 2, jazz, fusion, symphonic & progressive rock",
         "Level 3, ",
-        "Level 4, ",
+        "An acquired taste is necessary, be careful!",
     ];
 
     public int Level { get; private set; }

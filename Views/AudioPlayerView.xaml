@@ -171,6 +171,7 @@
                         Maximum="1.0"
                         Minimum="0.0"
                         Rotation="-90"
+                        ValueChanged="OnVolumeSliderChanged"
                         WidthRequest="140" />
                 </StackLayout>
             </AbsoluteLayout>

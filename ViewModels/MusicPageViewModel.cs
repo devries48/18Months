@@ -17,6 +17,7 @@ public partial class MusicPageViewModel : ObservableObject
     private readonly IAudioPlayerService _playerService;
     private readonly List<ReleaseModel> _source;
     private TrackModel? _selectedTrack;
+    private CancellationTokenSource _cancelGetReleases;
 
     public const int DefaultItemWidth = 200;
 
@@ -40,11 +41,15 @@ public partial class MusicPageViewModel : ObservableObject
                 _levelValue = value;
                 OnPropertyChanged(nameof(LevelValue));
 
-                var lvl = (int)Math.Round( _levelValue);
+                var lvl = (int)Math.Round(_levelValue);
                 if (SelectedLevel == null || lvl != SelectedLevel.Level)
                 {
                     SelectedLevel = LevelModel.Create(lvl);
-                    _ = GetLocalReleasesAsync().ConfigureAwait(false);
+                    Prefernces.Level = lvl;
+
+                    _cancelGetReleases?.Cancel();
+                    _cancelGetReleases = new CancellationTokenSource();
+                    _ = DelayGetLocalReleasesAsync(_cancelGetReleases.Token);
                 }
             }
         }
@@ -160,7 +165,22 @@ public partial class MusicPageViewModel : ObservableObject
 
     [RelayCommand] private void HideSelectedRelease() => IsDetailViewVisible = false;
 
-    public async Task GetLocalReleasesAsync()
+    private async Task DelayGetLocalReleasesAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            await Task.Delay(500, cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await GetLocalReleasesAsync().ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            // Task was cancelled, do nothing
+        }
+    }
+    private async Task GetLocalReleasesAsync()
     {
         if (_source.Count == 0)
         {
@@ -244,7 +264,7 @@ public partial class MusicPageViewModel : ObservableObject
             release.AddTrack(MusicPath("2.04. Müh.mp3"), "Müh", "11:17");
             _source.Add(release);
 
-            release = await ReleaseModel.Create("Catapilla", "Catapilla", ImagePath("Catapilla-front.jpg"), CountryCode.GBR, 1971, 3).ConfigureAwait(false);
+            release = await ReleaseModel.Create("Catapilla", "Catapilla", ImagePath("Catapilla-front.jpg"), CountryCode.GBR, 1971, 2).ConfigureAwait(false);
             release.AddGenres("Progressive Rock", "Jazz-Rock", "Psychedelic Rock");
             release.AddTrack(MusicPath("01. Naked Death.mp3"), "Naked Death", "15:42");
             _source.Add(release);
@@ -262,7 +282,7 @@ public partial class MusicPageViewModel : ObservableObject
             release.AddTrack(MusicPath("04. Halleluhwah.mp3"), "Halleluhwah", "18:28");
             _source.Add(release);
 
-            release = await ReleaseModel.Create("Amon Düül II", "Phallus Dei", ImagePath("Phallus-front.jpg"), CountryCode.DEU, 1969, 4).ConfigureAwait(false);
+            release = await ReleaseModel.Create("Amon Düül II", "Phallus Dei", ImagePath("Phallus-front.jpg"), CountryCode.DEU, 1969, 3).ConfigureAwait(false);
             release.AddGenres("Krautrock", "Psychedelic Rock", "Progressive Rock");
             release.AddTrack(MusicPath("03. Luzifers Ghilom.mp3"), "Luzifers Ghilom", "8:34");
             release.AddTrack(MusicPath("05. Phallus Dei.mp3"), "Phallus Dei", "20:46");
@@ -336,7 +356,7 @@ public partial class MusicPageViewModel : ObservableObject
             release.AddTrack(MusicPath("06. Place In Line.mp3"), "Place In Line", "6:33");
             _source.Add(release);
 
-            release = await ReleaseModel.Create("Savatage", "Gutter Ballet", ImagePath("Gutter-front.jpg"), CountryCode.USA, 1989, 3).ConfigureAwait(false);
+            release = await ReleaseModel.Create("Savatage", "Gutter Ballet", ImagePath("Gutter-front.jpg"), CountryCode.USA, 1989, 2).ConfigureAwait(false);
             release.AddGenres("Heavy Metal", "Progressive Metal");
             release.AddTrack(MusicPath("02 Gutter Ballet.mp3"), "Gutter Ballet", "6:20");
             release.AddTrack(MusicPath("04 When The Crowds Are Gone.mp3"), "When The Crowds Are Gone", "5:46");
@@ -432,17 +452,18 @@ public partial class MusicPageViewModel : ObservableObject
 
             release = await ReleaseModel.Create("Dün", "Eros", ImagePath("Eros-front.jpg"), CountryCode.FRA, 1981, 4).ConfigureAwait(false);
             release.AddGenres("Avant-Prog", "Zeuhl", "Jazz Fusion");
+            release.AddTrack(MusicPath("01 - L'epice.mp3"), "L'epice", "9:29");
             release.AddTrack(MusicPath("04 - Eros.mp3"), "Eros", "10:29");
             release.AddTrack(MusicPath("08 - Eros (version alternative).mp3"), "Eros (version alternative)", "7:16");
             _source.Add(release);
 
-            release = await ReleaseModel.Create("Arachnoïd", "Arachnoïd", ImagePath("Spin-front.jpg"), CountryCode.FRA, 1979, 4).ConfigureAwait(false);
+            release = await ReleaseModel.Create("Arachnoïd", "Arachnoïd", ImagePath("Spin-front.jpg"), CountryCode.FRA, 1979, 3).ConfigureAwait(false);
             release.AddGenres("Progressive Rock", "Zeuhl", "Avant-Prog");
             release.AddTrack(MusicPath("01 - Le chamadere.mp3"), "Le chamadere", "13:51");
             release.AddTrack(MusicPath("02 - Piano caveau.mp3"), "Piano caveau", "7:18");
             _source.Add(release);
 
-            release = await ReleaseModel.Create("Charles Mingus", "The Black Saint and the Sinner Lady", ImagePath("Saint-front.jpg"), CountryCode.USA, 1963, 3).ConfigureAwait(false);
+            release = await ReleaseModel.Create("Charles Mingus", "The Black Saint and the Sinner Lady", ImagePath("Saint-front.jpg"), CountryCode.USA, 1963, 4).ConfigureAwait(false);
             release.AddGenres("Avant-Garde Jazz");
             release.AddTrack(MusicPath("01. Track A - Solo Dancer.mp3"), "Track A - Solo Dancer", "6:39");
             release.AddTrack(MusicPath("02. Track B - Duet Solo Dancers.mp3"), "Track B - Duet Solo Dancers", "6:46");
@@ -464,7 +485,7 @@ public partial class MusicPageViewModel : ObservableObject
 
         if (SelectedLevel?.Level > 0)
         {
-            var list = _source.Where(r => r.Level == SelectedLevel.Level).OrderBy(r=>r.Artist).ThenBy(r=>r.Year).ToList();
+            var list = _source.Where(r => r.Level == SelectedLevel.Level).OrderBy(r => r.Artist).ThenBy(r => r.Year).ToList();
             Releases = new ObservableCollection<ReleaseModel>(list);
         }
         else

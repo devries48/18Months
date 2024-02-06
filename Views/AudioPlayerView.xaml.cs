@@ -9,6 +9,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
         InitializeComponent();
         InitializeService();
 
+        MediaElement.Volume = Prefernces.Volume;
         MediaElement.PropertyChanged += OnMediaElementPropertyChanged;
         Unloaded += OnUnLoaded;
     }
@@ -23,7 +24,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
         {
             _currentTrack = value;
 
-            if (_playerService != null)
+            if(_playerService != null)
                 _playerService.CurrentTrack = value;
 
             OnPropertyChanged(nameof(CurrentImage));
@@ -48,7 +49,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
     {
         _playerService = MauiProgram.GetService<IAudioPlayerService>();
 
-        if (_playerService != null)
+        if(_playerService != null)
         {
             _playerService.SubscribeToAudioPlayerAction(OnAudioPlayerAction);
             _playerService.SubscribeToPlaylistChanged(OnPlaylistChanged);
@@ -57,7 +58,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
 
     private void OnAudioPlayerAction(object sender, ActionEventArgs e)
     {
-        switch (e.Action)
+        switch(e.Action)
         {
             case AudioPlayerAction.Play:
                 MediaElement.Play();
@@ -69,11 +70,11 @@ public partial class AudioPlayerView : INotifyPropertyChanged
                 MediaElement.Stop();
                 break;
             case AudioPlayerAction.PlayFromList:
-                if (e.Track != null)
+                if(e.Track != null)
                     PlayTrack(e.Track);
                 break;
             case AudioPlayerAction.LoadFromList:
-                if (e.Track != null)
+                if(e.Track != null)
                     LoadTrack(e.Track);
                 break;
 
@@ -89,16 +90,16 @@ public partial class AudioPlayerView : INotifyPropertyChanged
     /// </summary>
     private void OnPlaylistChanged(object sender, PlaylistEventArgs e)  //TODO: DO we need an e.action?
     {
-        if (e.Action == PlaylistAction.ListChanged) // reload the playlist 
+        if(e.Action == PlaylistAction.ListChanged) // reload the playlist 
         {
             var list = _playerService?.GetPlaylist();
 
-            if (list != null)
+            if(list != null)
             {
                 CurrentPlaylist = new ObservableCollection<TrackModel>(list);
                 PlaylistView.ItemsSource = CurrentPlaylist;
 
-                if (e.PlaylistIndex.HasValue)
+                if(e.PlaylistIndex.HasValue)
                     _playerService?.PlayFromPlaylist(e.PlaylistIndex.Value, true);
             }
         }
@@ -108,7 +109,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
     #region MediaElement, Handle events
     private void OnMediaElementPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == MediaElement.DurationProperty.PropertyName)
+        if(e.PropertyName == MediaElement.DurationProperty.PropertyName)
             PositionSlider.Maximum = MediaElement.Duration.TotalSeconds;
     }
 
@@ -116,9 +117,9 @@ public partial class AudioPlayerView : INotifyPropertyChanged
     {
         _playerService?.OnMediaStatusChanged(e);
 
-        if (e.NewState == MediaElementState.Playing)
+        if(e.NewState == MediaElementState.Playing)
             Dispatcher.DispatchIfRequired(FadeInCurremtImage);
-        else if (e.NewState != MediaElementState.Buffering && e.NewState != MediaElementState.Opening)
+        else if(e.NewState != MediaElementState.Buffering && e.NewState != MediaElementState.Opening)
             Dispatcher.DispatchIfRequired(FadeOutCurremtImage);
     }
 
@@ -130,7 +131,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
 
     void OnPositionChanged(object? sender, MediaPositionChangedEventArgs e)
     {
-        if (_isSliding)
+        if(_isSliding)
             return;
 
         PositionSlider.Value = e.Position.TotalSeconds;
@@ -141,9 +142,9 @@ public partial class AudioPlayerView : INotifyPropertyChanged
 
     private void OnPlayOrPauseClicked(object sender, EventArgs e)
     {
-        if (MediaElement.CurrentState == MediaElementState.Paused)
+        if(MediaElement.CurrentState == MediaElementState.Paused)
             MediaElement.Play();
-        else if (MediaElement.CurrentState == MediaElementState.Playing)
+        else if(MediaElement.CurrentState == MediaElementState.Playing)
             MediaElement.Pause();
     }
 
@@ -152,7 +153,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
     private void OnStopClicked(object sender, EventArgs e) { MediaElement.Stop(); }
 
     /// <summary>
-    /// Set the postion of the slider to the track position in the MediaElement. 
+    /// Set the postion of the slider to the track position in the MediaElement.
     /// </summary>
     private async void OnSliderDragCompleted(object? sender, EventArgs e)
     {
@@ -168,8 +169,8 @@ public partial class AudioPlayerView : INotifyPropertyChanged
 
     /// <summary>
     /// Move to a position within the track started. When there is just a click on the Slider, this event is also
-    /// raised, followed by the DragComplete event. The isSliding flag is set, so the synchronisation with the MediaElement will be stopped.
-    /// It intefered with te track position when there was a just click on the Slider.
+    /// raised, followed by the DragComplete event. The isSliding flag is set, so the synchronisation with the
+    /// MediaElement will be stopped. It intefered with te track position when there was a just click on the Slider.
     /// </summary>
     private void OnSliderDragStarted(object sender, EventArgs e)
     {
@@ -177,16 +178,14 @@ public partial class AudioPlayerView : INotifyPropertyChanged
         MediaElement.Pause();
     }
 
-    private void OnPlaylistNextClicked(object sender, EventArgs e)
-    { _playerService?.PlayNextFromPlayList(); }
+    private void OnPlaylistNextClicked(object sender, EventArgs e) { _playerService?.PlayNextFromPlayList(); }
 
     private void OnPlaylistPreviousClicked(object sender, EventArgs e)
     { _playerService?.PlayFromPlaylist(CurrentPlaylistIndex - 1); }
 
     /// <summary>
-    /// The state went to "Paused' when playing a new track, now wait for the MediaOpened event.
-    /// Received ComException when MediaElement.Play() was called from event handler,
-    /// MainThread.BeginInvokeOnMainThread resolved this issue.
+    /// The state went to "Paused' when playing a new track, now wait for the MediaOpened event. Received ComException
+    /// when MediaElement.Play() was called from event handler, MainThread.BeginInvokeOnMainThread resolved this issue.
     /// </summary>
     private void PlayTrack(TrackModel track)
     {
@@ -229,4 +228,6 @@ public partial class AudioPlayerView : INotifyPropertyChanged
         // Stop and cleanup MediaElement when we navigate away
         // MediaElement.Handler?.DisconnectHandler();
     }
+
+    private void OnVolumeSliderChanged(object sender, ValueChangedEventArgs e) { Prefernces.Volume = e.NewValue; }
 }

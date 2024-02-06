@@ -1,4 +1,6 @@
-﻿namespace Months18.Pages;
+﻿using System.Diagnostics;
+
+namespace Months18.Pages;
 
 public partial class MusicPage : ContentPage
 {
@@ -23,5 +25,11 @@ public partial class MusicPage : ContentPage
         int span = (int)(ReleaseCollectionView.Width - 50) / MusicPageViewModel.DefaultItemWidth;
         if (span == 0) span = 1;
         _viewModel.Span = span;
+    }
+
+    private void View_Focused(object sender, FocusEventArgs e)
+    {
+        if (Toolbar.IsExpanded)
+            Toolbar.IsExpanded = false;
     }
 }

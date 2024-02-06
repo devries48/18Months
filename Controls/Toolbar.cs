@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Extensions;
-using Microsoft.Maui.Controls.Shapes;
+﻿using Microsoft.Maui.Controls.Shapes;
 
 namespace Months18.Controls;
 
@@ -220,6 +219,7 @@ public partial class Toolbar : Border
             easing = Easing.CubicInOut;
             startHeight = _initialHeight;
             targetHeight = ExpandedHeight;
+            Focus();
         } else
         {
             easing = Easing.SpringIn;

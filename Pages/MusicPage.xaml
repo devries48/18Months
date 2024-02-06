@@ -9,7 +9,6 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:views="clr-namespace:Months18.Views"
     xmlns:vms="clr-namespace:Months18.ViewModels"
-    Appearing="ContentPage_Appearing"
     x:DataType="vms:MusicPageViewModel">
 
     <ContentPage.Resources>
@@ -24,19 +23,21 @@
     <Grid ColumnDefinitions="{OnIdiom Phone='*', Default='*,350'}" RowDefinitions="45,*">
         <controls:Toolbar
             Grid.RowSpan="2"
+            x:Name="Toolbar"
             Margin="20,10"
             AccentColor="{StaticResource Dark_Accent}"
             BackgroundColor="{StaticResource Background_Dark}"
             ExpandedHeight="200"
             HeaderColor="{StaticResource Dark_PrimaryText}"
             HeightRequest="45"
+            IsEnabled="{Binding  IsDetailViewVisible, Converter={StaticResource InvertBool}}"
             Stroke="{StaticResource Background_Mid}">
             <controls:Toolbar.HeaderContent>
                 <Label
                     Margin="10,0,0,0"
+                    FontAttributes="Italic"
                     FontSize="14"
                     Opacity=".9"
-                    FontAttributes="Italic"
                     Text="{Binding Path=SelectedLevel.Header}"
                     VerticalOptions="Center" />
             </controls:Toolbar.HeaderContent>
@@ -113,6 +114,7 @@
                 IsEnabled="{Binding  IsDetailViewVisible, Converter={StaticResource InvertBool}}"
                 ItemsSource="{Binding Releases}"
                 SelectionMode="Single"
+                Focused="View_Focused"
                 SizeChanged="CollectionView_SizeChanged">
 
                 <CollectionView.ItemsLayout>
@@ -523,6 +525,7 @@
         </Grid>
         <views:AudioPlayerView
             Grid.RowSpan="2"
+            Focused="View_Focused"
             Grid.Column="{OnIdiom Phone=0, Default=1}"
             IsVisible="{OnIdiom Phone=False, Default=True}">
             <views:AudioPlayerView.Shadow>

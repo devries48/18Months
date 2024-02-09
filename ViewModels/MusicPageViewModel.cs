@@ -155,6 +155,21 @@ public partial class MusicPageViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void PlayRandomTrack()
+    {
+        if (Releases == null || Releases.Count == 0)
+            return;
+
+        var allTracks = Releases.SelectMany(release => release.Tracks).ToList();
+
+        if (allTracks.Count == 0)
+            return ;
+
+        var randomTrack = allTracks[new Random().Next(allTracks.Count)];
+        _playerService.PlayTrack(randomTrack);
+    }
+
+    [RelayCommand]
     private void ShowSelectedRelease()
     {
         if (SelectedRelease == null || _playerService == null)

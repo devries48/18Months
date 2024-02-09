@@ -9,7 +9,7 @@
     FlyoutBackgroundColor="{StaticResource Background_Mid}"
     FlyoutBehavior="{OnIdiom Phone=Disabled, Default=Locked}"
     FlyoutWidth="68"
-    Title="18 Months of Therapy">
+    Title="18 Months of Therapy  -  discover beauty in the unexpected">
   
     <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Music_note}" Title="Music">
         <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MusicPage" />

@@ -24,10 +24,10 @@ public class AudioPlayerService : IAudioPlayerService
 
     public List<TrackModel> GetPlaylist() => playlist;
 
-    public void AddToPlaylist(TrackModel track, AudioPlayerSource source) => OnPlaylistChanged(
+    public void AddToPlaylist(TrackModel track, MediaPlayerSource source) => OnPlaylistChanged(
         PlaylistAction.ListChanged);
 
-    public void AddToPlaylist(ReleaseModel release, AudioPlayerSource source) => OnPlaylistChanged(
+    public void AddToPlaylist(ReleaseModel release, MediaPlayerSource source) => OnPlaylistChanged(
         PlaylistAction.ListChanged);
 
     public void Play() => OnAudioPlayerAction(Services.AudioPlayerAction.Play);
@@ -112,7 +112,7 @@ public class AudioPlayerService : IAudioPlayerService
             track = playlist[playlistIndex];
         }
 
-        AudioPlayerAction?.Invoke(this, new ActionEventArgs(action, track));
+        AudioPlayerAction?.Invoke(this, new AudioActionEventArgs(action, track));
     }
 
     public void OnMediaStatusChanged(MediaStateChangedEventArgs e)
@@ -146,7 +146,7 @@ public enum PlaylistAction
     IndexChanged
 }
 
-public enum AudioPlayerSource
+public enum MediaPlayerSource
 {
     Embed,
     FileSystem,
@@ -154,7 +154,7 @@ public enum AudioPlayerSource
 }
 
 public delegate void PlaylistChangedEventHandler(object sender, PlaylistEventArgs e);
-public delegate void AudioPlayerActionEventHandler(object sender, ActionEventArgs e);
+public delegate void AudioPlayerActionEventHandler(object sender, AudioActionEventArgs e);
 public delegate void MediaStateChangedEventHandler(object sender, MediaStateChangedEventArgs e);
 
 public class PlaylistEventArgs(PlaylistAction action, int? playlistIndex) : EventArgs
@@ -164,7 +164,7 @@ public class PlaylistEventArgs(PlaylistAction action, int? playlistIndex) : Even
     public int? PlaylistIndex { get; } = playlistIndex;
 }
 
-public class ActionEventArgs(AudioPlayerAction action, TrackModel? track = null) : EventArgs
+public class AudioActionEventArgs(AudioPlayerAction action, TrackModel? track = null) : EventArgs
 {
     public AudioPlayerAction Action { get; } = action;
 

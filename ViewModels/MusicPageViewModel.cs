@@ -17,7 +17,7 @@ public partial class MusicPageViewModel : ObservableObject
     private readonly IAudioPlayerService _playerService;
     private readonly List<ReleaseModel> _source;
     private TrackModel? _selectedTrack;
-    private CancellationTokenSource _cancelGetReleases;
+    private CancellationTokenSource? _cancelGetReleases;
 
     public const int DefaultItemWidth = 200;
 
@@ -195,6 +195,7 @@ public partial class MusicPageViewModel : ObservableObject
             // Task was cancelled, do nothing
         }
     }
+
     private async Task GetLocalReleasesAsync()
     {
         if (_source.Count == 0)
@@ -519,7 +520,7 @@ public partial class MusicPageViewModel : ObservableObject
  CombinePaths("C:/Users/rvrie/source/repos/18Months", "Data/Music", filename).Replace("/", "\\");
 
     //TODO: Check if file exists
-    private static string CombinePaths(params string[] paths)
+    public static string CombinePaths(params string[] paths)
     {
         string result = string.Empty;
 

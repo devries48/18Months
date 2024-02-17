@@ -14,12 +14,6 @@ public partial class MusicPage : ContentPage
 
     private readonly MusicPageViewModel _viewModel;
 
-    private void ContentPage_Appearing(object sender, EventArgs e)
-    {
-        //base.OnAppearing();
-        //_ =  _viewModel.GetLocalReleasesAsync().ConfigureAwait(false);
-    }
-
     private void CollectionView_SizeChanged(object sender, EventArgs e)
     {
         int span = (int)(ReleaseCollectionView.Width - 50) / MusicPageViewModel.DefaultItemWidth;

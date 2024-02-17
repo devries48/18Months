@@ -9,7 +9,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
         InitializeComponent();
         InitializeService();
 
-        MediaElement.Volume = Prefernces.Volume;
+        MediaElement.Volume = Prefernces.VolumeMusic;
         MediaElement.PropertyChanged += OnMediaElementPropertyChanged;
         Unloaded += OnUnLoaded;
     }
@@ -56,7 +56,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
         }
     }
 
-    private void OnAudioPlayerAction(object sender, ActionEventArgs e)
+    private void OnAudioPlayerAction(object sender, AudioActionEventArgs e)
     {
         switch(e.Action)
         {
@@ -204,9 +204,9 @@ public partial class AudioPlayerView : INotifyPropertyChanged
 
         MediaElement.Source = track.Source switch
         {
-            AudioPlayerSource.Embed => MediaSource.FromResource(track.Uri),
-            AudioPlayerSource.FileSystem => MediaSource.FromFile(track.Uri),
-            AudioPlayerSource.Url => MediaSource.FromUri(track.Uri),
+            MediaPlayerSource.Embed => MediaSource.FromResource(track.Uri),
+            MediaPlayerSource.FileSystem => MediaSource.FromFile(track.Uri),
+            MediaPlayerSource.Url => MediaSource.FromUri(track.Uri),
             _ => ""
         };
     }
@@ -226,8 +226,8 @@ public partial class AudioPlayerView : INotifyPropertyChanged
     private void OnUnLoaded(object? sender, EventArgs e)
     {
         // Stop and cleanup MediaElement when we navigate away
-        // MediaElement.Handler?.DisconnectHandler();
+       // MediaElement.Handler?.DisconnectHandler();
     }
 
-    private void OnVolumeSliderChanged(object sender, ValueChangedEventArgs e) { Prefernces.Volume = e.NewValue; }
+    private void OnVolumeSliderChanged(object sender, ValueChangedEventArgs e) { Prefernces.VolumeMusic = e.NewValue; }
 }

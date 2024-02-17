@@ -97,6 +97,9 @@
 	  <Compile Update="Pages\MusicPage.xaml.cs">
 	    <DependentUpon>MusicPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\VideoPlayerView.xaml.cs">
+	    <DependentUpon>VideoPlayerView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\AudioPlayerView.xaml.cs">
 	    <DependentUpon>AudioPlayerView.xaml</DependentUpon>
 	  </Compile>
@@ -110,6 +113,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\VideoPlayerView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\AudioPlayerView.xaml">

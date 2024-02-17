@@ -21,7 +21,7 @@ public partial class TrackModel(ReleaseModel release) : ObservableObject
     public string Duration { get; set; } = string.Empty;
     public string Uri { get; set; } = string.Empty;
 
-    public AudioPlayerSource Source { get => AudioPlayerSource.FileSystem; }
+    public MediaPlayerSource Source { get => MediaPlayerSource.FileSystem; }
 
     public string PlaylistTrack
     {

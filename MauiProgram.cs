@@ -38,10 +38,10 @@ public static class MauiProgram
             .UseMauiCommunityToolkitMediaElement()
             .ConfigureFonts(fonts =>
             {
-                fonts.AddFont("Lobster-Regular.ttf", "Lobster");
+                //fonts.AddFont("Lobster-Regular.ttf", "Lobster");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
-                //fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansRegular");
-                //fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
 #if DEBUG
@@ -50,12 +50,15 @@ public static class MauiProgram
         var services = builder.Services;
 
         services.AddSingleton<IAudioPlayerService, AudioPlayerService>();
+        services.AddSingleton<IVideoPlayerService, VideoPlayerService>();
         services.AddSingleton<ISettingsService, SettingsService>();
         services.AddSingleton<ScaleAnimation>();
         services.AddTransient<SettingsPageViewModel>();
         services.AddTransient<SettingsPage>();
         services.AddTransient<MusicPageViewModel>();
         services.AddTransient<MusicPage>();
+        services.AddTransient<VideoPageViewModel>();
+        services.AddTransient<VideoPage>();
         services.AddTransient<TherapyPageViewModel>();
         services.AddTransient<TherapyPage>();
 

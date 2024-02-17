@@ -14,9 +14,15 @@ public static class Prefernces
         set { Preferences.Set(nameof(Level), value); }
     }
 
-    public static double Volume
+    public static double VolumeMusic
     {
-        get { return Preferences.Get(nameof(Volume), 1d); }
-        set { Preferences.Set(nameof(Volume), value); }
+        get { return Preferences.Get(nameof(VolumeMusic), 1d); }
+        set { Preferences.Set(nameof(VolumeMusic), value); }
+    }
+
+    public static double VolumeVideo
+    {
+        get { return Preferences.Get(nameof(VolumeVideo), 1d); }
+        set { Preferences.Set(nameof(VolumeVideo), value); }
     }
 }

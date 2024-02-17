@@ -4,156 +4,118 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Months18.Controls"
+    xmlns:converters="clr-namespace:Months18.Converters"
     xmlns:helpers="clr-namespace:Months18.Helpers"
     xmlns:models="clr-namespace:Months18.Models"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:Months18.Views"
+    xmlns:vms="clr-namespace:Months18.ViewModels"
+    x:DataType="vms:VideoPageViewModel">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="80" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
-            <ColumnDefinition Width="150" />
-        </Grid.ColumnDefinitions>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToPlayingGlyphConverter x:Key="ConvertBoolToPlayingGlyph" />
+            <converters:CurrentStateToPlayingGlyphConverter x:Key="ConvertStateToPlayingGlyph" />
+            <toolkit:ByteArrayToImageSourceConverter x:Key="ConvertByteArrayToImageSource" />
+            <toolkit:InvertedBoolConverter x:Key="InvertBool" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-        <controls:Toolbar
-            Grid.RowSpan="4"
-            Grid.ColumnSpan="2"
-            BackgroundColor="{StaticResource Background_Dark}"
-            AccentColor="{StaticResource Dark_Accent}"
-            HeaderColor="{StaticResource Dark_PrimaryText}"
-            HeightRequest="45"
-            ExpandedHeight="200"
-            Stroke="{StaticResource Background_Mid}">
-            <controls:Toolbar.HeaderContent>
-                <Label
-                    Margin="10,0,0,0"
-                    FontSize="15"
-                    Text="Header text"
-                    VerticalOptions="Center" />
-            </controls:Toolbar.HeaderContent>
-            <controls:Toolbar.ExpandedContent>
-                <Grid
-                    Margin="10,10,10,0"
-                    ColumnDefinitions="*,*"
-                    RowDefinitions="Auto,Auto,Auto,auto">
-                    <Label
-                        FontSize="13"
-                        Text="Select your listening level" />
-                    <Slider Grid.Row="1" Maximum="5" Minimum="0" ValueChanged="Slider_ValueChanged">
-         
-                    </Slider>
-                    <Label Grid.Row="2" FontSize="13" FontAttributes="Bold" Text="LEVEL 0"/>
-                    <Label Grid.Row="3" FontSize="13" FontAttributes="Bold" Text="The complete journey"/>
+    <Grid ColumnDefinitions="*,240" RowDefinitions="*">
+        <views:VideoPlayerView IsVisible="True" />
+        <Grid Grid.Column="2" Background="{StaticResource Background_Mid}">
+            <ListView x:Name="VideolistView" ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type vms:VideoPageViewModel}}, Path=Videos}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid x:DataType="models:VideoModel">
+                                <Grid
+                                    Padding="15,15"
+                                    VerticalOptions="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image
+                                        Margin="0,0,0,5"
+                                        Aspect="AspectFit"
+                                        HeightRequest="100"
+                                        HorizontalOptions="Start"
+                                        Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ConvertByteArrayToImageSource}}"
+                                        VerticalOptions="Center">
+                                        <Image.Shadow>
+                                            <Shadow
+                                                Offset="5,5"
+                                                Brush="Black"
+                                                Opacity="0.9"
+                                                Radius="10" />
+                                        </Image.Shadow>
+                                    </Image>
 
-                    <Label Grid.Column="1"  HorizontalTextAlignment="Center" FontSize="13" Text="Random Track"/>
-                    <Button
-                        Margin="0,10,0,0"
-                        Grid.Row="1"
-                        Grid.RowSpan="2"
-                        Grid.Column="1"
-                        BackgroundColor="{StaticResource Dark_Accent}"
-                        CornerRadius="30"
-                        HeightRequest="30"
-                        HorizontalOptions="Center"
-                        WidthRequest="30">
-                        <Button.ImageSource>
-                            <FontImageSource
-                                Color="{StaticResource Dark_AccentText}"
-                                FontFamily="MaterialIcons"
-                                Glyph="{x:Static helpers:IconFont.Question_mark}" />
-                        </Button.ImageSource>
-                        <Button.Behaviors>
-                            <toolkit:AnimationBehavior EventName="Clicked">
-                                <toolkit:AnimationBehavior.AnimationType>
-                                    <helpers:ScaleAndRotateAnimation Easing="{x:Static Easing.Linear}" Length="100" />
-                                </toolkit:AnimationBehavior.AnimationType>
-                            </toolkit:AnimationBehavior>
-                        </Button.Behaviors>
-                    </Button>
-                        
-                </Grid>
-            </controls:Toolbar.ExpandedContent>
-        </controls:Toolbar>
-        <Border
-            Grid.Row="1"
-            Grid.RowSpan="3"
-            Grid.ColumnSpan="2"
-            Margin="20,0"
-            Background="{StaticResource Background_Dark}"
-            HeightRequest="150"
-            HorizontalOptions="FillAndExpand"
-            IsVisible="False"
-            Stroke="{StaticResource Background_Mid}"
-            StrokeShape="RoundRectangle 0,0,2,2"
-            StrokeThickness="3"
-            VerticalOptions="Start"
-            ZIndex="1">
-            <ImageButton
-                Margin="0"
-                Aspect="AspectFit"
-                BackgroundColor="{StaticResource Background_Dark}"
-                HorizontalOptions="End"
-                VerticalOptions="Start">
-                <ImageButton.Source>
-                    <FontImageSource
-                        Color="{StaticResource Dark_Accent}"
-                        FontFamily="MaterialIcons"
-                        Glyph="{x:Static helpers:IconFont.Expand_more}"
-                        Size="30" />
-                </ImageButton.Source>
-            </ImageButton>
-            <Border.Shadow>
+                                    <controls:MarqueeLabel
+                                        Grid.Row="1"
+                                        DefaultTextColor="{StaticResource Dark_PrimaryText}"
+                                        FontSize="13"
+                                        IsActive="True"
+                                        HorizontalOptions="Start"
+                                        Text="{Binding Title}" />
+                                    <Label
+                                        Grid.Row="0"
+                                        FontSize="12"
+                                        HorizontalOptions="End"
+                                        Text="{Binding Duration}" />
+                                </Grid>
+
+                                <Grid ColumnDefinitions="*,Auto,Auto" IsVisible="{Binding IsSelected}">
+                                    <Button
+                                        BackgroundColor="{StaticResource Dark_Accent}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vms:VideoPageViewModel}}, Path=PlaySelectedVideoCommand}"
+                                        CornerRadius="30"
+                                        HeightRequest="30"
+                                        HorizontalOptions="Start"
+                                        Margin="85,0,0,10"
+                                        VerticalOptions="End"
+                                        WidthRequest="30">
+                                        <Button.ImageSource>
+                                            <FontImageSource
+                                                Color="{StaticResource Dark_AccentText}"
+                                                FontFamily="MaterialIcons"
+                                                Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:VideoPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
+                                        </Button.ImageSource>
+                                        <Button.Behaviors>
+                                            <toolkit:AnimationBehavior EventName="Clicked">
+                                                <toolkit:AnimationBehavior.AnimationType>
+                                                    <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                                                </toolkit:AnimationBehavior.AnimationType>
+                                            </toolkit:AnimationBehavior>
+                                        </Button.Behaviors>
+                                    </Button>
+                                </Grid>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vms:VideoPageViewModel}}, Path=VideoTapCommand}"
+                                        CommandParameter="{Binding}"
+                                        NumberOfTapsRequired="1" />
+                                </Grid.GestureRecognizers>
+
+                            </Grid>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+            <Grid.Shadow>
                 <Shadow
-                    Offset="10,10"
+                    Offset="-10,10"
                     Brush="Black"
                     Opacity=".5"
                     Radius="30" />
-
-            </Border.Shadow>
-        </Border>
-
-        <controls:FlagImage
-            Grid.Row="2"
-            CountryCode="DEU"
-            HeightRequest="20" />
-
-        <ImageButton
-            Grid.Row="2"
-            Grid.Column="1"
-            Aspect="AspectFit"
-            BackgroundColor="{StaticResource Dark_Primary}"
-            HeightRequest="20"
-            IsEnabled="False"
-            Padding="6"
-            Source="music_cast.png"
-            WidthRequest="20">
-            <ImageButton.Behaviors>
-                <toolkit:AnimationBehavior EventName="Clicked">
-                    <toolkit:AnimationBehavior.AnimationType>
-                        <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
-                    </toolkit:AnimationBehavior.AnimationType>
-                </toolkit:AnimationBehavior>
-            </ImageButton.Behaviors>
-        </ImageButton>
-        <Label
-            Grid.Row="3"
-            FontSize="24"
-            Text="Test Label" />
+            </Grid.Shadow>
+        </Grid>
     </Grid>
-
-    <!--<CustomBorderControl>
-        <CustomBorderControl.Header>
-            <Label Text="{Binding Name}"/>
-        </CustomBorderControl.Header>
-        <CustomBorderControl.Content>
-            <VerticalStackLayout>
-                <Label Text="{Binding Resource}"/>
-            </VerticalStackLayout>
-        </CustomBorderControl.Content>
-    </CustomBorderControl>-->
 </ContentPage>

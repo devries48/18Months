@@ -4,10 +4,11 @@ namespace Months18.Pages;
 
 public partial class VideoPage : ContentPage
 {
-    public VideoPage()
+    public VideoPage(VideoPageViewModel viewModel)
     {
         InitializeComponent();
 
+        BindingContext = viewModel;
     }
 
     // The value we want the slider to increment each time it updates

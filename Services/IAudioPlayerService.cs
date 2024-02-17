@@ -12,9 +12,9 @@ public interface IAudioPlayerService
 
     bool CanPlaylistMoveForward { get; }
 
-    void AddToPlaylist(TrackModel track, AudioPlayerSource source);
+    void AddToPlaylist(TrackModel track, MediaPlayerSource source);
 
-    void AddToPlaylist(ReleaseModel release, AudioPlayerSource source);
+    void AddToPlaylist(ReleaseModel release, MediaPlayerSource source);
 
     List<TrackModel> GetPlaylist();
 

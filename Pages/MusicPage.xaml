@@ -339,7 +339,7 @@
 
                 <Border
                     Background="{StaticResource Background_Dark}"
-                    Padding="10"
+                    Padding="5"
                     Stroke="{StaticResource Background_Mid}"
                     StrokeThickness="5">
                     <Border.StrokeShape>
@@ -376,6 +376,7 @@
 
                         <controls:MarqueeLabel
                             Grid.Row="2"
+                            Grid.ColumnSpan="2"
                             DefaultTextColor="{StaticResource Dark_PrimaryText}"
                             FontAttributes="Italic,Bold"
                             FontSize="18"
@@ -386,6 +387,7 @@
                             Grid.Row="3"
                             Margin="0,2,0,10"
                             FontSize="14"
+                            Opacity=".85"
                             Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.YearAndCountry}" />
 
                         <Label
@@ -398,12 +400,14 @@
                             Grid.Row="5"
                             Grid.RowSpan="2"
                             FontSize="14"
+                            Opacity=".85"
                             HorizontalOptions="FillAndExpand"
                             Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.SubGenres}" />
 
                         <Label
                             Grid.Row="7"
                             FontSize="14"
+                            Opacity=".85"
                             Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.TotalLength}"
                             VerticalOptions="End" />
 
@@ -425,7 +429,7 @@
                                     <ViewCell>
                                         <Grid>
                                             <Grid
-                                                Padding="2,4"
+                                                Padding="10,5"
                                                 VerticalOptions="Center"
                                                 x:DataType="models:TrackModel">
                                                 <Grid.RowDefinitions>

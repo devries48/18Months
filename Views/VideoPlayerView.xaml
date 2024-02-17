@@ -1,0 +1,167 @@
+﻿<ContentView
+    x:Class="Months18.Views.VideoPlayerView"
+    x:Name="this"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Months18.Controls"
+    xmlns:converters="clr-namespace:Months18.Converters"
+    xmlns:helpers="clr-namespace:Months18.Helpers"
+    xmlns:models="clr-namespace:Months18.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightGray}, Dark={StaticResource Background_Dark}}"
+    BindingContext="{x:Reference this}">
+
+    <ContentView.Resources>
+        <converters:SecondsToStringConverter x:Key="ConvertSecondsToString" />
+        <converters:CurrentStateToPlayingGlyphConverter x:Key="ConvertStateToPlayingGlyph" />
+        <converters:CurrentStateToEnabledConverter x:Key="ConvertStateToEnabled" />
+        <converters:AccentColorToDisabledConverter x:Key="ConvertAccentColorToDisabled" />
+        <converters:BoolToVolumeGlyphConverter x:Key="ConvertBoolToVolumeGlyph" />
+        <converters:PlaylistIndexToBoolConverter x:Key="ConvertPlaylistIndexToBool" />
+        <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        <toolkit:InvertedBoolConverter x:Key="InvertBool" />
+    </ContentView.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <toolkit:MediaElement
+            x:Name="MediaElement"
+            Margin="10"
+            Background="{StaticResource  Background_Darker}"
+            MediaFailed="OnMediaFailed"
+            PositionChanged="OnPositionChanged"
+            SeekCompleted="OnSeekCompleted"
+            ShouldAutoPlay="False"
+            ShouldShowPlaybackControls="False"
+            StateChanged="OnStateChanged" />
+
+        <Grid Grid.Row="1" Margin="10,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="65" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label
+                IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
+                Style="{StaticResource labelSecondaryStyle}"
+                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Position}"
+                VerticalOptions="Center" />
+
+            <Slider
+                x:Name="PositionSlider"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                DragCompleted="OnSliderDragCompleted"
+                DragStarted="OnSliderDragStarted"
+                IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
+                VerticalOptions="Center" />
+
+            <Label
+                Grid.Column="4"
+                HorizontalOptions="End"
+                HorizontalTextAlignment="End"
+                IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
+                Style="{StaticResource labelSecondaryStyle}"
+                Text="{Binding Source={x:Reference MediaElement},Converter={StaticResource ConvertSecondsToString},Path=Duration}"
+                VerticalOptions="Center" />
+
+            <controls:MarqueeLabel
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="0,0,15,0"
+                DefaultTextColor="{StaticResource Dark_SecondaryText}"
+                DurationAnimation="16"
+                DurationPause="4"
+                FontSize="16"
+                HorizontalOptions="Start"
+                IsActive="True"
+                Text="{Binding CurrentDescription}"
+                VerticalOptions="Center" />
+
+            <ImageButton
+                x:Name="PlayButton"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Grid.Column="2"
+                Clicked="OnPlayOrPauseClicked"
+                CornerRadius="30"
+                HeightRequest="60"
+                HorizontalOptions="Center"
+                IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
+                VerticalOptions="Start"
+                WidthRequest="60">
+                <ImageButton.Source>
+                    <FontImageSource
+                        FontFamily="MaterialIcons"
+                        Glyph="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToPlayingGlyph}}"
+                        Size="40">
+                        <FontImageSource.Color>
+                            <Binding
+                                Converter="{StaticResource ConvertAccentColorToDisabled}"
+                                Path="IsEnabled"
+                                Source="{x:Reference PlayButton}" />
+                        </FontImageSource.Color>
+                    </FontImageSource>
+                </ImageButton.Source>
+                <ImageButton.Behaviors>
+                    <toolkit:AnimationBehavior EventName="Clicked">
+                        <toolkit:AnimationBehavior.AnimationType>
+                            <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                        </toolkit:AnimationBehavior.AnimationType>
+                    </toolkit:AnimationBehavior>
+                </ImageButton.Behaviors>
+            </ImageButton>
+
+            <HorizontalStackLayout
+                Grid.Row="1"
+                Grid.Column="3"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="End">
+                <ImageButton
+                    Margin="5"
+                    Clicked="OnMuteClicked"
+                    VerticalOptions="Start"
+                    WidthRequest="30">
+                    <ImageButton.Source>
+                        <FontImageSource
+                            Color="{StaticResource Dark_SecondaryText}"
+                            FontFamily="MaterialIcons"
+                            Glyph="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertBoolToVolumeGlyph}}" />
+                    </ImageButton.Source>
+                    <ImageButton.Behaviors>
+                        <toolkit:AnimationBehavior EventName="Clicked">
+                            <toolkit:AnimationBehavior.AnimationType>
+                                <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                            </toolkit:AnimationBehavior.AnimationType>
+                        </toolkit:AnimationBehavior>
+                    </ImageButton.Behaviors>
+                </ImageButton>
+
+                <Slider
+                    x:Name="VolumeSlider"
+                    Value="{Binding Path=Volume,Source={x:Reference MediaElement}}"
+                    HeightRequest="40"
+                    HorizontalOptions="End"
+                    IsEnabled="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource InvertBool}}"
+                    Maximum="1.0"
+                    Minimum="0.0"
+                    ValueChanged="OnVolumeSliderChanged"
+                    WidthRequest="140" />
+
+            </HorizontalStackLayout>
+
+        </Grid>
+
+    </Grid>
+</ContentView>

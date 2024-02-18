@@ -101,6 +101,8 @@ public partial class AudioPlayerView : INotifyPropertyChanged
 
                 if(e.PlaylistIndex.HasValue)
                     _playerService?.PlayFromPlaylist(e.PlaylistIndex.Value, true);
+                else if (CurrentTrack?.Title != list.First().Title)
+                    Dispatcher.DispatchIfRequired(() => LoadTrack(list.First()));
             }
         }
     }

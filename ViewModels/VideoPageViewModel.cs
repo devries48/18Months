@@ -95,6 +95,9 @@ public partial class VideoPageViewModel : ObservableObject
             video = await VideoModel.Create("Paloma Blanca", "Georgie Dann - Paloma Blanca", "3:22", VideoPath("Paloma.mp4"), VideoPath("Paloma-thumb.jpg")).ConfigureAwait(false);
             _source.Add(video);
 
+            video = await VideoModel.Create("Vitas", "Vitas - The 7th Element", "4:11", VideoPath("Vitas.mp4"), VideoPath("Vitas-thumb.jpg")).ConfigureAwait(false);
+            _source.Add(video);
+
             video = await VideoModel.Create("Merry Christmas", "Henrietta and Merna - Go Tell It On The Mountain", "3:07", VideoPath("Christmas.mp4"), VideoPath("Christmas-thumb.jpg")).ConfigureAwait(false);
             _source.Add(video);
 

@@ -137,6 +137,15 @@ public partial class MusicPageViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void AddSelectedReleaseToPlaylist()
+    {
+        if (SelectedRelease == null || _playerService == null)
+            return;
+
+        _playerService.AddToPlaylist(SelectedRelease);
+    }
+
+    [RelayCommand]
     private void PlaySelectedTrack()
     {
         if (SelectedRelease == null || _playerService == null)
@@ -302,6 +311,12 @@ public partial class MusicPageViewModel : ObservableObject
             release.AddGenres("Krautrock", "Psychedelic Rock", "Progressive Rock");
             release.AddTrack(MusicPath("03. Luzifers Ghilom.mp3"), "Luzifers Ghilom", "8:34");
             release.AddTrack(MusicPath("05. Phallus Dei.mp3"), "Phallus Dei", "20:46");
+            _source.Add(release);
+
+            release = await ReleaseModel.Create("Opeth", "Deliverance", ImagePath("Deliverance-front.jpg"), CountryCode.SWE, 2002, 4).ConfigureAwait(false);
+            release.AddGenres("Progressive Metal", "Death Metal", "Progressive Rock");
+            release.AddTrack(MusicPath("02. Deliverance.mp3"), "Deliverance", "13:36");
+            release.AddTrack(MusicPath("03. A Fair Judgement.mp3"), "A Fair Judgement", "10:23");
             _source.Add(release);
 
             release = await ReleaseModel.Create("Joe McPhee", "Nation Time", ImagePath("Nation Time-front.jpg"), CountryCode.USA, 1970, 4).ConfigureAwait(false);
@@ -496,6 +511,13 @@ public partial class MusicPageViewModel : ObservableObject
             release = await ReleaseModel.Create("Pharoah Sanders", "Karma", ImagePath("Karma-front.jpg"), CountryCode.USA, 1969, 4).ConfigureAwait(false);
             release.AddGenres("Spiritual Jazz", "Avant-Garde Jazz", "Free Jazz");
             release.AddTrack(MusicPath("01 - The Creator Has a Master Plan.mp3"), "The Creator Has a Master Plan", "32:47");
+            _source.Add(release);
+
+            release = await ReleaseModel.Create("Zao", "Z=7L", ImagePath("Zao-front.jpg"), CountryCode.FRA, 1973, 4).ConfigureAwait(false);
+            release.AddGenres("Zeuhl, Jazz Fusion, Jazz-Rock, Canterbury Scene");
+            release.AddTrack(MusicPath("01. Marochsek.mp3"), "Marochsek", "7:17");
+            release.AddTrack(MusicPath("02. Ataturc.mp3"), "Ataturc", "5:53");
+            release.AddTrack(MusicPath("05. La Soupe.mp3"), "La Soupe", "7:24");
             _source.Add(release);
         }
 

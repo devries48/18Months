@@ -45,17 +45,28 @@
 
     <Color x:Key="Dark_Primary">#015958</Color>
     <Color x:Key="Dark_PrimaryText">#91A7B7</Color>
+    <Color x:Key="Dark_PrimaryBackground">#081B25</Color>
     <Color x:Key="Dark_SecondaryText">#ACACAC</Color>
+    <Color x:Key="Dark_SecondaryBackground">#152C39</Color>
     <Color x:Key="Dark_HeaderText">#1f7b93</Color>
     <Color x:Key="Dark_Accent">#F7B548</Color>
     <Color x:Key="Dark_AccentText">#081B25</Color>
     <Color x:Key="Dark_Disabled">#415563</Color>
-    
-    <Color x:Key="Background_Mid">#152C39</Color>
-    <Color x:Key="Background_Dark">#081B25</Color>
+    <Color x:Key="Dark_VideoBackground">#06161e</Color>
+
     <Color x:Key="TabOff">#91A7B7</Color>
-    <Color x:Key="Background_Darker">#06161e</Color>
-    
+
+    <Color x:Key="Light_Primary">#919191</Color>
+    <Color x:Key="Light_PrimaryText">#212121</Color>
+    <Color x:Key="Light_PrimaryBackground">#CFCFD3</Color>
+    <Color x:Key="Light_SecondaryText">#6E6E6E</Color>
+    <Color x:Key="Light_SecondaryBackground">#EFEFEF</Color>
+    <Color x:Key="Light_HeaderText">#2B0B98</Color>
+    <Color x:Key="Light_Accent">#512BD4</Color>
+    <Color x:Key="Light_AccentText">#E1E1E1</Color>
+    <Color x:Key="Light_Disabled">#ACACAC</Color>
+    <Color x:Key="Light_VideoBackground">#C8C8C8</Color>
+
     <!-- light theme alternatives -->
     <Color x:Key="DarkGray">#212125</Color>
     <Color x:Key="MidGray">#CFCFD3</Color>

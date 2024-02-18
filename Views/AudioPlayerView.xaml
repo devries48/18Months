@@ -8,7 +8,7 @@
     xmlns:helpers="clr-namespace:Months18.Helpers"
     xmlns:models="clr-namespace:Months18.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    BackgroundColor="{AppThemeBinding Light={StaticResource LightGray}, Dark={StaticResource Background_Mid}}"
+    BackgroundColor="{AppThemeBinding Light={StaticResource Light_SecondaryBackground}, Dark={StaticResource Dark_SecondaryBackground}}"
     BindingContext="{x:Reference this}">
 
     <ContentView.Resources>
@@ -73,10 +73,10 @@
                                 <controls:MarqueeLabel
                                     x:Name="MarqueeTrack"
                                     Grid.Column="1"
-                                    DefaultTextColor="{StaticResource Dark_SecondaryText}"
+                                    DefaultTextColor="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
                                     FontSize="13"
                                     HorizontalOptions="Start"
-                                    SelectedTextColor="{StaticResource Dark_Accent}"
+                                    SelectedTextColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"
                                     Text="{Binding PlaylistTrack}">
                                     <controls:MarqueeLabel.IsSelected>
                                         <MultiBinding Converter="{StaticResource ConvertPlaylistIndexToBool}">
@@ -101,7 +101,7 @@
             <BoxView
                 Grid.Row="1"
                 Margin="10,5,10,15"
-                Color="{StaticResource Dark_Disabled}"
+                Color="{AppThemeBinding Light={StaticResource Light_Disabled}, Dark={StaticResource Dark_Disabled}}"
                 HeightRequest="1" />
         </Grid>
 
@@ -142,7 +142,7 @@
                 Grid.Column="1"
                 Margin="5"
                 Aspect="AspectFill"
-                BackgroundColor="{StaticResource Dark_Disabled}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource Light_Disabled}, Dark={StaticResource Dark_Disabled}}"
                 HeightRequest="200"
                 HorizontalOptions="Center"
                 Opacity=".2"
@@ -151,7 +151,7 @@
                 <Image.Shadow>
                     <Shadow
                         Offset="10,10"
-                        Brush="{StaticResource Background_Dark}"
+                        Brush="{StaticResource Black}"
                         Opacity=".9"
                         Radius="10" />
                 </Image.Shadow>
@@ -187,7 +187,7 @@
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_SecondaryText}"
+                        Color="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
                         FontFamily="MaterialIcons"
                         Glyph="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertBoolToVolumeGlyph}}" />
                 </ImageButton.Source>
@@ -213,7 +213,7 @@
                 Margin="0,5,0,2"
                 FontSize="15"
                 HeightRequest="20"
-                Opacity=".8"
+                Opacity=".9"
                 VerticalOptions="End"
                 Style="{StaticResource labelSecondaryStyle}"
                 Text="{Binding CurrentArtist}" />
@@ -274,7 +274,7 @@
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_SecondaryText}"
+                        Color="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Shuffle}" />
                 </ImageButton.Source>
@@ -290,7 +290,7 @@
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_SecondaryText}"
+                        Color="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Skip_previous}" />
                 </ImageButton.Source>
@@ -345,7 +345,7 @@
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_SecondaryText}"
+                        Color="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Skip_next}" />
                 </ImageButton.Source>
@@ -366,7 +366,7 @@
                 WidthRequest="30">
                 <ImageButton.Source>
                     <FontImageSource
-                        Color="{StaticResource Dark_SecondaryText}"
+                        Color="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
                         FontFamily="MaterialIcons"
                         Glyph="{x:Static helpers:IconFont.Repeat}" />
                 </ImageButton.Source>

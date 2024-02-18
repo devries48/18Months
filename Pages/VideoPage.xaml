@@ -23,15 +23,13 @@
 
     <Grid ColumnDefinitions="*,240" RowDefinitions="*">
         <views:VideoPlayerView IsVisible="True" />
-        <Grid Grid.Column="2" Background="{StaticResource Background_Mid}">
+        <Grid Grid.Column="2" Background="{AppThemeBinding Light={StaticResource Light_SecondaryBackground}, Dark={StaticResource Dark_SecondaryBackground}}">
             <ListView x:Name="VideolistView" ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type vms:VideoPageViewModel}}, Path=Videos}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <Grid x:DataType="models:VideoModel">
-                                <Grid
-                                    Padding="15,15"
-                                    VerticalOptions="Center">
+                                <Grid Padding="15,15" VerticalOptions="Center">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -57,10 +55,10 @@
 
                                     <controls:MarqueeLabel
                                         Grid.Row="1"
-                                        DefaultTextColor="{StaticResource Dark_PrimaryText}"
+                                        DefaultTextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
                                         FontSize="13"
-                                        IsActive="True"
                                         HorizontalOptions="Start"
+                                        IsActive="True"
                                         Text="{Binding Title}" />
                                     <Label
                                         Grid.Row="0"
@@ -71,17 +69,17 @@
 
                                 <Grid ColumnDefinitions="*,Auto,Auto" IsVisible="{Binding IsSelected}">
                                     <Button
-                                        BackgroundColor="{StaticResource Dark_Accent}"
+                                        Margin="85,0,0,10"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vms:VideoPageViewModel}}, Path=PlaySelectedVideoCommand}"
                                         CornerRadius="30"
                                         HeightRequest="30"
                                         HorizontalOptions="Start"
-                                        Margin="85,0,0,10"
                                         VerticalOptions="End"
                                         WidthRequest="30">
                                         <Button.ImageSource>
                                             <FontImageSource
-                                                Color="{StaticResource Dark_AccentText}"
+                                                Color="{AppThemeBinding Light={StaticResource Light_AccentText}, Dark={StaticResource Dark_AccentText}}"
                                                 FontFamily="MaterialIcons"
                                                 Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:VideoPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
                                         </Button.ImageSource>
@@ -107,7 +105,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
 
             <Grid.Shadow>
                 <Shadow

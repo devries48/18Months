@@ -22,16 +22,16 @@
 
     <Grid ColumnDefinitions="{OnIdiom Phone='*', Default='*,350'}" RowDefinitions="45,*">
         <controls:Toolbar
-            Grid.RowSpan="2"
             x:Name="Toolbar"
-            Margin="20,10"
-            AccentColor="{StaticResource Dark_Accent}"
-            BackgroundColor="{StaticResource Background_Dark}"
+            Grid.RowSpan="2"
+            Margin="20,5,20,0"
+            AccentColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"
+            BackgroundColor="{AppThemeBinding Light={StaticResource Light_PrimaryBackground}, Dark={StaticResource Dark_PrimaryBackground}}"
             ExpandedHeight="250"
-            HeaderColor="{StaticResource Dark_PrimaryText}"
+            HeaderColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
             HeightRequest="45"
             IsEnabled="{Binding  IsDetailViewVisible, Converter={StaticResource InvertBool}}"
-            Stroke="{StaticResource Background_Mid}">
+            Stroke="{AppThemeBinding Light={StaticResource Light_SecondaryBackground}, Dark={StaticResource Dark_SecondaryBackground}}">
             <controls:Toolbar.HeaderContent>
                 <Label
                     Margin="10,0,0,0"
@@ -76,7 +76,7 @@
                         Grid.RowSpan="2"
                         Grid.Column="1"
                         Margin="0,10,0,0"
-                        BackgroundColor="{StaticResource Dark_Accent}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"
                         Command="{Binding Path=PlayRandomTrackCommand}"
                         CornerRadius="30"
                         HeightRequest="30"
@@ -84,7 +84,7 @@
                         WidthRequest="30">
                         <Button.ImageSource>
                             <FontImageSource
-                                Color="{StaticResource Dark_AccentText}"
+                                Color="{AppThemeBinding Light={StaticResource Light_AccentText}, Dark={StaticResource Dark_AccentText}}"
                                 FontFamily="MaterialIcons"
                                 Glyph="{x:Static helpers:IconFont.Question_mark}" />
                         </Button.ImageSource>
@@ -111,11 +111,11 @@
         <Grid Grid.Row="1">
             <CollectionView
                 x:Name="ReleaseCollectionView"
-                Margin="10,20,0,20"
+                Margin="10,10,0,20"
+                Focused="View_Focused"
                 IsEnabled="{Binding  IsDetailViewVisible, Converter={StaticResource InvertBool}}"
                 ItemsSource="{Binding Releases}"
                 SelectionMode="Single"
-                Focused="View_Focused"
                 SizeChanged="CollectionView_SizeChanged">
 
                 <CollectionView.ItemsLayout>
@@ -177,10 +177,10 @@
 
                                 <Border
                                     Grid.ColumnSpan="3"
-                                    Background="{StaticResource Background_Dark}"
+                                    Background="{AppThemeBinding Light={StaticResource Light_PrimaryBackground}, Dark={StaticResource Dark_PrimaryBackground}}"
                                     HeightRequest="70"
                                     Padding="10,0,10,0"
-                                    Stroke="{StaticResource Background_Mid}"
+                                    Stroke="{AppThemeBinding Light={StaticResource Light_SecondaryBackground}, Dark={StaticResource Dark_SecondaryBackground}}"
                                     StrokeThickness="5"
                                     VerticalOptions="End">
                                     <Border.StrokeShape>
@@ -196,7 +196,7 @@
 
                                     <Grid ColumnDefinitions="*,Auto,Auto">
                                         <Button
-                                            BackgroundColor="{StaticResource Dark_Accent}"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=PlaySelectedReleaseCommand}"
                                             CornerRadius="30"
                                             HeightRequest="30"
@@ -204,7 +204,7 @@
                                             WidthRequest="30">
                                             <Button.ImageSource>
                                                 <FontImageSource
-                                                    Color="{StaticResource Dark_AccentText}"
+                                                    Color="{AppThemeBinding Light={StaticResource Light_AccentText}, Dark={StaticResource Dark_AccentText}}"
                                                     FontFamily="MaterialIcons"
                                                     Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
                                             </Button.ImageSource>
@@ -219,7 +219,7 @@
 
                                         <ImageButton
                                             Grid.Column="1"
-                                            BackgroundColor="{StaticResource Dark_Primary}"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource Light_Primary}, Dark={StaticResource Dark_Primary}}"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=ShowSelectedReleaseCommand}"
                                             HeightRequest="20"
                                             HorizontalOptions="End"
@@ -227,7 +227,7 @@
                                             WidthRequest="20">
                                             <ImageButton.Source>
                                                 <FontImageSource
-                                                    Color="{StaticResource Dark_PrimaryText}"
+                                                    Color="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
                                                     FontFamily="MaterialIcons"
                                                     Glyph="{x:Static helpers:IconFont.Visibility}"
                                                     Size="26" />
@@ -243,29 +243,37 @@
 
                                         <ImageButton
                                             Grid.Column="2"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=AddSelectedReleaseToPlaylistCommand}"
                                             Margin="10,0,0,0"
-                                            BackgroundColor="{StaticResource Dark_Primary}"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource Light_Primary}, Dark={StaticResource Dark_Primary}}"
                                             HeightRequest="20"
                                             HorizontalOptions="End"
                                             VerticalOptions="Center"
                                             WidthRequest="20">
                                             <ImageButton.Source>
                                                 <FontImageSource
-                                                    Color="{StaticResource Dark_PrimaryText}"
+                                                    Color="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
                                                     FontFamily="MaterialIcons"
                                                     Glyph="{x:Static helpers:IconFont.Playlist_add}"
                                                     Size="26" />
                                             </ImageButton.Source>
+                                            <ImageButton.Behaviors>
+                                                <toolkit:AnimationBehavior EventName="Clicked">
+                                                    <toolkit:AnimationBehavior.AnimationType>
+                                                        <helpers:ScaleAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                                                    </toolkit:AnimationBehavior.AnimationType>
+                                                </toolkit:AnimationBehavior>
+                                            </ImageButton.Behaviors>
                                         </ImageButton>
                                     </Grid>
                                 </Border>
 
                                 <Border
                                     Grid.ColumnSpan="3"
-                                    Background="{StaticResource Background_Mid}"
-                                    HeightRequest="45"
+                                    Background="{AppThemeBinding Light={StaticResource Light_PrimaryBackground}, Dark={StaticResource Dark_SecondaryBackground}}"
+                                    HeightRequest="47"
                                     HorizontalOptions="Start"
-                                    Stroke="{StaticResource Dark_Accent}"
+                                    Stroke="{AppThemeBinding Light={StaticResource Light_SecondaryBackground}, Dark={StaticResource Dark_Accent}}"
                                     StrokeThickness="4"
                                     VerticalOptions="Start"
                                     WidthRequest="80">
@@ -287,11 +295,11 @@
 
                                 <Border
                                     Grid.ColumnSpan="3"
-                                    Background="{StaticResource Background_Mid}"
+                                    Background="{AppThemeBinding Light={StaticResource Light_PrimaryBackground}, Dark={StaticResource Dark_SecondaryBackground}}"
                                     HeightRequest="45"
                                     HorizontalOptions="End"
                                     Padding="17,9"
-                                    Stroke="{StaticResource Dark_Accent}"
+                                    Stroke="{AppThemeBinding Light={StaticResource Light_SecondaryBackground}, Dark={StaticResource Dark_Accent}}"
                                     StrokeThickness="4"
                                     VerticalOptions="Start"
                                     WidthRequest="80">
@@ -299,7 +307,7 @@
                                         FontAttributes="Bold"
                                         FontSize="16"
                                         Text="{Binding Year}"
-                                        TextColor="{StaticResource Dark_PrimaryText}" />
+                                        TextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}" />
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="40,0,40,0" />
                                     </Border.StrokeShape>
@@ -338,9 +346,9 @@
                 </ContentView.Behaviors>
 
                 <Border
-                    Background="{StaticResource Background_Dark}"
+                    Background="{AppThemeBinding Light={StaticResource Light_PrimaryBackground}, Dark={StaticResource Dark_PrimaryBackground}}"
                     Padding="5"
-                    Stroke="{StaticResource Background_Mid}"
+                    Stroke="{AppThemeBinding Light={StaticResource Light_SecondaryBackground}, Dark={StaticResource Dark_SecondaryBackground}}"
                     StrokeThickness="5">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="40,40,40,40" />
@@ -368,7 +376,7 @@
                         <controls:MarqueeLabel
                             Grid.Row="1"
                             Margin="0,5,0,10"
-                            DefaultTextColor="{StaticResource Dark_PrimaryText}"
+                            DefaultTextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
                             FontAttributes="Bold"
                             FontSize="16"
                             IsActive="True"
@@ -377,7 +385,7 @@
                         <controls:MarqueeLabel
                             Grid.Row="2"
                             Grid.ColumnSpan="2"
-                            DefaultTextColor="{StaticResource Dark_PrimaryText}"
+                            DefaultTextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
                             FontAttributes="Italic,Bold"
                             FontSize="18"
                             IsActive="True"
@@ -388,26 +396,30 @@
                             Margin="0,2,0,10"
                             FontSize="14"
                             Opacity=".85"
+                            Style="{StaticResource labelPrimaryStyle}"
                             Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.YearAndCountry}" />
 
                         <Label
                             Grid.Row="4"
                             FontAttributes="Bold"
                             FontSize="14"
+                            Style="{StaticResource labelPrimaryStyle}"
                             Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.Genre}" />
 
                         <Label
                             Grid.Row="5"
                             Grid.RowSpan="2"
                             FontSize="14"
-                            Opacity=".85"
                             HorizontalOptions="FillAndExpand"
+                            Opacity=".85"
+                            Style="{StaticResource labelPrimaryStyle}"
                             Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.SubGenres}" />
 
                         <Label
                             Grid.Row="7"
                             FontSize="14"
                             Opacity=".85"
+                            Style="{StaticResource labelPrimaryStyle}"
                             Text="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=SelectedRelease.TotalLength}"
                             VerticalOptions="End" />
 
@@ -448,7 +460,7 @@
                                                 <controls:MarqueeLabel
                                                     x:Name="MarqueeTrack"
                                                     Grid.Column="1"
-                                                    DefaultTextColor="{StaticResource Dark_PrimaryText}"
+                                                    DefaultTextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
                                                     FontSize="13"
                                                     IsActive="True"
                                                     Text="{Binding Title}" />
@@ -463,7 +475,7 @@
                                             <Grid ColumnDefinitions="*,Auto,Auto" IsVisible="{Binding IsSelected}">
                                                 <Button
                                                     Grid.Column="1"
-                                                    BackgroundColor="{StaticResource Dark_Accent}"
+                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=PlaySelectedTrackCommand}"
                                                     CornerRadius="30"
                                                     HeightRequest="30"
@@ -471,7 +483,7 @@
                                                     WidthRequest="30">
                                                     <Button.ImageSource>
                                                         <FontImageSource
-                                                            Color="{StaticResource Dark_AccentText}"
+                                                            Color="{AppThemeBinding Light={StaticResource Light_AccentText}, Dark={StaticResource Dark_AccentText}}"
                                                             FontFamily="MaterialIcons"
                                                             Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
                                                     </Button.ImageSource>
@@ -487,14 +499,14 @@
                                                 <ImageButton
                                                     Grid.Column="2"
                                                     Margin="10,0,0,0"
-                                                    BackgroundColor="{StaticResource Dark_Primary}"
+                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Light_Primary}, Dark={StaticResource Dark_Primary}}"
                                                     HeightRequest="20"
                                                     HorizontalOptions="End"
                                                     VerticalOptions="Center"
                                                     WidthRequest="20">
                                                     <ImageButton.Source>
                                                         <FontImageSource
-                                                            Color="{StaticResource Dark_PrimaryText}"
+                                                            Color="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
                                                             FontFamily="MaterialIcons"
                                                             Glyph="{x:Static helpers:IconFont.Playlist_add}"
                                                             Size="26" />
@@ -530,8 +542,8 @@
         </Grid>
         <views:AudioPlayerView
             Grid.RowSpan="2"
-            Focused="View_Focused"
             Grid.Column="{OnIdiom Phone=0, Default=1}"
+            Focused="View_Focused"
             IsVisible="{OnIdiom Phone=False, Default=True}">
             <views:AudioPlayerView.Shadow>
                 <Shadow

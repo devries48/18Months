@@ -6,11 +6,11 @@
     xmlns:helpers="clr-namespace:Months18.Helpers"
     xmlns:local="clr-namespace:Months18"
     xmlns:page="clr-namespace:Months18.Pages"
-    FlyoutBackgroundColor="{StaticResource Background_Mid}"
+    FlyoutBackgroundColor="{AppThemeBinding Light={StaticResource Light_SecondaryBackground}, Dark={StaticResource Dark_SecondaryBackground}}"
     FlyoutBehavior="{OnIdiom Phone=Disabled, Default=Locked}"
     FlyoutWidth="68"
-    Title="18 Months of Therapy  -  discover beauty in the unexpected">
-  
+    Title="18 Months of Therapy">
+
     <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Music_note}" Title="Music">
         <ShellContent ContentTemplate="{DataTemplate page:MusicPage}" Route="MusicPage" />
     </controls:FlyoutItemIconFont>
@@ -23,7 +23,7 @@
         <ShellContent ContentTemplate="{DataTemplate page:TherapyPage}" Route="MusicPage" />
     </controls:FlyoutItemIconFont>-->
 
-    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Settings}" Title="Settings" >
+    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Settings}" Title="Settings">
         <ShellContent ContentTemplate="{DataTemplate page:SettingsPage}" Route="SettingsPage" />
     </controls:FlyoutItemIconFont>
 
@@ -35,12 +35,12 @@
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter TargetName="FlyoutItemIcon" Property="Label.TextColor" Value="{StaticResource TabOff}" />
+                                    <Setter TargetName="FlyoutItemIcon" Property="Label.TextColor" Value="{AppThemeBinding Light={StaticResource Light_Disabled}, Dark={StaticResource Dark_Disabled}}" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Selected">
                                 <VisualState.Setters>
-                                    <Setter TargetName="FlyoutItemIcon" Property="Label.TextColor" Value="{StaticResource Dark_Accent}" />
+                                    <Setter TargetName="FlyoutItemIcon" Property="Label.TextColor" Value="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>

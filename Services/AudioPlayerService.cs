@@ -24,11 +24,17 @@ public class AudioPlayerService : IAudioPlayerService
 
     public List<TrackModel> GetPlaylist() => playlist;
 
-    public void AddToPlaylist(TrackModel track, MediaPlayerSource source) => OnPlaylistChanged(
-        PlaylistAction.ListChanged);
+    public void AddToPlaylist(TrackModel track)
+    {
+        playlist.Add(track);
+        OnPlaylistChanged(PlaylistAction.ListChanged);
+    }
 
-    public void AddToPlaylist(ReleaseModel release, MediaPlayerSource source) => OnPlaylistChanged(
-        PlaylistAction.ListChanged);
+    public void AddToPlaylist(ReleaseModel release)
+    {
+        playlist.AddRange(release.Tracks);
+        OnPlaylistChanged(PlaylistAction.ListChanged);
+    }
 
     public void Play() => OnAudioPlayerAction(Services.AudioPlayerAction.Play);
 
@@ -64,7 +70,6 @@ public class AudioPlayerService : IAudioPlayerService
     public void Pause() => OnAudioPlayerAction(Services.AudioPlayerAction.Pause);
 
     public void Stop() => OnAudioPlayerAction(Services.AudioPlayerAction.Stop);
-
 
     #region Event Subscribe & Unsubscribe
     public void SubscribeToPlaylistChanged(PlaylistChangedEventHandler handler) => PlaylistChanged += handler;

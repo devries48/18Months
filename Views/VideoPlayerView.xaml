@@ -8,7 +8,7 @@
     xmlns:helpers="clr-namespace:Months18.Helpers"
     xmlns:models="clr-namespace:Months18.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    BackgroundColor="{AppThemeBinding Light={StaticResource LightGray}, Dark={StaticResource Background_Dark}}"
+    BackgroundColor="{AppThemeBinding Light={StaticResource Light_PrimaryBackground}, Dark={StaticResource Dark_PrimaryBackground}}"
     BindingContext="{x:Reference this}">
 
     <ContentView.Resources>
@@ -17,8 +17,6 @@
         <converters:CurrentStateToEnabledConverter x:Key="ConvertStateToEnabled" />
         <converters:AccentColorToDisabledConverter x:Key="ConvertAccentColorToDisabled" />
         <converters:BoolToVolumeGlyphConverter x:Key="ConvertBoolToVolumeGlyph" />
-        <converters:PlaylistIndexToBoolConverter x:Key="ConvertPlaylistIndexToBool" />
-        <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
         <toolkit:InvertedBoolConverter x:Key="InvertBool" />
     </ContentView.Resources>
 
@@ -31,7 +29,7 @@
         <toolkit:MediaElement
             x:Name="MediaElement"
             Margin="10"
-            Background="{StaticResource  Background_Darker}"
+            Background="{AppThemeBinding Light={StaticResource Light_VideoBackground}, Dark={StaticResource Dark_VideoBackground}}"
             MediaFailed="OnMediaFailed"
             PositionChanged="OnPositionChanged"
             SeekCompleted="OnSeekCompleted"
@@ -80,7 +78,7 @@
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
                 Margin="0,0,15,0"
-                DefaultTextColor="{StaticResource Dark_SecondaryText}"
+                DefaultTextColor="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
                 DurationAnimation="16"
                 DurationPause="4"
                 FontSize="16"
@@ -135,7 +133,7 @@
                     WidthRequest="30">
                     <ImageButton.Source>
                         <FontImageSource
-                            Color="{StaticResource Dark_SecondaryText}"
+                            Color="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
                             FontFamily="MaterialIcons"
                             Glyph="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertBoolToVolumeGlyph}}" />
                     </ImageButton.Source>

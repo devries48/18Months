@@ -20,7 +20,7 @@ public class LevelModel
 
     public int Level { get; private set; }
 
-    public string Name => Level == 0 ? "No level filter" : $"LEVEL {Level}";
+    public string Name => Level == 0 ? "NO LEVEL FILTER" : $"LEVEL {Level}";
 
     public string Header => headers[Level];
 

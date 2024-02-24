@@ -1,5 +1,5 @@
 ﻿namespace Months18.Converters;
-public class CurrentStateToPlayingGlyphConverter : IValueConverter
+public class ObsoleteCurrentStateToPlayingGlyphConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

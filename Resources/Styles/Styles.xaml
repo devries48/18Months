@@ -16,7 +16,7 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" >
+                    <VisualState x:Name="Normal">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}" />
                         </VisualState.Setters>
@@ -47,6 +47,97 @@
         <Setter Property="FontFamily" Value="OpenSansRegular" />
     </Style>
 
+    <Style x:Key="BaseIconStyle" TargetType="ImageButton">
+        <Setter Property="HeightRequest" Value="30" />
+        <Setter Property="WidthRequest" Value="30" />
+        <Setter Property="Padding" Value="5" />
+    </Style>
+
+    <Style x:Key="BaseIconBarStyle" TargetType="ImageButton">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Light_Primary}, Dark={StaticResource Dark_Primary}}"/>
+        <Setter Property="HeightRequest" Value="20" />
+        <Setter Property="WidthRequest" Value="20" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Padding" Value="6" />
+    </Style>
+
+    <Style x:Key="IconPlay" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=play_arrow_light.png, Dark=play_arrow_dark.png}" />
+    </Style>
+
+    <Style x:Key="IconPause" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=pause_light.png, Dark=Pause_dark.png}" />
+    </Style>
+
+    <Style x:Key="IconShuffle" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=shuffle_light.png, Dark=shuffle_dark.png}" />
+    </Style>
+
+    <Style x:Key="IconRepeat" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=repeat_light.png, Dark=repeat_dark.png}" />
+    </Style>
+
+    <Style x:Key="IconNext" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=skip_next_light.png, Dark=skip_next_dark.png}" />
+    </Style>
+
+    <Style x:Key="IconPrevious" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=skip_previous_light.png, Dark=skip_previous_dark.png}" />
+    </Style>
+
+    <Style x:Key="IconVolume" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=volume_up_light.png, Dark=volume_up_dark.png}" />
+    </Style>
+
+    <Style x:Key="IconVolumeOff" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=volume_off_light.png, Dark=volume_off_dark.png}" />
+    </Style>
+
+    <Style x:Key="IconPlayAccent" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=play_arrow_light_accent.png, Dark=play_arrow_dark_accent.png}" />
+    </Style>
+
+    <Style x:Key="IconPlayDisabled" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=play_arrow_light_dsabled.png, Dark=play_arrow_dark_dsabled.png}" />
+    </Style>
+
+    <Style x:Key="IconPauseAccent" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=pause_light_accent.png, Dark=pause_dark_accent.png}" />
+    </Style>
+
+    <Style x:Key="IconPauseDisabled" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=pause_light_disabled.png, Dark=pause_dark_dsabled.png}" />
+    </Style>
+
+    <Style x:Key="IconRandom" TargetType="Button">
+        <Setter Property="ImageSource" Value="{AppThemeBinding Light=question_mark_light.png, Dark=question_mark_dark.png}" />
+    </Style>
+
+    <Style x:Key="IconExpand" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=expand_more_light.png, Dark=expand_more_dark.png}" />
+    </Style>
+
+    <Style x:Key="IconExpandAccent" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=expand_more_light_accent.png, Dark=expand_more_dark_accent.png}" />
+    </Style>
+
+    <Style x:Key="IconPlaySelected" TargetType="Button">
+        <Setter Property="ImageSource" Value="{AppThemeBinding Light=play_arrow_light_selected.png, Dark=play_arrow_dark_selected.png}" />
+    </Style>
+
+    <Style x:Key="IconPauseSelected" TargetType="Button">
+        <Setter Property="ImageSource" Value="{AppThemeBinding Light=pause_light_selected.png, Dark=pause_dark_selected.png}" />
+    </Style>
+
+    <Style x:Key="IconBarShow" BasedOn="{StaticResource BaseIconBarStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=visibility_light.png, Dark=visibility_dark.png}" />
+    </Style>
+
+    <Style x:Key="IconBarAddPlaylist" BasedOn="{StaticResource BaseIconBarStyle}" TargetType="ImageButton">
+        <Setter Property="Source" Value="{AppThemeBinding Light=playlist_light.png, Dark=playlist_dark.png}" />
+    </Style>
+
+    
     <!-- MarqueeLabel -->
     <Style TargetType="controls:MarqueeLabel">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}" />
@@ -253,7 +344,7 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" >
+                    <VisualState x:Name="Normal">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}" />
                         </VisualState.Setters>

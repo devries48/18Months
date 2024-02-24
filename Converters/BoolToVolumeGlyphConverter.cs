@@ -3,14 +3,23 @@ public class BoolToVolumeGlyphConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is bool boolValue)
-            return boolValue ? IconFont.Volume_off : IconFont.Volume_up;
+        string icon= value is bool boolValue && boolValue ? "IconVolumeOff" : "IconVolume";
+        var mergedDictionaries = Application.Current?.Resources.MergedDictionaries ?? [];
 
-        return IconFont.Volume_up;
+        foreach (var mergedDictionary in mergedDictionaries)
+        {
+            if (mergedDictionary.TryGetValue(icon, out object style) && style is Style)
+                return style;
+        }
+
+        return null; // Style not found
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }
+
+   
+
 }

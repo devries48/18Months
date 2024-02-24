@@ -118,6 +118,25 @@ public partial class MusicPageViewModel : ObservableObject
         }
     }
 
+
+    [RelayCommand]
+    private void AddSelectedReleaseToPlaylist()
+    {
+        if (SelectedRelease == null || _playerService == null)
+            return;
+
+        _playerService.AddToPlaylist(SelectedRelease);
+    }
+
+    [RelayCommand]
+    private void AddSelectedTrackToPlaylist()
+    {
+        if (_selectedTrack == null || _playerService == null)
+            return;
+
+        _playerService.AddToPlaylist(_selectedTrack);
+    }
+
     [RelayCommand]
     private void PlaySelectedRelease()
     {
@@ -137,18 +156,9 @@ public partial class MusicPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void AddSelectedReleaseToPlaylist()
-    {
-        if (SelectedRelease == null || _playerService == null)
-            return;
-
-        _playerService.AddToPlaylist(SelectedRelease);
-    }
-
-    [RelayCommand]
     private void PlaySelectedTrack()
     {
-        if (SelectedRelease == null || _playerService == null)
+        if (_selectedTrack == null || _playerService == null)
             return;
 
         if (_playerService.CurrentState == MediaElementState.Playing)
@@ -157,7 +167,7 @@ public partial class MusicPageViewModel : ObservableObject
             return;
         }
 
-        if (_selectedTrack?.Title == (_playerService.CurrentTrack?.Title ?? string.Empty))
+        if (_selectedTrack.Title == (_playerService.CurrentTrack?.Title ?? string.Empty))
             _playerService.Play();
         else
             _playerService.PlayTrack(_selectedTrack);

@@ -15,7 +15,6 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:BoolToPlayingGlyphConverter x:Key="ConvertBoolToPlayingGlyph" />
-            <converters:CurrentStateToPlayingGlyphConverter x:Key="ConvertStateToPlayingGlyph" />
             <toolkit:ByteArrayToImageSourceConverter x:Key="ConvertByteArrayToImageSource" />
             <toolkit:InvertedBoolConverter x:Key="InvertBool" />
         </ResourceDictionary>
@@ -75,14 +74,9 @@
                                         CornerRadius="30"
                                         HeightRequest="30"
                                         HorizontalOptions="Start"
+                                        Style="{Binding Source={RelativeSource AncestorType={x:Type vms:VideoPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}"
                                         VerticalOptions="End"
                                         WidthRequest="30">
-                                        <Button.ImageSource>
-                                            <FontImageSource
-                                                Color="{AppThemeBinding Light={StaticResource Light_AccentText}, Dark={StaticResource Dark_AccentText}}"
-                                                FontFamily="MaterialIcons"
-                                                Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:VideoPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
-                                        </Button.ImageSource>
                                         <Button.Behaviors>
                                             <toolkit:AnimationBehavior EventName="Clicked">
                                                 <toolkit:AnimationBehavior.AnimationType>

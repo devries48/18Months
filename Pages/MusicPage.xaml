@@ -14,7 +14,6 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:BoolToPlayingGlyphConverter x:Key="ConvertBoolToPlayingGlyph" />
-            <converters:CurrentStateToPlayingGlyphConverter x:Key="ConvertStateToPlayingGlyph" />
             <toolkit:ByteArrayToImageSourceConverter x:Key="ConvertByteArrayToImageSource" />
             <toolkit:InvertedBoolConverter x:Key="InvertBool" />
         </ResourceDictionary>
@@ -81,13 +80,8 @@
                         CornerRadius="30"
                         HeightRequest="30"
                         HorizontalOptions="Center"
+                        Style="{StaticResource IconRandom}"
                         WidthRequest="30">
-                        <Button.ImageSource>
-                            <FontImageSource
-                                Color="{AppThemeBinding Light={StaticResource Light_AccentText}, Dark={StaticResource Dark_AccentText}}"
-                                FontFamily="MaterialIcons"
-                                Glyph="{x:Static helpers:IconFont.Question_mark}" />
-                        </Button.ImageSource>
                         <Button.Behaviors>
                             <toolkit:AnimationBehavior EventName="Clicked">
                                 <toolkit:AnimationBehavior.AnimationType>
@@ -201,13 +195,8 @@
                                             CornerRadius="30"
                                             HeightRequest="30"
                                             HorizontalOptions="Start"
+                                            Style="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}"
                                             WidthRequest="30">
-                                            <Button.ImageSource>
-                                                <FontImageSource
-                                                    Color="{AppThemeBinding Light={StaticResource Light_AccentText}, Dark={StaticResource Dark_AccentText}}"
-                                                    FontFamily="MaterialIcons"
-                                                    Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
-                                            </Button.ImageSource>
                                             <Button.Behaviors>
                                                 <toolkit:AnimationBehavior EventName="Clicked">
                                                     <toolkit:AnimationBehavior.AnimationType>
@@ -219,19 +208,9 @@
 
                                         <ImageButton
                                             Grid.Column="1"
-                                            BackgroundColor="{AppThemeBinding Light={StaticResource Light_Primary}, Dark={StaticResource Dark_Primary}}"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=ShowSelectedReleaseCommand}"
-                                            HeightRequest="20"
                                             HorizontalOptions="End"
-                                            VerticalOptions="Center"
-                                            WidthRequest="20">
-                                            <ImageButton.Source>
-                                                <FontImageSource
-                                                    Color="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
-                                                    FontFamily="MaterialIcons"
-                                                    Glyph="{x:Static helpers:IconFont.Visibility}"
-                                                    Size="26" />
-                                            </ImageButton.Source>
+                                            Style="{StaticResource IconBarShow}">
                                             <ImageButton.Behaviors>
                                                 <toolkit:AnimationBehavior EventName="Clicked">
                                                     <toolkit:AnimationBehavior.AnimationType>
@@ -243,20 +222,10 @@
 
                                         <ImageButton
                                             Grid.Column="2"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=AddSelectedReleaseToPlaylistCommand}"
                                             Margin="10,0,0,0"
-                                            BackgroundColor="{AppThemeBinding Light={StaticResource Light_Primary}, Dark={StaticResource Dark_Primary}}"
-                                            HeightRequest="20"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=AddSelectedReleaseToPlaylistCommand}"
                                             HorizontalOptions="End"
-                                            VerticalOptions="Center"
-                                            WidthRequest="20">
-                                            <ImageButton.Source>
-                                                <FontImageSource
-                                                    Color="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
-                                                    FontFamily="MaterialIcons"
-                                                    Glyph="{x:Static helpers:IconFont.Playlist_add}"
-                                                    Size="26" />
-                                            </ImageButton.Source>
+                                            Style="{StaticResource IconBarAddPlaylist}">
                                             <ImageButton.Behaviors>
                                                 <toolkit:AnimationBehavior EventName="Clicked">
                                                     <toolkit:AnimationBehavior.AnimationType>
@@ -480,13 +449,8 @@
                                                     CornerRadius="30"
                                                     HeightRequest="30"
                                                     HorizontalOptions="Start"
+                                                    Style="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}"
                                                     WidthRequest="30">
-                                                    <Button.ImageSource>
-                                                        <FontImageSource
-                                                            Color="{AppThemeBinding Light={StaticResource Light_AccentText}, Dark={StaticResource Dark_AccentText}}"
-                                                            FontFamily="MaterialIcons"
-                                                            Glyph="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=IsPlaying, Converter={StaticResource ConvertBoolToPlayingGlyph}}" />
-                                                    </Button.ImageSource>
                                                     <Button.Behaviors>
                                                         <toolkit:AnimationBehavior EventName="Clicked">
                                                             <toolkit:AnimationBehavior.AnimationType>
@@ -499,19 +463,9 @@
                                                 <ImageButton
                                                     Grid.Column="2"
                                                     Margin="10,0,0,0"
-                                                    BackgroundColor="{AppThemeBinding Light={StaticResource Light_Primary}, Dark={StaticResource Dark_Primary}}"
-                                                    HeightRequest="20"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=AddSelectedTrackToPlaylistCommand}"
                                                     HorizontalOptions="End"
-                                                    VerticalOptions="Center"
-                                                    WidthRequest="20">
-                                                    <ImageButton.Source>
-                                                        <FontImageSource
-                                                            Color="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
-                                                            FontFamily="MaterialIcons"
-                                                            Glyph="{x:Static helpers:IconFont.Playlist_add}"
-                                                            Size="26" />
-                                                    </ImageButton.Source>
-                                                </ImageButton>
+                                                    Style="{StaticResource IconBarAddPlaylist}" />
 
                                             </Grid>
                                             <Grid.GestureRecognizers>

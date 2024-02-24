@@ -79,12 +79,6 @@
                         TextColor="{StaticResource Dark_PrimaryText}"
                         Margin="15,0,0,0"
                         Command="{Binding SignInCommand}">
-                    <Button.ImageSource>
-                        <FontImageSource
-                       Color="{StaticResource Dark_PrimaryText}"
-                       FontFamily="MaterialIcons"
-                       Glyph="{x:Static helpers:IconFont.Login}" />
-                    </Button.ImageSource>
                 </Button>
             </Grid>
             

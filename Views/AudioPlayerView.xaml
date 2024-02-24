@@ -13,11 +13,11 @@
 
     <ContentView.Resources>
         <converters:SecondsToStringConverter x:Key="ConvertSecondsToString" />
-        <converters:CurrentStateToPlayingGlyphConverter x:Key="ConvertStateToPlayingGlyph" />
         <converters:CurrentStateToEnabledConverter x:Key="ConvertStateToEnabled" />
         <converters:AccentColorToDisabledConverter x:Key="ConvertAccentColorToDisabled" />
         <converters:BoolToVolumeGlyphConverter x:Key="ConvertBoolToVolumeGlyph" />
         <converters:PlaylistIndexToBoolConverter x:Key="ConvertPlaylistIndexToBool" />
+        <converters:PlayButtonStyleConverter x:Key="ConvertPlayButtonStyle" />
 
         <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
         <toolkit:InvertedBoolConverter x:Key="InvertBool" />
@@ -179,18 +179,10 @@
             <ImageButton
                 Grid.Row="1"
                 Grid.Column="2"
-                Margin="5"
                 Clicked="OnMuteClicked"
-                HeightRequest="30"
                 HorizontalOptions="End"
-                VerticalOptions="Start"
-                WidthRequest="30">
-                <ImageButton.Source>
-                    <FontImageSource
-                        Color="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
-                        FontFamily="MaterialIcons"
-                        Glyph="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertBoolToVolumeGlyph}}" />
-                </ImageButton.Source>
+                Style="{Binding Path=ShouldMute,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertBoolToVolumeGlyph}}"
+                VerticalOptions="Start">
                 <ImageButton.Behaviors>
                     <toolkit:AnimationBehavior EventName="Clicked">
                         <toolkit:AnimationBehavior.AnimationType>
@@ -214,13 +206,13 @@
                 FontSize="15"
                 HeightRequest="20"
                 Opacity=".9"
-                VerticalOptions="End"
                 Style="{StaticResource labelSecondaryStyle}"
-                Text="{Binding CurrentArtist}" />
+                Text="{Binding CurrentArtist}"
+                VerticalOptions="End" />
             <controls:MarqueeLabel
                 Grid.Row="1"
                 FontSize="18"
-                HeightRequest="22"
+                HeightRequest="24"
                 IsActive="True"
                 Style="{StaticResource MarqueeSecondaryStyle}"
                 Text="{Binding CurrentTitle}" />
@@ -268,32 +260,15 @@
 
             <ImageButton
                 Grid.Column="0"
-                Margin="5"
-                HeightRequest="30"
                 IsEnabled="False"
-                WidthRequest="30">
-                <ImageButton.Source>
-                    <FontImageSource
-                        Color="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
-                        FontFamily="MaterialIcons"
-                        Glyph="{x:Static helpers:IconFont.Shuffle}" />
-                </ImageButton.Source>
-            </ImageButton>
+                Style="{StaticResource IconShuffle}" />
 
             <ImageButton
                 x:Name="PlaylistPreviousButton"
                 Grid.Column="1"
-                Margin="5"
                 Clicked="OnPlaylistPreviousClicked"
-                HeightRequest="30"
                 IsEnabled="False"
-                WidthRequest="30">
-                <ImageButton.Source>
-                    <FontImageSource
-                        Color="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
-                        FontFamily="MaterialIcons"
-                        Glyph="{x:Static helpers:IconFont.Skip_previous}" />
-                </ImageButton.Source>
+                Style="{StaticResource IconPrevious}">
                 <ImageButton.Behaviors>
                     <toolkit:AnimationBehavior EventName="Clicked">
                         <toolkit:AnimationBehavior.AnimationType>
@@ -306,26 +281,18 @@
             <ImageButton
                 x:Name="PlayButton"
                 Grid.Column="2"
-                Margin="5"
                 Clicked="OnPlayOrPauseClicked"
                 CornerRadius="30"
                 HeightRequest="60"
                 HorizontalOptions="Center"
                 IsEnabled="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToEnabled}}"
                 WidthRequest="60">
-                <ImageButton.Source>
-                    <FontImageSource
-                        FontFamily="MaterialIcons"
-                        Glyph="{Binding Path=CurrentState,Source={x:Reference MediaElement} ,Converter={StaticResource ConvertStateToPlayingGlyph}}"
-                        Size="40">
-                        <FontImageSource.Color>
-                            <Binding
-                                Converter="{StaticResource ConvertAccentColorToDisabled}"
-                                Path="IsEnabled"
-                                Source="{x:Reference PlayButton}" />
-                        </FontImageSource.Color>
-                    </FontImageSource>
-                </ImageButton.Source>
+                <ImageButton.Style>
+                    <MultiBinding Converter="{StaticResource ConvertPlayButtonStyle}">
+                        <Binding Path="CurrentState" Source="{x:Reference MediaElement}" />
+                        <Binding Path="IsEnabled" Source="{x:Reference PlayButton}" />
+                    </MultiBinding>
+                </ImageButton.Style>
                 <ImageButton.Behaviors>
                     <toolkit:AnimationBehavior EventName="Clicked">
                         <toolkit:AnimationBehavior.AnimationType>
@@ -340,15 +307,8 @@
                 Grid.Column="3"
                 Margin="5"
                 Clicked="OnPlaylistNextClicked"
-                HeightRequest="30"
                 IsEnabled="False"
-                WidthRequest="30">
-                <ImageButton.Source>
-                    <FontImageSource
-                        Color="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
-                        FontFamily="MaterialIcons"
-                        Glyph="{x:Static helpers:IconFont.Skip_next}" />
-                </ImageButton.Source>
+                Style="{StaticResource IconNext}">
                 <ImageButton.Behaviors>
                     <toolkit:AnimationBehavior EventName="Clicked">
                         <toolkit:AnimationBehavior.AnimationType>
@@ -360,17 +320,8 @@
 
             <ImageButton
                 Grid.Column="4"
-                Margin="5"
-                HeightRequest="30"
                 IsEnabled="False"
-                WidthRequest="30">
-                <ImageButton.Source>
-                    <FontImageSource
-                        Color="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}"
-                        FontFamily="MaterialIcons"
-                        Glyph="{x:Static helpers:IconFont.Repeat}" />
-                </ImageButton.Source>
-            </ImageButton>
+                Style="{StaticResource IconRepeat}" />
         </Grid>
 
     </Grid>

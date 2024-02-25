@@ -46,7 +46,6 @@
 		<GenerateTestArtifacts>True</GenerateTestArtifacts>
 		<AppInstallerUri>c:\data\18months</AppInstallerUri>
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-		<SupportedCultures>en-us</SupportedCultures>
 		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
 
@@ -111,49 +110,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="ViewModels\TherapyPageViewModel1.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Remove=".deepsource.toml" />
 	  <None Remove=".gitattributes" />
 	  <None Remove=".gitignore" />
-	  <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
-	  <None Remove="Resources\Images\expand_more_dark.svg" />
-	  <None Remove="Resources\Images\expand_more_dark_accent.svg" />
-	  <None Remove="Resources\Images\expand_more_light.svg" />
-	  <None Remove="Resources\Images\expand_more_light_accent.svg" />
-	  <None Remove="Resources\Images\music_cast..svg" />
-	  <None Remove="Resources\Images\pause_dark_accent.svg" />
-	  <None Remove="Resources\Images\pause_dark_disabled.svg" />
-	  <None Remove="Resources\Images\pause_dark_selected.svg" />
-	  <None Remove="Resources\Images\pause_light_accent.svg" />
-	  <None Remove="Resources\Images\pause_light_disabled..svg" />
-	  <None Remove="Resources\Images\pause_light_selected.svg" />
-	  <None Remove="Resources\Images\playlist_dark.svg" />
-	  <None Remove="Resources\Images\playlist_light.svg" />
-	  <None Remove="Resources\Images\play_arrow_dark_accent.svg" />
-	  <None Remove="Resources\Images\play_arrow_dark_disabled.svg" />
-	  <None Remove="Resources\Images\play_arrow_dark_selected.svg" />
-	  <None Remove="Resources\Images\play_arrow_light_accent.svg" />
-	  <None Remove="Resources\Images\play_arrow_light_dsabled.svg" />
-	  <None Remove="Resources\Images\play_arrow_light_selected.svg" />
-	  <None Remove="Resources\Images\question_mark_dark.svg" />
-	  <None Remove="Resources\Images\question_mark_light.svg" />
-	  <None Remove="Resources\Images\repeat_dark.svg" />
-	  <None Remove="Resources\Images\repeat_light.svg" />
-	  <None Remove="Resources\Images\shuffle_dark.svg" />
-	  <None Remove="Resources\Images\shuffle_light.svg" />
-	  <None Remove="Resources\Images\skip_next_dark.svg" />
-	  <None Remove="Resources\Images\skip_next_light.svg" />
-	  <None Remove="Resources\Images\skip_previous_dark.svg" />
-	  <None Remove="Resources\Images\skip_previous_light.svg" />
-	  <None Remove="Resources\Images\visibility_dark.svg" />
-	  <None Remove="Resources\Images\visibility_light.svg" />
-	  <None Remove="Resources\Images\volume_off_dark.svg" />
-	  <None Remove="Resources\Images\volume_off_light.svg" />
-	  <None Remove="Resources\Images\volume_up_dark.svg" />
-	  <None Remove="Resources\Images\volume_up_light.svg" />
+	  <None Remove="18Months_TemporaryKey.pfx" />
 	</ItemGroup>
 
 	<ItemGroup>

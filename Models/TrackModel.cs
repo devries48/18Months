@@ -1,24 +1,43 @@
+using System.Text.Json.Serialization;
+
 namespace Months18.Models;
 
-public partial class TrackModel(ReleaseModel release) : ObservableObject
+public partial class TrackModel : ObservableObject
 {
+    public TrackModel() { }
+    public TrackModel(ReleaseModel release) => _release = release;
+
+    readonly ReleaseModel? _release;
+
     // Position property is used in the playlist
     [ObservableProperty]
+    [property: JsonIgnore]
     private int _playlistPosition = 0;
 
     // Display Button panel in DetailView
     [ObservableProperty]
+    [property: JsonIgnore]
     private bool _isSelected;
 
+    [JsonIgnore]
     public bool PlaylistSingleArtist { get; set; }
 
-    public string TrackArtist { get => release.Artist; }
-    public string ReleaseTitle { get => release.Title; }
-    public byte[] ReleaseImage { get => release.ImageBytes; }
+    public string TrackArtist { get => _release?.Artist ?? string.Empty; }
 
+    public string ReleaseTitle { get => _release?.Title ?? string.Empty; }
+
+    public byte[] ReleaseImage { get => _release?.ImageBytes ?? []; }
+
+    [JsonIgnore]
     public int Nr { get; set; } = 0;
+
     public string Title { get; set; } = string.Empty;
+
     public string Duration { get; set; } = string.Empty;
+
+    public string FilenameMusic { get; set; } = string.Empty;
+
+    [JsonIgnore]
     public string Uri { get; set; } = string.Empty;
 
     public MediaPlayerSource Source { get => MediaPlayerSource.FileSystem; }
@@ -27,7 +46,7 @@ public partial class TrackModel(ReleaseModel release) : ObservableObject
     {
         get
         {
-            if (PlaylistSingleArtist)
+            if(PlaylistSingleArtist)
                 return Title;
 
             return $"{TrackArtist}  -  {Title}";
@@ -36,6 +55,9 @@ public partial class TrackModel(ReleaseModel release) : ObservableObject
 
     public byte[] GetReleaseImage()
     {
-        return (byte[])release.ImageBytes.Clone();
+        if(_release == null)
+            return [];
+
+        return (byte[])_release.ImageBytes.Clone();
     }
 }

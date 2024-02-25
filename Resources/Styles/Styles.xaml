@@ -31,6 +31,12 @@
         </Setter>
     </Style>
 
+    <Style x:Key="labelHeaderStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
     <Style x:Key="MarqueeSecondaryStyle" TargetType="controls:MarqueeLabel">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Light_SecondaryText}, Dark={StaticResource Dark_SecondaryText}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
@@ -39,12 +45,6 @@
     <Style Class="Shell" TargetType="Label">
         <Setter Property="FontFamily" Value="MaterialIcons" />
         <Setter Property="FontSize" Value="40" />
-    </Style>
-
-    <Style Class="SectionHeader" TargetType="Label">
-        <Setter Property="FontSize" Value="25" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Light_HeaderText}, Dark={StaticResource Dark_HeaderText}}" />
-        <Setter Property="FontFamily" Value="OpenSansRegular" />
     </Style>
 
     <Style x:Key="BaseIconStyle" TargetType="ImageButton">
@@ -98,7 +98,7 @@
     </Style>
 
     <Style x:Key="IconPlayDisabled" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">
-        <Setter Property="Source" Value="{AppThemeBinding Light=play_arrow_light_dsabled.png, Dark=play_arrow_dark_dsabled.png}" />
+        <Setter Property="Source" Value="{AppThemeBinding Light=play_arrow_light_dsabled.png, Dark=play_arrow_dark_disabled.png}" />
     </Style>
 
     <Style x:Key="IconPauseAccent" BasedOn="{StaticResource BaseIconStyle}" TargetType="ImageButton">

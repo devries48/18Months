@@ -1,93 +1,66 @@
 ﻿<ContentPage
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:helpers="clr-namespace:Months18.Helpers"
-	xmlns:vm="clr-namespace:Months18.ViewModels"
     x:Class="Months18.Pages.SettingsPage"
-    Appearing="ContentPage_Appearing">
-    
+    x:Name="this"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:helpers="clr-namespace:Months18.Helpers"
+    xmlns:vms="clr-namespace:Months18.ViewModels"
+    BackgroundColor="{AppThemeBinding Light={StaticResource Light_PrimaryBackground}, Dark={StaticResource Dark_PrimaryBackground}}"
+    x:DataType="vms:SettingsPageViewModel">
+
     <ScrollView>
         <VerticalStackLayout>
-            <Grid RadioButtonGroup.GroupName="Connection" RadioButtonGroup.SelectedValue="{Binding Connection}">
+            <Grid Margin="20">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="10" />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="10" />
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="130" />
+                    <ColumnDefinition Width=".5*" />
+                    <ColumnDefinition Width=".5*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.ColumnSpan="4" class="SectionHeader" Text="Connection" />
-                <RadioButton x:Name="localRadioButton" Grid.Row="1" Grid.ColumnSpan="2" 
-                             Value="{x:Static vm:SettingsPageViewModel.LocalConnection}">
-                    <RadioButton.Content>
-                        <Label Text="LOCAL, select path to MusicMateData.json file" Style="{StaticResource labelPrimaryStyle}" />
-                    </RadioButton.Content>
-                </RadioButton>
-                <Entry
-                    x:Name="LocalDataPath" 
-                    IsEnabled="{Binding Path=IsChecked, Source={x:Reference localRadioButton}}"
-                    Text="{Binding MusicMateFile}"
+
+                <VerticalStackLayout>
+                    <Label
+                        Grid.Row="0"
+                        Style="{StaticResource labelHeaderStyle}"
+                        Text="DATA"
+                        TextColor="{StaticResource Dark_HeaderText}" />
+                    <Label
+                        Margin="0,5,0,5"
+                        FontSize="14"
+                        Style="{StaticResource labelPrimaryStyle}"
+                        Opacity=".8"
+                        Text="Set the data folder of the application." />
+                    <Entry
+                        x:Name="LocalDataPath"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="Enter path"
+                        Text="{Binding DataPath}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Row="1" Margin="0,20,0,0">
+                    <Label
+                        Style="{StaticResource labelHeaderStyle}"
+                        Text="THEME"
+                        TextColor="{StaticResource Dark_HeaderText}" />
+                </VerticalStackLayout>
+
+                <Button
                     Grid.Row="2"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="3"
-                    Placeholder="Enter path"
-                    HorizontalOptions="FillAndExpand" />
-                <RadioButton x:Name="remoteRadioButton"
-                Grid.Row="4"
-                Grid.ColumnSpan="3"
-                Value="{x:Static vm:SettingsPageViewModel.RemoteConnection}">
-                    <RadioButton.Content>
-                        <Label Text="REMOTE, select URL to MusicMate Server" Style="{StaticResource labelPrimaryStyle}" />
-                    </RadioButton.Content>
-                </RadioButton>
-                <Entry
-                    x:Name="RemoteUrlPath"
-                    IsEnabled="{Binding Path=IsChecked, Source={x:Reference remoteRadioButton}}"
-                    Text="{Binding MusicMateUrl}"
-                    Grid.Row="5"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    Placeholder="Enter URL"
-                    HorizontalOptions="FillAndExpand" />
-                <Entry
-                    x:Name="UserName"
-                    IsEnabled="{Binding Path=IsChecked, Source={x:Reference remoteRadioButton}}"
-                    Text="{Binding UserName}"
-                    Grid.Row="7"
-                    Grid.Column="1"
-                    Placeholder="Username"
-                    HorizontalOptions="FillAndExpand" />
-                <Entry
-                    x:Name="Password"
-                    IsEnabled="{Binding Path=IsChecked, Source={x:Reference remoteRadioButton}}"
-                    Text="{Binding Password}"
-                    Grid.Row="7"
-                    Grid.Column="2"
-                    Placeholder="Password"
-                    HorizontalOptions="FillAndExpand" />
-                <Button Grid.Row="7" Grid.Column="3" 
-                        Text="Sign In"
-                        TextColor="{StaticResource Dark_PrimaryText}"
-                        Margin="15,0,0,0"
-                        Command="{Binding SignInCommand}">
-                </Button>
+                    Margin="0,20,0,0"
+                    BackgroundColor="{StaticResource Dark_Accent}"
+                    Command="{Binding SaveSettingsCommand}"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    HorizontalOptions="End"
+                    Text="Save Settings"
+                    TextColor="{StaticResource Dark_AccentText}"
+                    WidthRequest="150" />
+
             </Grid>
-            
-            <Grid Margin="0,15" ColumnDefinitions="*, 150">
-                <Button Grid.Column="1" Command="{Binding SaveSettingsCommand}" Text="Save Settings"
-                        BackgroundColor="{StaticResource Dark_Accent}"
-                        TextColor="{StaticResource Dark_AccentText}"
-                        HeightRequest="50"/>
-            </Grid>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -408,11 +408,10 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <Grid>
+                                        <Grid x:DataType="models:TrackModel">
                                             <Grid
                                                 Padding="10,5"
-                                                VerticalOptions="Center"
-                                                x:DataType="models:TrackModel">
+                                                VerticalOptions="Center">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto" />
                                                 </Grid.RowDefinitions>
@@ -432,6 +431,7 @@
                                                     DefaultTextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
                                                     FontSize="13"
                                                     IsActive="True"
+                                                    DurationPause="5"
                                                     Text="{Binding Title}" />
                                                 <Label
                                                     Grid.Column="2"

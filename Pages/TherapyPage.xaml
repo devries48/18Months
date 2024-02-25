@@ -6,162 +6,35 @@
     xmlns:models="clr-namespace:Months18.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:Months18.ViewModels"
-    x:DataType="vm:MusicPageViewModel">
+    x:DataType="vm:TherapyPageViewModel">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid RowDefinitions="auto,auto,*" ColumnDefinitions="*">
+            <Image HeightRequest="200" HorizontalOptions="Start" VerticalOptions="Start" Source="trivia_logo.png">
+                <Image.Shadow> 
+                    <Shadow
+                      Offset="10,10"
+                      Brush="{StaticResource Black}"
+                      Opacity=".9"
+                      Radius="10" />
+                </Image.Shadow>
+            </Image>
+        </Grid>
+        <Grid Grid.Column="1" RowDefinitions="*" ColumnDefinitions="*">
+            <ScrollView Padding="10">
+            <VerticalStackLayout VerticalOptions="Center">
+                <Image HeightRequest="400" HorizontalOptions="End" Source="trivia_start.png" />
+                <Image Margin="0,20,0,0" HeightRequest="400" HorizontalOptions="End" Source="trivia_screen.png"/>
+                <Image Margin="0,20,0,0" HeightRequest="400" HorizontalOptions="End" Source="trivia_end.png"/>
+            </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <toolkit:ByteArrayToImageSourceConverter x:Key="ConvertByteArrayToImageSource" />
-        </ResourceDictionary>
-
-        <x:Int32 x:Key="DecreaseSpanBy">-1</x:Int32>
-        <x:Int32 x:Key="IncreaseSpanBy">1</x:Int32>
-
-        <Style x:Key="BaseLabelStyle" TargetType="Label">
-            <Setter Property="FontAttributes" Value="Bold" />
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="HorizontalTextAlignment" Value="Center" />
-            <Setter Property="VerticalTextAlignment" Value="Center" />
-            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-            <Setter Property="VerticalOptions" Value="FillAndExpand" />
-        </Style>
-
-        <Style
-            x:Key="CellLabelStyle"
-            BasedOn="{StaticResource BaseLabelStyle}"
-            TargetType="Label">
-            <Setter Property="HeightRequest" Value="100" />
-            <Setter Property="WidthRequest" Value="100" />
-        </Style>
-
-        <Style
-            x:Key="HeaderLabelStyle"
-            BasedOn="{StaticResource BaseLabelStyle}"
-            TargetType="Label">
-            <Setter Property="FontSize" Value="24" />
-        </Style>
-
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-            <Setter Property="VerticalOptions" Value="FillAndExpand" />
-            <Setter Property="Margin" Value="40" />
-            <Setter Property="Command" Value="{Binding ChangeSpanCommand}" />
-        </Style>
-    </ContentPage.Resources>
-
-    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,*,Auto,0.25*">
-  
-        <!--#region Horizontal Grid
-        <Label Grid.ColumnSpan="2"
-               Text="Horizontal Grid"               
-               Style="{StaticResource HeaderLabelStyle}"/>
-
-        <CollectionView Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        ItemsSource="{Binding Numbers}"
-                        SelectionMode="Single"
-                        Margin="0,0,0,15">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Label Text="{Binding .}"
-                           BackgroundColor="MediumPurple"
-                           Style="{StaticResource CellLabelStyle}"/>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Span="{Binding Span}" Orientation="Horizontal"/>
-            </CollectionView.ItemsLayout>
-        </CollectionView>
-        #endregion -->
-
-        <!--#region Vertical Grid -->
-        <Label
-            Grid.Row="0"
-            Grid.ColumnSpan="2"
-            Style="{StaticResource HeaderLabelStyle}"
-            Text="Vertical Grid" />
-
-        <CollectionView Grid.Row="1" Grid.ColumnSpan="2" 
-                        x:Name="ReleaseCollectionView"
-                        ItemsSource="{Binding Releases}" 
-                        SizeChanged="CollectionView_SizeChanged"
-                        SelectionMode="Single">
-            
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid 
-                        Padding="10"
-                        WidthRequest="200"
-                        x:DataType="models:ReleaseModel">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="180" />
-                        </Grid.ColumnDefinitions>
-                        <Image
-                            Aspect="AspectFill"
-                            HorizontalOptions="Center"
-                            HeightRequest="180"
-                            Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ConvertByteArrayToImageSource}}"
-                            VerticalOptions="Center">
-                            <Image.Shadow>
-                                <Shadow
-                                    Offset="5,5"
-                                    Brush="Black"
-                                    Opacity="0.99"
-                                    Radius="10" />
-                            </Image.Shadow>
-                        </Image>
-                        <Label
-                            Grid.Row="1"
-                            FontAttributes="Bold"
-                            FontSize="14"
-                            HorizontalOptions="Center"
-                            LineBreakMode="TailTruncation"
-                            Text="{Binding Artist}"
-                            VerticalOptions="Center" />
-                        <Label
-                            Grid.Row="2"
-                            FontAttributes="Italic"
-                            FontSize="12"
-                            HorizontalOptions="Center"
-                            LineBreakMode="TailTruncation"
-                            Text="{Binding Title}" />
-
-                    </Grid>
-
-                    <!--<Label Text="{Binding  }"
-                           BackgroundColor="#7ff"
-                           Style="{StaticResource CellLabelStyle}"/>-->
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical"  Span="{Binding Span}" />
-            </CollectionView.ItemsLayout>
-        </CollectionView>
-        <!--#endregion-->
-
-        <Label
-            Grid.Row="2"
-            Grid.ColumnSpan="2"
-            Style="{StaticResource HeaderLabelStyle}"
-            Text="{Binding Span, StringFormat='{}Span Value: {0}'}" />
-
-        <!--#region Span Controls -->
-        <Button
-            Grid.Row="3"
-            CommandParameter="{StaticResource DecreaseSpanBy}"
-            Style="{StaticResource ButtonStyle}"
-            Text="Decrement Span" />
-
-        <Button
-            Grid.Row="3"
-            Grid.Column="1"
-            CommandParameter="{StaticResource IncreaseSpanBy}"
-            Style="{StaticResource ButtonStyle}"
-            Text="Increment Span" />
-        <!--#endregion-->
     </Grid>
 </ContentPage>

@@ -61,7 +61,7 @@
     <Color x:Key="Light_PrimaryBackground">#CFCFD3</Color>
     <Color x:Key="Light_SecondaryText">#6E6E6E</Color>
     <Color x:Key="Light_SecondaryBackground">#EFEFEF</Color>
-    <Color x:Key="Light_HeaderText">#2B0B98</Color>
+    <Color x:Key="Light_HeaderText">#1f7b93</Color>
     <Color x:Key="Light_Accent">#512BD4</Color>
     <Color x:Key="Light_AccentText">#E1E1E1</Color>
     <Color x:Key="Light_Disabled">#ACACAC</Color>

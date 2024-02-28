@@ -15,6 +15,7 @@ global using System.ComponentModel;
 global using System.Globalization;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Handlers;
 
 namespace Months18;
 
@@ -42,6 +43,18 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
+            })
+            .ConfigureMauiHandlers(handlers =>
+            {
+#if WINDOWS
+                SwitchHandler.Mapper.AppendToMapping("Custom", (h, _) =>
+                {
+                    h.PlatformView.OffContent = string.Empty;
+                    h.PlatformView.OnContent = string.Empty;
+
+                    h.PlatformView.MinWidth = 0;
+                });
+#endif
             });
 
 #if DEBUG

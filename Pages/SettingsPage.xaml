@@ -15,6 +15,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width=".5*" />
@@ -23,28 +24,55 @@
 
                 <VerticalStackLayout>
                     <Label
-                        Grid.Row="0"
                         Style="{StaticResource labelHeaderStyle}"
-                        Text="DATA"
+                        Text="MEDIA"
                         TextColor="{StaticResource Dark_HeaderText}" />
                     <Label
                         Margin="0,5,0,5"
                         FontSize="14"
-                        Style="{StaticResource labelPrimaryStyle}"
                         Opacity=".8"
-                        Text="Set the data folder of the application." />
+                        Style="{StaticResource labelPrimaryStyle}"
+                        Text="Set the media folder (containing folders: Music, Videos &amp; Images)." />
                     <Entry
-                        x:Name="LocalDataPath"
+                        x:Name="LocalMediaPath"
                         HorizontalOptions="FillAndExpand"
                         Placeholder="Enter path"
-                        Text="{Binding DataPath}" />
+                        Text="{Binding MediaPath}" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Row="1" Margin="0,20,0,0">
                     <Label
                         Style="{StaticResource labelHeaderStyle}"
+                        Text="TRIVIA"
+                        TextColor="{StaticResource Dark_HeaderText}" />
+                    <Label
+                        Margin="0,5,0,5"
+                        FontSize="14"
+                        Opacity=".8"
+                        Style="{StaticResource labelPrimaryStyle}"
+                        Text="Set the trivia folder (containing 'Therapy Trivia.exe')." />
+                    <Entry
+                        x:Name="LocalTriviaPath"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="Enter path"
+                        Text="{Binding TriviaPath}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Row="2" Margin="0,20,0,0">
+                    <Label
+                        Style="{StaticResource labelHeaderStyle}"
                         Text="THEME"
                         TextColor="{StaticResource Dark_HeaderText}" />
+                    <HorizontalStackLayout>
+                        <Label
+                            Margin="0,0,10,0"
+                            FontSize="14"
+                            Style="{StaticResource labelPrimaryStyle}"
+                            Text="Use Dark Theme"
+                            VerticalTextAlignment="Center" />
+
+                        <Switch IsToggled = "{Binding IsDarkTheme}" />
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
 
                 <Button
@@ -55,7 +83,7 @@
                     FontAttributes="Bold"
                     HeightRequest="50"
                     HorizontalOptions="End"
-                    Text="Save Settings"
+                    Text="SAVE SETTNGS"
                     TextColor="{StaticResource Dark_AccentText}"
                     WidthRequest="150" />
 

@@ -2,18 +2,30 @@
 
 public partial class SettingsPageViewModel : ObservableObject
 {
-    public SettingsPageViewModel() => DataPath =Prefernces.DataPath;
+    public SettingsPageViewModel()
+    {
+        MediaPath = Prefernces.MediaPath;
+        TriviaPath = Prefernces.TriviaPath;
+        
+        var theme = Application.Current?.PlatformAppTheme ?? AppTheme.Dark;
+        IsDarkTheme = theme == AppTheme.Dark;
+    }
 
     [ObservableProperty]
-    private string? dataPath;
+    private string? mediaPath;
+
+    [ObservableProperty]
+    private string? triviaPath;
+
+    [ObservableProperty]
+    private bool isDarkTheme;
 
     [RelayCommand]
     private async Task SaveSettings()
     {
-        if (DataPath == null)
-            return;
+        if (MediaPath != null) Prefernces.MediaPath = MediaPath;
+        if (TriviaPath != null) Prefernces.TriviaPath = TriviaPath;
 
-        Prefernces.DataPath = DataPath;
         await Shell.Current.DisplayAlert(Shell.Current.Title, "Settings saved!", "OK");
     }
 }

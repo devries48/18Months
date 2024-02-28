@@ -6,7 +6,6 @@ public class BoolToPlayingGlyphConverter : IValueConverter
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         string icon = value is bool boolValue && boolValue ? "IconPauseSelected" : "IconPlaySelected";
-        Debug.WriteLine("ICON: "+ icon);
         if (Application.Current != null && Application.Current.Resources.TryGetValue(icon, out var style))
             return style;
 

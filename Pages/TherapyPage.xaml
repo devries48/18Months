@@ -15,24 +15,55 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid RowDefinitions="auto,auto,*" ColumnDefinitions="*">
-            <Image HeightRequest="200" HorizontalOptions="Start" VerticalOptions="Start" Source="trivia_logo.png">
-                <Image.Shadow> 
-                    <Shadow
-                      Offset="10,10"
-                      Brush="{StaticResource Black}"
-                      Opacity=".9"
-                      Radius="10" />
-                </Image.Shadow>
-            </Image>
-        </Grid>
-        <Grid Grid.Column="1" RowDefinitions="*" ColumnDefinitions="*">
-            <ScrollView Padding="10">
-            <VerticalStackLayout VerticalOptions="Center">
-                <Image HeightRequest="400" HorizontalOptions="End" Source="trivia_start.png" />
-                <Image Margin="0,20,0,0" HeightRequest="400" HorizontalOptions="End" Source="trivia_screen.png"/>
-                <Image Margin="0,20,0,0" HeightRequest="400" HorizontalOptions="End" Source="trivia_end.png"/>
+        <Grid ColumnDefinitions="*" RowDefinitions="auto,auto,*">
+            <VerticalStackLayout>
+                <Image
+                    HeightRequest="200"
+                    HorizontalOptions="Start"
+                    Source="trivia_logo.png"
+                    VerticalOptions="Start">
+                    <Image.Shadow>
+                        <Shadow
+                            Offset="10,10"
+                            Brush="{StaticResource Black}"
+                            Opacity=".9"
+                            Radius="10" />
+                    </Image.Shadow>
+                </Image>
+                <Button
+                    Margin="0,20,0,0"
+                    BackgroundColor="{StaticResource Dark_Accent}"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    HorizontalOptions="Center"
+                    Text="LAUNCH"
+                    TextColor="{StaticResource Dark_AccentText}"
+                    WidthRequest="100" />
+
             </VerticalStackLayout>
+
+        </Grid>
+        <Grid
+            Grid.Column="1"
+            ColumnDefinitions="*"
+            RowDefinitions="*">
+            <ScrollView Padding="10">
+                <VerticalStackLayout VerticalOptions="Center">
+                    <Image
+                        HeightRequest="400"
+                        HorizontalOptions="End"
+                        Source="trivia_start.png" />
+                    <Image
+                        Margin="0,20,0,0"
+                        HeightRequest="400"
+                        HorizontalOptions="End"
+                        Source="trivia_screen.png" />
+                    <Image
+                        Margin="0,20,0,0"
+                        HeightRequest="400"
+                        HorizontalOptions="End"
+                        Source="trivia_end.png" />
+                </VerticalStackLayout>
             </ScrollView>
         </Grid>
 

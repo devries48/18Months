@@ -26,28 +26,47 @@ public static class Prefernces
         set { Preferences.Set(nameof(VolumeVideo), value); }
     }
 
-    public static string DataPath
+    public static string MediaPath
     {
         get
         {
-            string? path = Preferences.Get(nameof(DataPath), null);
+            string? path = Preferences.Get(nameof(MediaPath), null);
             if (string.IsNullOrWhiteSpace(path))
-                return Path.Combine(AppContext.BaseDirectory, "Data");
+                return Path.Combine(AppContext.BaseDirectory, "Media");
 
             return path;
         }
         set
         {
-            if (value == Path.Combine(AppContext.BaseDirectory, "Data"))
+            if (value == Path.Combine(AppContext.BaseDirectory, "Media"))
                 value = string.Empty;
 
-            Preferences.Set(nameof(DataPath), value);
+            Preferences.Set(nameof(MediaPath), value);
         }
     }
 
-    public static string MusicDataFilePath => Path.Combine(DataPath, "music.json");
-    public static string VideoDataFilePath => Path.Combine(DataPath, "videos.json");
-    public static string MusicDataPath => Path.Combine(DataPath, "Music");
-    public static string ImageDataPath => Path.Combine(DataPath, "Images");
-    public static string VideoDataPath => Path.Combine(DataPath, "Videos");
+    public static string TriviaPath
+    {
+        get
+        {
+            string? path = Preferences.Get(nameof(TriviaPath), null);
+            if (string.IsNullOrWhiteSpace(path))
+                return Path.Combine(AppContext.BaseDirectory, "Trivia");
+
+            return path;
+        }
+        set
+        {
+            if (value == Path.Combine(AppContext.BaseDirectory, "Trivia"))
+                value = string.Empty;
+
+            Preferences.Set(nameof(TriviaPath), value);
+        }
+    }
+
+    public static string MusicDataFilePath => Path.Combine(MediaPath, "music.json");
+    public static string VideoDataFilePath => Path.Combine(MediaPath, "videos.json");
+    public static string MusicDataPath => Path.Combine(MediaPath, "Music");
+    public static string ImageDataPath => Path.Combine(MediaPath, "Images");
+    public static string VideoDataPath => Path.Combine(MediaPath, "Videos");
 }

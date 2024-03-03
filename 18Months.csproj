@@ -114,6 +114,7 @@
 	  <None Remove=".gitattributes" />
 	  <None Remove=".gitignore" />
 	  <None Remove="18Months_TemporaryKey.pfx" />
+	  <None Remove="Resources\Images\norah.png" />
 	</ItemGroup>
 
 	<ItemGroup>

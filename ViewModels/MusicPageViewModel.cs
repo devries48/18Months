@@ -5,9 +5,8 @@ namespace Months18.ViewModels;
 
 public partial class MusicPageViewModel : ObservableObject
 {
-    public MusicPageViewModel(ISettingsService settingsService, IAudioPlayerService playerService)
+    public MusicPageViewModel(IAudioPlayerService playerService)
     {
-        _settingsService = settingsService;
         _playerService = playerService;
         _source = [];
         _playerService.SubscribeToMediaStateChanged(OnMediaStateChanged);
@@ -15,7 +14,6 @@ public partial class MusicPageViewModel : ObservableObject
         LevelValue = Prefernces.Level;
     }
 
-    private readonly ISettingsService _settingsService;
     private readonly IAudioPlayerService _playerService;
     private readonly List<ReleaseModel> _source;
     private TrackModel? _selectedTrack;

@@ -8,87 +8,100 @@
     BackgroundColor="{AppThemeBinding Light={StaticResource Light_PrimaryBackground}, Dark={StaticResource Dark_PrimaryBackground}}"
     x:DataType="vms:SettingsPageViewModel">
 
-    <ScrollView>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".5*" />
+            <ColumnDefinition Width=".5*" />
+        </Grid.ColumnDefinitions>
+
         <VerticalStackLayout>
-            <Grid Margin="20">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width=".5*" />
-                    <ColumnDefinition Width=".5*" />
-                </Grid.ColumnDefinitions>
-
-                <VerticalStackLayout>
-                    <Label
-                        Style="{StaticResource labelHeaderStyle}"
-                        Text="MEDIA"
-                        TextColor="{StaticResource Dark_HeaderText}" />
-                    <Label
-                        Margin="0,5,0,5"
-                        FontSize="14"
-                        Opacity=".8"
-                        Style="{StaticResource labelPrimaryStyle}"
-                        Text="Set the media folder (containing folders: Music, Videos &amp; Images)." />
-                    <Entry
-                        x:Name="LocalMediaPath"
-                        HorizontalOptions="FillAndExpand"
-                        Placeholder="Enter path"
-                        Text="{Binding MediaPath}" />
-                </VerticalStackLayout>
-
-                <VerticalStackLayout Grid.Row="1" Margin="0,20,0,0">
-                    <Label
-                        Style="{StaticResource labelHeaderStyle}"
-                        Text="TRIVIA"
-                        TextColor="{StaticResource Dark_HeaderText}" />
-                    <Label
-                        Margin="0,5,0,5"
-                        FontSize="14"
-                        Opacity=".8"
-                        Style="{StaticResource labelPrimaryStyle}"
-                        Text="Set the trivia folder (containing 'Therapy Trivia.exe')." />
-                    <Entry
-                        x:Name="LocalTriviaPath"
-                        HorizontalOptions="FillAndExpand"
-                        Placeholder="Enter path"
-                        Text="{Binding TriviaPath}" />
-                </VerticalStackLayout>
-
-                <VerticalStackLayout Grid.Row="2" Margin="0,20,0,0">
-                    <Label
-                        Style="{StaticResource labelHeaderStyle}"
-                        Text="THEME"
-                        TextColor="{StaticResource Dark_HeaderText}" />
-                    <HorizontalStackLayout>
-                        <Label
-                            Margin="0,0,10,0"
-                            FontSize="14"
-                            Style="{StaticResource labelPrimaryStyle}"
-                            Text="Use Dark Theme"
-                            VerticalTextAlignment="Center" />
-
-                        <Switch IsToggled = "{Binding IsDarkTheme}" />
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
-
-                <Button
-                    Grid.Row="2"
-                    Margin="0,20,0,0"
-                    BackgroundColor="{StaticResource Dark_Accent}"
-                    Command="{Binding SaveSettingsCommand}"
-                    FontAttributes="Bold"
-                    HeightRequest="50"
-                    HorizontalOptions="End"
-                    Text="SAVE SETTNGS"
-                    TextColor="{StaticResource Dark_AccentText}"
-                    WidthRequest="150" />
-
-            </Grid>
-
+            <Label
+                Style="{StaticResource labelHeaderStyle}"
+                Text="MEDIA"
+                TextColor="{StaticResource Dark_HeaderText}" />
+            <Label
+                Margin="0,5,0,5"
+                FontSize="14"
+                Opacity=".8"
+                Style="{StaticResource labelPrimaryStyle}"
+                Text="Set the media folder (containing folders: Music, Videos &amp; Images)." />
+            <Entry
+                x:Name="LocalMediaPath"
+                HorizontalOptions="FillAndExpand"
+                Placeholder="Enter path"
+                Text="{Binding MediaPath}" />
         </VerticalStackLayout>
-    </ScrollView>
+
+        <VerticalStackLayout Grid.Row="1" Margin="0,20,0,0">
+            <Label
+                Style="{StaticResource labelHeaderStyle}"
+                Text="TRIVIA"
+                TextColor="{StaticResource Dark_HeaderText}" />
+            <Label
+                Margin="0,5,0,5"
+                FontSize="14"
+                Opacity=".8"
+                Style="{StaticResource labelPrimaryStyle}"
+                Text="Set the trivia folder (containing 'Therapy Trivia.exe')." />
+            <Entry
+                x:Name="LocalTriviaPath"
+                HorizontalOptions="FillAndExpand"
+                Placeholder="Enter path"
+                Text="{Binding TriviaPath}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="2" Margin="0,20,0,0">
+            <Label
+                Style="{StaticResource labelHeaderStyle}"
+                Text="THEME"
+                TextColor="{StaticResource Dark_HeaderText}" />
+            <HorizontalStackLayout>
+                <Label
+                    Margin="0,0,10,0"
+                    FontSize="14"
+                    Style="{StaticResource labelPrimaryStyle}"
+                    Text="Use Dark Theme"
+                    VerticalTextAlignment="Center" />
+
+                <Switch IsToggled = "{Binding IsDarkTheme}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <Button
+            Grid.Row="2"
+            Margin="0,20,0,0"
+            BackgroundColor="{StaticResource Dark_Accent}"
+            Command="{Binding SaveSettingsCommand}"
+            FontAttributes="Bold"
+            HeightRequest="50"
+            HorizontalOptions="End"
+            Text="SAVE SETTNGS"
+            TextColor="{StaticResource Dark_AccentText}"
+            WidthRequest="150" />
+
+        <Image
+            Grid.Row="6"
+            Grid.Column="2"
+            Aspect="AspectFit"
+            HeightRequest="100"
+            HorizontalOptions="End"
+            Source="norah.png"
+            VerticalOptions="End">
+            <Image.Shadow>
+                <Shadow
+                    Offset="10,10"
+                    Brush="Black"
+                    Opacity=".8"
+                    Radius="20" />
+            </Image.Shadow>
+        </Image>
+    </Grid>
+
 </ContentPage>

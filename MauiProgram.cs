@@ -64,7 +64,6 @@ public static class MauiProgram
 
         services.AddSingleton<IAudioPlayerService, AudioPlayerService>();
         services.AddSingleton<IVideoPlayerService, VideoPlayerService>();
-        services.AddSingleton<ISettingsService, SettingsService>();
         services.AddSingleton<ScaleAnimation>();
         services.AddTransient<SettingsPageViewModel>();
         services.AddTransient<SettingsPage>();
@@ -72,8 +71,6 @@ public static class MauiProgram
         services.AddTransient<MusicPage>();
         services.AddTransient<VideoPageViewModel>();
         services.AddTransient<VideoPage>();
-        services.AddTransient<TherapyPageViewModel>();
-        services.AddTransient<TherapyPage>();
 
         var app = builder.Build();
         serviceProvider = app.Services; // store service provider reference

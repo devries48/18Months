@@ -152,7 +152,7 @@ public partial class Toolbar : Border
         if (Application.Current == null)
             return null;
 
-        var theme = Application.Current?.PlatformAppTheme ?? AppTheme.Dark;
+        var theme = Application.Current?.UserAppTheme ?? AppTheme.Dark;
         var colorKey = theme == AppTheme.Dark ? "Dark_Accent" : "Light_Accent";
 
         if (Application.Current!.Resources.TryGetValue(colorKey, out var colorValue) && colorValue is Color accentColor)

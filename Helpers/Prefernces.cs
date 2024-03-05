@@ -2,6 +2,12 @@
 
 public static class Prefernces
 {
+    public static bool DarkTheme
+    {
+        get { return Preferences.Get(nameof(DarkTheme), true); }
+        set { Preferences.Set(nameof(DarkTheme), value); }
+    }
+
     public static string DataFilePath
     {
         get { return Preferences.Get(nameof(DataFilePath), ""); }

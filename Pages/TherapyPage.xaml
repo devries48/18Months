@@ -31,13 +31,13 @@
             <Button
                 Grid.Row="1"
                 Margin="0,20,0,0"
-                BackgroundColor="{StaticResource Dark_Accent}"
                 Clicked="OnLaunchGameClick"
                 FontAttributes="Bold"
                 HeightRequest="50"
                 HorizontalOptions="Center"
                 Text="LAUNCH"
-                TextColor="{StaticResource Dark_AccentText}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"
+                TextColor="{AppThemeBinding Light={StaticResource Light_AccentText}, Dark={StaticResource Dark_AccentText}}"
                 WidthRequest="100" />
         </VerticalStackLayout>
         <Border

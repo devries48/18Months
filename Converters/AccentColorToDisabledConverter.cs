@@ -4,7 +4,7 @@ public class AccentColorToDisabledConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        var theme = Application.Current?.PlatformAppTheme ?? AppTheme.Dark;
+        var theme = Application.Current?.UserAppTheme ?? AppTheme.Dark;
         
         string resColor = value is bool isEnabled && isEnabled
             ? theme.ToString() + "_Accent"

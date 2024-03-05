@@ -77,31 +77,62 @@
         <Button
             Grid.Row="2"
             Margin="0,20,0,0"
-            BackgroundColor="{StaticResource Dark_Accent}"
             Command="{Binding SaveSettingsCommand}"
             FontAttributes="Bold"
             HeightRequest="50"
             HorizontalOptions="End"
             Text="SAVE SETTNGS"
-            TextColor="{StaticResource Dark_AccentText}"
+            BackgroundColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"
+            TextColor="{AppThemeBinding Light={StaticResource Light_AccentText}, Dark={StaticResource Dark_AccentText}}"
             WidthRequest="150" />
 
-        <Image
+        <Grid
             Grid.Row="6"
-            Grid.Column="2"
-            Aspect="AspectFit"
-            HeightRequest="100"
-            HorizontalOptions="End"
-            Source="norah.png"
-            VerticalOptions="End">
-            <Image.Shadow>
-                <Shadow
-                    Offset="10,10"
-                    Brush="Black"
-                    Opacity=".8"
-                    Radius="20" />
-            </Image.Shadow>
-        </Image>
+            Grid.Column="1"
+            ColumnDefinitions="*,auto"
+            RowDefinitions="*,auto,auto">
+            <Label FontSize="12" VerticalOptions="End" WidthRequest="300" HorizontalOptions="End"
+            Grid.Row="2" 
+                       TextColor="{StaticResource Dark_HeaderText}"
+                    Text="A special thank you to the members of our therapy group for their invaluable support and insightful contributions during our sessions!"/>
+
+            <Label VerticalOptions="End" WidthRequest="300" HorizontalOptions="End" FontSize="13"  Grid.Row="1" Style="{StaticResource labelPrimaryStyle}" Margin="0,0,0,20">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="For any questions, feedback, or bug reports, please contact me at "
+                              TextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"/>
+                        <Span Text="r.vries@live.com" 
+                              TextColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"/>
+                        <Span Text=". " />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Image
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Aspect="AspectFit"
+                HeightRequest="100"
+                HorizontalOptions="Center"
+                Source="norah.png"
+                VerticalOptions="End">
+                <Image.Shadow>
+                    <Shadow
+                        Offset="10,10"
+                        Brush="Black"
+                        Opacity=".8"
+                        Radius="20" />
+                </Image.Shadow>
+            </Image>
+            <Button Grid.Column="1"
+                    Grid.Row="2"
+                    Margin="10,10,0,0"
+                   Command="{Binding OpenIssuesPageCommand}"
+                   HorizontalOptions="End"
+                   Text="REPORT ISSUE" />
+
+
+        </Grid>
     </Grid>
 
 </ContentPage>

@@ -182,7 +182,7 @@ public partial class MusicPageViewModel : ObservableObject
         if(allTracks.Count == 0)
             return;
 
-        var randomTrack = allTracks[new Random().Next(allTracks.Count)];
+        var randomTrack = allTracks[new SecureRandom(allTracks.Count).Next()];
         _playerService.PlayTrack(randomTrack);
     }
 

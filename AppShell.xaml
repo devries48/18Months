@@ -19,8 +19,12 @@
         <ShellContent ContentTemplate="{DataTemplate page:VideoPage}" Route="VideoPage" />
     </controls:FlyoutItemIconFont>
 
+    <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Description}" Title="Documents">
+        <ShellContent ContentTemplate="{DataTemplate page:DocumentPage}" Route="DocumentPage" />
+    </controls:FlyoutItemIconFont>
+
     <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Psychology}" Title="Therapy">
-        <ShellContent ContentTemplate="{DataTemplate page:TherapyPage}" Route="MusicPage" />
+        <ShellContent ContentTemplate="{DataTemplate page:TherapyPage}" Route="TherapyPage" />
     </controls:FlyoutItemIconFont>
 
     <controls:FlyoutItemIconFont IconGlyph="{x:Static helpers:IconFont.Settings}" Title="Settings">

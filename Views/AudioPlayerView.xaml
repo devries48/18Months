@@ -118,6 +118,7 @@
 
             <ImageButton
                 Grid.Row="1"
+                IsVisible="False"
                 Margin="5"
                 Aspect="AspectFit"
                 HeightRequest="40"
@@ -261,6 +262,7 @@
             <ImageButton
                 Grid.Column="0"
                 IsEnabled="False"
+                IsVisible="False"
                 Style="{StaticResource IconShuffle}" />
 
             <ImageButton
@@ -321,6 +323,7 @@
             <ImageButton
                 Grid.Column="4"
                 IsEnabled="False"
+                IsVisible="False"
                 Style="{StaticResource IconRepeat}" />
         </Grid>
 

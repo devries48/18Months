@@ -110,6 +110,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove=".deepsource.toml" />
+	  <None Remove=".gitattributes" />
+	  <None Remove=".gitignore" />
+	  <None Remove="18Months_TemporaryKey.pfx" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
 		<PackageReference Include="CommunityToolkit.Maui.Core" Version="7.0.1" />
 		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="3.0.1" />
@@ -120,6 +127,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\DocumentPage.xaml.cs">
+	    <DependentUpon>DocumentPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\VideoPage.xaml.cs">
 	    <DependentUpon>VideoPage.xaml</DependentUpon>
 	  </Compile>
@@ -138,6 +148,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\DocumentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\TherapyPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

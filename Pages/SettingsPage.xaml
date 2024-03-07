@@ -31,7 +31,7 @@
                 FontSize="14"
                 Opacity=".8"
                 Style="{StaticResource labelPrimaryStyle}"
-                Text="Set the media folder (containing folders: Music, Videos &amp; Images)." />
+                Text="Set the media folder (containing folders: Music, Covers, Videos &amp; Dovuments)." />
             <Entry
                 x:Name="LocalMediaPath"
                 HorizontalOptions="FillAndExpand"
@@ -77,12 +77,12 @@
         <Button
             Grid.Row="2"
             Margin="0,20,0,0"
+            BackgroundColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"
             Command="{Binding SaveSettingsCommand}"
             FontAttributes="Bold"
             HeightRequest="50"
             HorizontalOptions="End"
             Text="SAVE SETTNGS"
-            BackgroundColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"
             TextColor="{AppThemeBinding Light={StaticResource Light_AccentText}, Dark={StaticResource Dark_AccentText}}"
             WidthRequest="150" />
 
@@ -91,19 +91,28 @@
             Grid.Column="1"
             ColumnDefinitions="*,auto"
             RowDefinitions="*,auto,auto">
-            <Label FontSize="12" VerticalOptions="End" WidthRequest="300" HorizontalOptions="End"
-            Grid.Row="2" 
-                       TextColor="{StaticResource Dark_HeaderText}"
-                    Text="A special thank you to the members of our therapy group for their invaluable support and insightful contributions during our sessions!"/>
+            <Label
+                Grid.Row="2"
+                FontSize="12"
+                HorizontalOptions="End"
+                Text="A special thank you to the members of our therapy group for their invaluable support and insightful contributions during our sessions!"
+                TextColor="{StaticResource Dark_HeaderText}"
+                VerticalOptions="End"
+                WidthRequest="300" />
 
-            <Label VerticalOptions="End" WidthRequest="300" HorizontalOptions="End" FontSize="13"  Grid.Row="1" Style="{StaticResource labelPrimaryStyle}" Margin="0,0,0,20">
+            <Label
+                Grid.Row="1"
+                Margin="0,0,0,20"
+                FontSize="13"
+                HorizontalOptions="End"
+                Style="{StaticResource labelPrimaryStyle}"
+                VerticalOptions="End"
+                WidthRequest="300">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="For any questions, feedback, or bug reports, please contact me at "
-                              TextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"/>
-                        <Span Text="r.vries@live.com" 
-                              TextColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"/>
-                        <Span Text=". " />
+                        <Span Text="For any questions, feedback, or bug reports, please contact me at " TextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}" />
+                        <Span Text="r.vries@live.com" TextColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}" />
+                        <Span Text=". " TextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -124,12 +133,13 @@
                         Radius="20" />
                 </Image.Shadow>
             </Image>
-            <Button Grid.Column="1"
-                    Grid.Row="2"
-                    Margin="10,10,0,0"
-                   Command="{Binding OpenIssuesPageCommand}"
-                   HorizontalOptions="End"
-                   Text="REPORT ISSUE" />
+            <Button
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="10,10,0,0"
+                Command="{Binding OpenIssuesPageCommand}"
+                HorizontalOptions="End"
+                Text="REPORT ISSUE" />
 
 
         </Grid>

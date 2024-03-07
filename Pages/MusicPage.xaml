@@ -295,6 +295,7 @@
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vms:MusicPageViewModel}}, Path=ReleaseTapCommand}"
                                     CommandParameter="{Binding}"
                                     NumberOfTapsRequired="1" />
+
                             </Grid.GestureRecognizers>
                         </Grid>
                     </DataTemplate>
@@ -409,9 +410,7 @@
                                 <DataTemplate>
                                     <ViewCell>
                                         <Grid x:DataType="models:TrackModel">
-                                            <Grid
-                                                Padding="10,5"
-                                                VerticalOptions="Center">
+                                            <Grid Padding="10,5" VerticalOptions="Center">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto" />
                                                 </Grid.RowDefinitions>
@@ -429,9 +428,9 @@
                                                     x:Name="MarqueeTrack"
                                                     Grid.Column="1"
                                                     DefaultTextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
+                                                    DurationPause="5"
                                                     FontSize="13"
                                                     IsActive="True"
-                                                    DurationPause="5"
                                                     Text="{Binding Title}" />
                                                 <Label
                                                     Grid.Column="2"

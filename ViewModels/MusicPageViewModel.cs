@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Months18.ViewModels;
@@ -18,6 +19,9 @@ public partial class MusicPageViewModel : ObservableObject
     private readonly List<ReleaseModel> _source;
     private TrackModel? _selectedTrack;
     private CancellationTokenSource? _cancelGetReleases;
+
+    private bool _isWaitingForSecondTap;
+    private readonly TimeSpan _doubleTapThreshold = TimeSpan.FromMilliseconds(100); 
 
     public const int DefaultItemWidth = 200;
 
@@ -89,15 +93,47 @@ public partial class MusicPageViewModel : ObservableObject
         if(SelectedRelease != null && SelectedRelease != tappedItem)
             SelectedRelease.IsSelected = false;
 
-        if(tappedItem.IsSelected)
+        if (_isWaitingForSecondTap)
+        {
+            HandleDoubleTap(tappedItem);
+        }
+        else
+        {
+            _isWaitingForSecondTap = true;
+
+            var timer = Application.Current!.Dispatcher.CreateTimer();
+            timer.Interval = _doubleTapThreshold;
+            timer.Tick += (s, e) =>
+            {
+                HandleSingleTap(tappedItem);
+                timer.Stop();
+            };
+            timer.Start();
+       }
+    }
+
+    private void HandleSingleTap(ReleaseModel tappedItem)
+    {
+        if (tappedItem.IsSelected)
         {
             tappedItem.IsSelected = false;
             SelectedRelease = null;
-        } else
+        }
+        else
         {
             SelectedRelease = tappedItem;
             tappedItem.IsSelected = true;
         }
+
+        _isWaitingForSecondTap = false;
+    }
+
+    private void HandleDoubleTap(ReleaseModel tappedItem)
+    {
+        SelectedRelease = tappedItem;
+        IsDetailViewVisible = true;
+
+        _isWaitingForSecondTap = false;
     }
 
     [RelayCommand]

@@ -71,6 +71,8 @@ public static class MauiProgram
         services.AddTransient<MusicPage>();
         services.AddTransient<VideoPageViewModel>();
         services.AddTransient<VideoPage>();
+        services.AddTransient<DocumentPageViewModel>();
+        services.AddTransient<DocumentPage>();
 
         var app = builder.Build();
         serviceProvider = app.Services; // store service provider reference

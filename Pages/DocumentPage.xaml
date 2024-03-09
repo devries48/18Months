@@ -3,9 +3,21 @@
     x:Class="Months18.Pages.DocumentPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Months18.Controls"
+    xmlns:converters="clr-namespace:Months18.Converters"
+    xmlns:models="clr-namespace:Months18.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    BackgroundColor="{AppThemeBinding Light={StaticResource Light_PrimaryBackground}, Dark={StaticResource Dark_PrimaryBackground}}">
-    <Grid Margin="20">
+    xmlns:vms="clr-namespace:Months18.ViewModels"
+    BackgroundColor="{AppThemeBinding Light={StaticResource Light_PrimaryBackground}, Dark={StaticResource Dark_PrimaryBackground}}"
+    x:DataType="vms:VideoPageViewModel">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:ByteArrayToImageSourceConverter x:Key="ConvertByteArrayToImageSource" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -14,11 +26,71 @@
             <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
 
-        <WebView
+        <WebView Margin="20,0,20,0"
             x:Name="pdfview"
             HorizontalOptions="FillAndExpand"
-            Source="mypdf.pdf"
             VerticalOptions="FillAndExpand" />
 
+        <Grid Grid.Column="2" Background="{AppThemeBinding Light={StaticResource Light_SecondaryBackground}, Dark={StaticResource Dark_SecondaryBackground}}">
+            <ListView x:Name="VideolistView" ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type vms:DocumentPageViewModel}}, Path=Documents}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid x:DataType="models:DocumentModel">
+                                <Grid Padding="15,15" VerticalOptions="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image
+                                        Margin="0,0,0,5"
+                                        Aspect="AspectFit"
+                                        HeightRequest="280"
+                                        HorizontalOptions="Start"
+                                        Source="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource ConvertByteArrayToImageSource}}"
+                                        VerticalOptions="Center">
+                                        <Image.Shadow>
+                                            <Shadow
+                                                Offset="5,5"
+                                                Brush="Black"
+                                                Opacity="0.9"
+                                                Radius="10" />
+                                        </Image.Shadow>
+                                    </Image>
+
+                                    <controls:MarqueeLabel
+                                        Grid.Row="1"
+                                        DefaultTextColor="{AppThemeBinding Light={StaticResource Light_PrimaryText}, Dark={StaticResource Dark_PrimaryText}}"
+                                        FontSize="13"
+                                        HorizontalOptions="Center"
+                                        IsActive="True"
+                                        Text="{Binding Title}" />
+                                </Grid>
+
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vms:DocumentPageViewModel}}, Path=DocumentTapCommand}"
+                                        CommandParameter="{Binding}"
+                                        NumberOfTapsRequired="1" />
+                                </Grid.GestureRecognizers>
+
+                            </Grid>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Grid.Shadow>
+                <Shadow
+                    Offset="-10,10"
+                    Brush="Black"
+                    Opacity=".5"
+                    Radius="30" />
+            </Grid.Shadow>
+        </Grid>
     </Grid>
 </ContentPage>

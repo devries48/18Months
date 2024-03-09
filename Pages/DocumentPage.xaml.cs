@@ -4,12 +4,20 @@ namespace Months18.Pages;
 
 public partial class DocumentPage : ContentPage
 {
-    public DocumentPage()
+    public DocumentPage(DocumentPageViewModel viewModel)
     {
         InitializeComponent();
-        var trackPath = Path.Combine(Prefernces.DocumentDataPath, "Je bent met zijn tweeën.pdf");
 
-        pdfview.Source = trackPath;
+        BindingContext = viewModel;
+        viewModel.SubscribeToSelectionChanged(OnDocumentSelected);
 
+        _viewModel = viewModel;
+    }
+
+    private readonly DocumentPageViewModel _viewModel;
+    private void OnDocumentSelected(object? sender, EventArgs e)
+    {
+        var docPath = _viewModel.SelectedDocument?.Uri;
+        pdfview.Source = docPath;
     }
 }

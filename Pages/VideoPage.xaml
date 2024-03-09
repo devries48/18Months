@@ -16,7 +16,6 @@
         <ResourceDictionary>
             <converters:BoolToPlayingGlyphConverter x:Key="ConvertBoolToPlayingGlyph" />
             <toolkit:ByteArrayToImageSourceConverter x:Key="ConvertByteArrayToImageSource" />
-            <toolkit:InvertedBoolConverter x:Key="InvertBool" />
         </ResourceDictionary>
     </ContentPage.Resources>
 

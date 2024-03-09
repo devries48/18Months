@@ -33,7 +33,7 @@
 
     <Shell.ItemTemplate>
         <DataTemplate>
-            <Grid HeightRequest="68" WidthRequest="44">
+            <Grid HeightRequest="68" WidthRequest="44" x:DataType="controls:FlyoutItemIconFont" >
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">

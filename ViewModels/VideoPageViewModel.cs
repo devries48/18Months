@@ -48,7 +48,7 @@ public partial class VideoPageViewModel : ObservableObject
     [RelayCommand]
     private void PlaySelectedVideo()
     {
-        if (SelectedVideo == null || SelectedVideo == null)
+        if (SelectedVideo == null)
             return;
 
         if (_playerService.CurrentState == MediaElementState.Playing)
@@ -60,7 +60,7 @@ public partial class VideoPageViewModel : ObservableObject
         if (SelectedVideo?.Title == (_playerService.CurrentVideo?.Title ?? string.Empty))
             _playerService.Play();
         else
-            _playerService.PlayVideo(SelectedVideo);
+            _playerService.PlayVideo(SelectedVideo!);
     }
 
     private void OnMediaStateChanged(object sender, MediaStateChangedEventArgs e) => IsPlaying = e.NewState == MediaElementState.Playing;

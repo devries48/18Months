@@ -3,11 +3,11 @@
 public static class MauiExceptions
 {
 #if WINDOWS
-    private static Exception _lastFirstChanceException;
+    private static Exception? _lastFirstChanceException = null;
 #endif
 
     // We'll route all unhandled exceptions through this one event.
-    public static event UnhandledExceptionEventHandler UnhandledException;
+    public static event UnhandledExceptionEventHandler? UnhandledException = null;
 
     static MauiExceptions()
     {
@@ -23,7 +23,7 @@ public static class MauiExceptions
         // Events fired by the TaskScheduler. That is calls like Task.Run(...)     
         TaskScheduler.UnobservedTaskException += (sender, args) =>
         {
-            UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(args.Exception, false));
+            UnhandledException?.Invoke(sender!, new UnhandledExceptionEventArgs(args.Exception, false));
         };
 
 #if IOS || MACCATALYST
@@ -33,7 +33,7 @@ public static class MauiExceptions
         // but we need to set UnwindNativeCode to get it to work correctly. 
         // 
         // See: https://github.com/xamarin/xamarin-macios/issues/15252
-        
+
         ObjCRuntime.Runtime.MarshalManagedException += (_, args) =>
         {
             args.ExceptionMode = ObjCRuntime.MarshalManagedExceptionMode.UnwindNativeCode;
@@ -47,7 +47,7 @@ public static class MauiExceptions
 
         Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
         {
-            UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(args.Exception, true));
+            UnhandledException?.Invoke(sender!, new UnhandledExceptionEventArgs(args.Exception, true));
         };
 
 #elif WINDOWS
@@ -77,7 +77,7 @@ public static class MauiExceptions
                 exception = _lastFirstChanceException;
             }
 
-            UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(exception, true));
+            UnhandledException?.Invoke(sender!, new UnhandledExceptionEventArgs(exception, true));
         };
 #endif
     }

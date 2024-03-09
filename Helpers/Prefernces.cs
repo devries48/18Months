@@ -75,4 +75,5 @@ public static class Prefernces
     public static string MusicDataPath => Path.Combine(MediaPath, "Music");
     public static string ImageDataPath => Path.Combine(MediaPath, "Covers");
     public static string VideoDataPath => Path.Combine(MediaPath, "Videos");
+    public static string DocumentDataPath => Path.Combine(MediaPath, "Documents");
 }

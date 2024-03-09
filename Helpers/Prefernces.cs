@@ -4,31 +4,31 @@ public static class Prefernces
 {
     public static bool DarkTheme
     {
-        get { return Preferences.Get(nameof(DarkTheme), true); }
+        get => Preferences.Get(nameof(DarkTheme), true);
         set { Preferences.Set(nameof(DarkTheme), value); }
     }
 
     public static string DataFilePath
     {
-        get { return Preferences.Get(nameof(DataFilePath), ""); }
+        get => Preferences.Get(nameof(DataFilePath), "");
         set { Preferences.Set(nameof(DataFilePath), value); }
     }
 
     public static int Level
     {
-        get { return Preferences.Get(nameof(Level), 0); }
+        get => Preferences.Get(nameof(Level), 0);
         set { Preferences.Set(nameof(Level), value); }
     }
 
     public static double VolumeMusic
     {
-        get { return Preferences.Get(nameof(VolumeMusic), 1d); }
+        get => Preferences.Get(nameof(VolumeMusic), 1d);
         set { Preferences.Set(nameof(VolumeMusic), value); }
     }
 
     public static double VolumeVideo
     {
-        get { return Preferences.Get(nameof(VolumeVideo), 1d); }
+        get => Preferences.Get(nameof(VolumeVideo), 1d);
         set { Preferences.Set(nameof(VolumeVideo), value); }
     }
 

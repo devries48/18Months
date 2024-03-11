@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls.Shapes;
+using System.Diagnostics;
 
 namespace Months18.Controls;
 
@@ -277,7 +278,7 @@ public partial class Toolbar : Border
     //((FontImageSource) _expandButton.Source).Color = AccentColor;
 
     /// <summary>
-    /// When a Toolbar is initialised or invisible the height = -1, so wait for the size change
+    /// When a Toolbar is initialized or invisible the height = -1, so wait for the size change
     /// </summary>
     private void OnSizeChanged(object? sender, EventArgs e)
     {
@@ -294,6 +295,13 @@ public partial class Toolbar : Border
         if (e.PropertyName == nameof(BackgroundColor))
         {
             _expandButton.BackgroundColor = BackgroundColor;
+        }
+        if (e.PropertyName == nameof(IsEnabled))
+        {
+            if (IsEnabled)
+                UpdateHeaderColor();
+
+            Debug.WriteLine("ff");
         }
     }
 

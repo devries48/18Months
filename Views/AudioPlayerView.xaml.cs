@@ -104,6 +104,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
                 else if (CurrentTrack?.Title != list.First().Title)
                     Dispatcher.DispatchIfRequired(() => LoadTrack(list.First()));
             }
+            SetPlaylistButtons();
         }
     }
     #endregion
@@ -155,7 +156,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
     private void OnStopClicked(object sender, EventArgs e) { MediaElement.Stop(); }
 
     /// <summary>
-    /// Set the postion of the slider to the track position in the MediaElement.
+    /// Set the position of the slider to the track position in the MediaElement.
     /// </summary>
     private async void OnSliderDragCompleted(object? sender, EventArgs e)
     {
@@ -171,8 +172,8 @@ public partial class AudioPlayerView : INotifyPropertyChanged
 
     /// <summary>
     /// Move to a position within the track started. When there is just a click on the Slider, this event is also
-    /// raised, followed by the DragComplete event. The isSliding flag is set, so the synchronisation with the
-    /// MediaElement will be stopped. It intefered with te track position when there was a just click on the Slider.
+    /// raised, followed by the DragComplete event. The isSliding flag is set, so the synchronization with the
+    /// MediaElement will be stopped. It interfered with te track position when there was a just click on the Slider.
     /// </summary>
     private void OnSliderDragStarted(object sender, EventArgs e)
     {
@@ -201,9 +202,7 @@ public partial class AudioPlayerView : INotifyPropertyChanged
 
         OnPropertyChanged(nameof(CurrentPlaylistIndex));
 
-        PlaylistNextButton.IsEnabled = _playerService?.CanPlaylistMoveForward ?? false;
-        PlaylistPreviousButton.IsEnabled = _playerService?.CanPlaylistMoveBack ?? false;
-
+        SetPlaylistButtons();
         MediaElement.Source = track.Source switch
         {
             MediaPlayerSource.Embed => MediaSource.FromResource(track.Uri),
@@ -211,6 +210,12 @@ public partial class AudioPlayerView : INotifyPropertyChanged
             MediaPlayerSource.Url => MediaSource.FromUri(track.Uri),
             _ => ""
         };
+    }
+
+    private void SetPlaylistButtons()
+    {
+        PlaylistNextButton.IsEnabled = _playerService?.CanPlaylistMoveForward ?? false;
+        PlaylistPreviousButton.IsEnabled = _playerService?.CanPlaylistMoveBack ?? false;
     }
 
     private void OnMediaOpened(object? sender, EventArgs e)

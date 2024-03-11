@@ -130,6 +130,8 @@ public partial class MusicPageViewModel : ObservableObject
 
     private void HandleDoubleTap(ReleaseModel tappedItem)
     {
+        if (tappedItem.IsSelected) return;
+
         SelectedRelease = tappedItem;
         IsDetailViewVisible = true;
 

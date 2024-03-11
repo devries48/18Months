@@ -38,6 +38,7 @@
                     FontSize="14"
                     Opacity=".9"
                     Text="{Binding Path=SelectedLevel.Header}"
+                    IsEnabled="True"
                     VerticalOptions="Center" />
             </controls:Toolbar.HeaderContent>
             <controls:Toolbar.ExpandedContent>
@@ -440,7 +441,7 @@
                                                     Text="{Binding Duration}" />
                                             </Grid>
 
-                                            <Grid ColumnDefinitions="*,Auto,Auto" IsVisible="{Binding IsSelected}">
+                                            <Grid ColumnDefinitions="*,Auto,Auto" IsVisible="{Binding IsSelected}" Margin="0,0,10,0">
                                                 <Button
                                                     Grid.Column="1"
                                                     BackgroundColor="{AppThemeBinding Light={StaticResource Light_Accent}, Dark={StaticResource Dark_Accent}}"
